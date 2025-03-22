@@ -33,7 +33,7 @@ This project evolved from Unity's "Counting Prototype" tutorial into a full-feat
 
 ## 🎯 How to Play
 
-1. **Launch Balls**: Hold and release the spacebar to launch balls (hold longer for more power)
+1. **Launch Balls**: Hold and release the left mouse button or spacebar to launch balls (hold longer for more power)
 2. **Toggle View**: Press 'V' to switch between glass-on and glass-off views
 3. **Objective**: Score points by getting balls into the scoring pockets
 4. **Game End**: The game ends when you run out of balls
