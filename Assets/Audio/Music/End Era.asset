@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1727db5f4f489848a541c9857af5ff1, type: 3}
+  m_Name: End Era
+  m_EditorClassIdentifier: 
+  songName: End Era
+  reverbTail: 0.462
+  intensityClips:
+  - {fileID: 8300000, guid: 4f8679dfc6538454cba286df40db1e5f, type: 3}
+  - {fileID: 8300000, guid: a7a49edeb7ad7fb49aedf23811e72c41, type: 3}
+  - {fileID: 8300000, guid: cc86bea103497fb469f6a826f5d91e46, type: 3}
+  - {fileID: 8300000, guid: c6159bb605b2b434e9e6929b19cd5a6e, type: 3}
+  - {fileID: 8300000, guid: 7914df0f1a81df44980623a435225e84, type: 3}
