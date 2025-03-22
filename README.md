@@ -115,4 +115,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - Based on Unity's "Counting Prototype" tutorial
 - Inspired by traditional Japanese pachinko machines
-- Special thanks to KeppyLabs mentors and the Unity community
+- Special thanks to Pachitalk forums, Pachinkoman, KeppyLabs mentors and the Unity community :shipit:
