@@ -21,7 +21,7 @@ This project evolved from Unity's "Counting Prototype" tutorial into a full-feat
 
 ### Prerequisites
 
-- Unity 2022.3 LTS or newer
+- Unity 6000.0.041f1 or newer
 - Basic understanding of Unity's interface
 
 ### Setup
