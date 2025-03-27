@@ -304,8 +304,7 @@ public class GameManager : MonoBehaviour
         if (gameOverPanel != null)
         {
             Debug.Log("Activating game over panel");
-            gameOverPanel.SetActive(true);
-
+            // Set the text values first before activating the panel
             if (finalScoreText != null)
             {
                 finalScoreText.text = "Final Score: " + currentScore.ToString("N0");
@@ -313,7 +312,18 @@ public class GameManager : MonoBehaviour
 
             if (highScoreText != null)
             {
-                highScoreText.text ="High Score: " + highScore.ToString("N0");
+                highScoreText.text = "High Score: " + highScore.ToString("N0");
+            }
+            
+            // Enable the panel - GameOverPanel component will handle the fade-in animation
+            gameOverPanel.SetActive(true);
+            
+            // Check if the panel has the GameOverPanel component
+            GameOverPanel panelComponent = gameOverPanel.GetComponent<GameOverPanel>();
+            if (panelComponent != null)
+            {
+                // Let the component handle the fade in
+                panelComponent.StartFadeIn();
             }
         }
         else
