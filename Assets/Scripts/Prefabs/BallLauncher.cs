@@ -9,11 +9,17 @@ public class BallLauncher : MonoBehaviour
     [SerializeField] private float maxLaunchForce = 15f;
     [SerializeField] private Animation launcherAnimation;
     [SerializeField] private float chargeRate = 10f;
+    [SerializeField] private AnimationCurve powerCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
     private int ballsRemaining;
     private float currentLaunchForce;
     private bool isCharging = false;
     private SFXManager sfxManager;
+
+    // Add getter methods for min and max launch force
+    public float GetCurrentLaunchForce() { return currentLaunchForce; }
+    public float GetMinLaunchForce() { return minLaunchForce; }
+    public float GetMaxLaunchForce() { return maxLaunchForce; }
 
     // Add this getter method to access balls remaining
     public int GetBallsRemaining()
@@ -59,6 +65,9 @@ public class BallLauncher : MonoBehaviour
 
         isCharging = true;
         currentLaunchForce = minLaunchForce;
+
+        // Initialize the UI 
+        UpdateLaunchPowerUI();
     }
 
     // Public method for external control (called by Player)
@@ -72,6 +81,9 @@ public class BallLauncher : MonoBehaviour
         }
 
         isCharging = false;
+
+        // Only hide the power meter UI after launch without resetting its value
+        GameManager.Instance.HidePowerMeter();
 
         // Play the launcher animation
         if (launcherAnimation != null)
@@ -128,8 +140,13 @@ public class BallLauncher : MonoBehaviour
 
     private void UpdateLaunchPowerUI()
     {
-        // Update power meter UI
-        float powerPercentage = (currentLaunchForce - minLaunchForce) / (maxLaunchForce - minLaunchForce);
+        // Calculate raw percentage
+        float rawPercentage = (currentLaunchForce - minLaunchForce) / (maxLaunchForce - minLaunchForce);
+
+        // Apply the curve to create a more natural feel
+        float powerPercentage = powerCurve.Evaluate(rawPercentage);
+
+        // Update the power meter UI
         GameManager.Instance.UpdatePowerMeter(powerPercentage);
     }
 

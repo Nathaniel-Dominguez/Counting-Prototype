@@ -1,7 +1,12 @@
 using UnityEngine;
+using System;
 
 public class Player : MonoBehaviour 
 {
+    // Ball launched event delegate
+    public delegate void BallLaunchedHandler(float powerPercentage);
+    public event BallLaunchedHandler OnBallLaunched;
+
     [Header("Input Settings")]
     [SerializeField] private KeyCode launchKey = KeyCode.Space;
     [SerializeField] private KeyCode cameraToggleKey = KeyCode.V;
@@ -111,8 +116,14 @@ public class Player : MonoBehaviour
     {
         isChargingLaunch = false;
 
+        // Calculate the power level (0-1) from the ball launcher
+        float powerPercentage = (ballLauncher.GetCurrentLaunchForce() - ballLauncher.GetMinLaunchForce()) / (ballLauncher.GetMaxLaunchForce() - ballLauncher.GetMinLaunchForce());
+
         // Tell ballLauncher to release the ball
         ballLauncher.LaunchBall();
+
+        // Trigger the ball launched event
+        OnBallLaunched?.Invoke(powerPercentage);
     }
 
     private void ToggleCameraView()

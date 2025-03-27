@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private BallLauncher ballLauncher;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI ballsRemainingText;
-    [SerializeField] private Slider powerMeterSlider;
+    [SerializeField] private PowerMeterUI powerMeterUI;
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private TextMeshProUGUI finalScoreText;
     [SerializeField] private TextMeshProUGUI highScoreText;
@@ -93,10 +93,9 @@ public class GameManager : MonoBehaviour
         }
 
         // Reset power meter
-        if (powerMeterSlider != null)
+        if (powerMeterUI != null)
         {
-            powerMeterSlider.value = 0;
-            powerMeterSlider.gameObject.SetActive(false);
+            powerMeterUI.HidePowerMeter();
         }
 
         // Check if the game should end periodically
@@ -124,12 +123,31 @@ public class GameManager : MonoBehaviour
     // Public method to update the power meter
     public void UpdatePowerMeter(float powerPercentage)
     {
-        if (powerMeterSlider != null)
+        if (powerMeterUI != null)
         {
-            powerMeterSlider.gameObject.SetActive(true);
-            powerMeterSlider.value = powerPercentage;
-        } 
+            Debug.Log($"GameManager: Updating PowerMeterUI to {powerPercentage}");
+            powerMeterUI.UpdatePower(powerPercentage);
+        }
+        else
+        {
+            Debug.LogError("GameManager: PowerMeterUI reference is null! Make sure it's assigned in the Inspector.");
+        }
     }
+
+    // Public method to hide the power meter
+    public void HidePowerMeter()
+    {
+        if (powerMeterUI != null)
+        {
+            Debug.Log("GameManager: Hiding PowerMeterUI");
+            powerMeterUI.HidePowerMeter();
+        }
+        else
+        {
+            Debug.LogError("GameManager: PowerMeterUI reference is null! Make sure it's assigned in the Inspector.");
+        }
+    }
+
     // Private method to update the score text (.ToString("N0")) Converts the number to a formatted string
     // The "N0" specifier formats the number with thousand seperators and zero decimal places
     private void UpdateScoreText()
