@@ -254,7 +254,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("SFXManager instance found, playing game over sound");
             yield return new WaitForSeconds(0.2f);
-            SFXManager.Instance.PlayGameOverSound();
+            SFXManager.Instance.PlaySFX("GameOver", 1f);
         }
         else
         {

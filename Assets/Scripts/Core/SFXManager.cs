@@ -488,16 +488,6 @@ public class SFXManager : MonoBehaviour
     {
         Debug.Log("PlayGameOverSound method called");
         
-        // Check if game over sound exists
-        if (gameOverSound == null)
-        {
-            Debug.LogError("Game over sound clip is not assigned in SFXManager");
-        }
-        else
-        {
-            Debug.Log("Game over sound clip exists: " + gameOverSound.name);
-        }
-        
         // Check if it's in the lookup dictionary
         if (sfxLookup.ContainsKey("GameOver"))
         {
@@ -514,7 +504,7 @@ public class SFXManager : MonoBehaviour
         {
             Debug.Log("Game over sound clip exists: " + gameOverSound.name);
             // Play sound directly instead of through lookup which might be null
-            PlaySound(gameOverSound);
+            PlaySFX("GameOver");
         }
     }
     #endregion
