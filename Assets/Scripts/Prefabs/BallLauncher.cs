@@ -7,7 +7,6 @@ public class BallLauncher : MonoBehaviour
     [SerializeField] private Transform launchPoint;
     [SerializeField] private float minLaunchForce = 5f;
     [SerializeField] private float maxLaunchForce = 15f;
-    [SerializeField] private int maxBalls = 20;
     [SerializeField] private Animation launcherAnimation;
     [SerializeField] private float chargeRate = 10f;
 
@@ -25,9 +24,6 @@ public class BallLauncher : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
-        // Initialize Variables and Components at the start
-        ballsRemaining = maxBalls;
-
         // Get reference to the SFX Manager
         sfxManager = SFXManager.Instance;
 
@@ -36,9 +32,6 @@ public class BallLauncher : MonoBehaviour
         {
             Debug.LogWarning("BallLauncher: SFXManager.Instance is null. SFX features will be disabled.");
         }
-
-        // Update the UI to show the number of balls remaining
-        UpdateUI();
     }
 
     // Update is called once per frame
@@ -58,7 +51,11 @@ public class BallLauncher : MonoBehaviour
     // Public method for external control (called by Player)
     public void StartCharging()
     {
-        if (ballsRemaining <= 0) return;
+        // Don't allow charging if no balls remain or game is over
+        if (ballsRemaining <= 0 || GameManager.Instance.IsGameOver())
+        {
+            return;
+        }
 
         isCharging = true;
         currentLaunchForce = minLaunchForce;
@@ -67,6 +64,13 @@ public class BallLauncher : MonoBehaviour
     // Public method for external control (called by Player)
     public void LaunchBall()
     {
+        // Don't allow launching if no balls remain or game is over
+        if (ballsRemaining <= 0 || GameManager.Instance.IsGameOver())
+        {
+            isCharging = false;
+            return;
+        }
+
         isCharging = false;
 
         // Play the launcher animation
@@ -110,6 +114,9 @@ public class BallLauncher : MonoBehaviour
 
             ballsRemaining--;
             UpdateUI();
+            
+            // Let GameManager know to check if game should end
+            GameManager.Instance.CheckGameOver();
         }
     }
 
@@ -117,12 +124,6 @@ public class BallLauncher : MonoBehaviour
     {
         // Update UI to show remaining balls
         GameManager.Instance.UpdateBallsRemainingText(ballsRemaining);
-
-        // Check if game should end
-        if (ballsRemaining <= 0)
-        {
-             GameManager.Instance.CheckGameOver();
-        }
     }
 
     private void UpdateLaunchPowerUI()
@@ -160,7 +161,7 @@ public class BallLauncher : MonoBehaviour
     // Add a method to reset the launcher (useful for game restart)
     public void ResetLauncher(int numBalls)
     {
-        ballsRemaining = numBalls > 0 ? numBalls : maxBalls;
+        ballsRemaining = numBalls;
         isCharging = false;
         currentLaunchForce = minLaunchForce;
         UpdateUI();

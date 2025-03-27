@@ -321,37 +321,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!1 &71274795
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 71274796}
-  m_Layer: 0
-  m_Name: GameConfig
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &71274796
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 71274795}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1515206597}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &119296421
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -435,7 +404,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1579710077136620350, guid: 6aea3decf4784db4baa8ef98ed5b83c5, type: 3}
       propertyPath: playMusicOnAwake
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1579710077136620350, guid: 6aea3decf4784db4baa8ef98ed5b83c5, type: 3}
       propertyPath: songs.Array.size
@@ -818,7 +787,6 @@ Transform:
   - {fileID: 342946909}
   - {fileID: 1687215892}
   - {fileID: 3360139167311429148}
-  - {fileID: 71274796}
   m_Father: {fileID: 1600454347}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1578134117
@@ -1795,7 +1763,7 @@ PrefabInstance:
       objectReference: {fileID: 50147175}
     - target: {fileID: 535596187540731245, guid: e19a546d8f209e34dacdbcb8de9b7130, type: 3}
       propertyPath: startingBalls
-      value: 200
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 535596187540731245, guid: e19a546d8f209e34dacdbcb8de9b7130, type: 3}
       propertyPath: collectionTray
@@ -1912,7 +1880,7 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 06b6bf92dc8a1764fa97595f5d78dfac, type: 3}
     - target: {fileID: 1403328250996344409, guid: f8babee5f8372cc41b91a4303b7e3096, type: 3}
       propertyPath: defaultSFXVolume
-      value: 0
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 1403328250996344409, guid: f8babee5f8372cc41b91a4303b7e3096, type: 3}
       propertyPath: mediumScoreSound

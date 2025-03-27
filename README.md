@@ -105,7 +105,6 @@ Potential areas for expansion:
 - **Unity 6**: Core game engine
 - **Universal Render Pipeline**: Enhanced visual fidelity
 - **TextMeshPro**: High-quality text rendering
-- **ProBuilder**: Rapid prototyping and modeling
 
 ## 📝 License
 

@@ -239,6 +239,8 @@ public class SFXManager : MonoBehaviour
     /// <param name="pitch">Pitch adjustment (default 1.0)</param>
     public void PlaySFX(string sfxName, float volume = -1f, float pitch = 1f)
     {
+        Debug.Log("PlaySFX called with sfxName: " + sfxName);
+        
         // Get importance of this sound (default to 1.0 if nto specified)
         float importance = 1.0f;
         soundImportance.TryGetValue(sfxName, out importance);
@@ -246,6 +248,7 @@ public class SFXManager : MonoBehaviour
         // If we have too many sounds playing, only play if important or stop a less important sound
         if (activeSfxSources.Count >= maxSimulataneousSounds)
         {
+            Debug.LogWarning("Too many sounds playing (" + activeSfxSources.Count + "). Checking importance for " + sfxName);
             // Try to find a less important sound to stop
             AudioSource leastImportantSource = null;
             float lowestImportance = importance; // Only replace sounds less important than this one
@@ -280,22 +283,28 @@ public class SFXManager : MonoBehaviour
 
             // If the sound is not important enough and we have no less important sounds to stop, just skip it
             if (importance < 3.0f) // adjust threshold as needed
+            {
+                Debug.LogWarning("Sound " + sfxName + " skipped due to low importance: " + importance);
                 return;
+            }
         }
 
         // Normal sound logic
         if (sfxLookup.TryGetValue(sfxName, out AudioClip clip) && clip != null)
         {
+            Debug.Log("Found audio clip for " + sfxName + ": " + clip.name);
             AudioSource source = GetSFXSourceFromPool();
+            source.gameObject.name = sfxName; // Name the GameObject for debugging
             source.clip = clip;
             source.spatialBlend = 0f; // 2D sound
             source.pitch = pitch;
             source.volume = volume > 0 ? volume : defaultSFXVolume;
             source.Play();
+            Debug.Log("Playing " + sfxName + " with volume: " + source.volume + ", pitch: " + pitch);
         }
         else
         {
-            Debug.LogWarning($"Sound effect '{sfxName}' not found.");
+            Debug.LogError("Sound effect '" + sfxName + "' not found or is null. Lookup result: " + (clip != null ? "clip exists" : "clip is null"));
         }
     }
 
@@ -477,7 +486,36 @@ public class SFXManager : MonoBehaviour
     /// </summary>
     public void PlayGameOverSound()
     {
-        PlaySFX("GameOver");
+        Debug.Log("PlayGameOverSound method called");
+        
+        // Check if game over sound exists
+        if (gameOverSound == null)
+        {
+            Debug.LogError("Game over sound clip is not assigned in SFXManager");
+        }
+        else
+        {
+            Debug.Log("Game over sound clip exists: " + gameOverSound.name);
+        }
+        
+        // Check if it's in the lookup dictionary
+        if (sfxLookup.ContainsKey("GameOver"))
+        {
+            if (sfxLookup["GameOver"] == null)
+            {
+                Debug.LogError("GameOver entry exists in sfxLookup but the clip is null");
+            }
+            else
+            {
+                Debug.Log("GameOver sound found in sfxLookup: " + sfxLookup["GameOver"].name);
+            }
+        }
+        else
+        {
+            Debug.Log("Game over sound clip exists: " + gameOverSound.name);
+            // Play sound directly instead of through lookup which might be null
+            PlaySound(gameOverSound);
+        }
     }
     #endregion
 

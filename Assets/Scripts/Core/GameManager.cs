@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float cameraSwitchSpeed = 2.0f;
 
     [Header("Game Settings")]
-    [SerializeField] private int startingBalls = 10;
+    [SerializeField] private int startingBalls = 200;
     [SerializeField] private float endGameDelay = 2.0f;
 
     private int currentScore = 0;
@@ -67,7 +67,18 @@ public class GameManager : MonoBehaviour
 
         // Update UI 
         UpdateScoreText();
-        UpdateBallsRemainingText(startingBalls);
+
+        // Initialize ball launcher with the starting balls count
+        if (ballLauncher != null)
+        {
+            ballLauncher.ResetLauncher(startingBalls);
+        }
+        else
+        {
+            Debug.LogError("BallLauncher not found in GameManager");
+            // fallback to default starting balls
+            UpdateBallsRemainingText(startingBalls);
+        }
 
         // Hide game over panel
         if (gameOverPanel != null)
@@ -81,6 +92,9 @@ public class GameManager : MonoBehaviour
             powerMeterSlider.value = 0;
             powerMeterSlider.gameObject.SetActive(false);
         }
+
+        // Check if the game should end periodically
+        StartCoroutine(GameOverCheckRoutine());
     }
 
     // Public method to add points to the current score
@@ -125,26 +139,127 @@ public class GameManager : MonoBehaviour
         return collectionTray;
     }
 
-    // Check if the game is over
-    public void CheckGameOver()
+    // Public accessor for game over state
+    public bool IsGameOver()
     {
-        // Count active balls in the scene, now properly accessing ballsRemaining from the BallLauncher script
+        return isGameOver;
+    }
+
+    // Check if the game is over
+    public IEnumerator CheckGameOver()
+    {
+        // Don't check if already game over
+        if (isGameOver)
+        {
+            Debug.Log("CheckGameOver called but game is already over");
+            yield return null;
+        }
+        
+        // Ensure we have the BallLauncher reference
+        if (ballLauncher == null)
+        {
+            Debug.LogError("CheckGameOver called but ballLauncher is null");
+            yield return null;
+        }
+        // Delay the game over check to allow for any pending physics calculations to complete
+        yield return new WaitForFixedUpdate();
+        yield return new WaitForEndOfFrame();
+
+        // Count active balls in the scene
         int ballsInLauncher = ballLauncher.GetBallsRemaining();
         int activeBalls = GameObject.FindGameObjectsWithTag("Ball").Length;
+        
+        Debug.Log($"CheckGameOver - Balls in launcher: {ballsInLauncher}, Active balls: {activeBalls}");
+
+        // Update UI to always show correct ball count
+        UpdateBallsRemainingText(ballsInLauncher);
 
         // If no balls remain in launcher and no balls are in play, end the game
         if (ballsInLauncher <= 0 && activeBalls <= 0)
         {
+            Debug.Log("Game over condition met! Starting EndGameSequence");
             StartCoroutine(EndGameSequence());
-        }        
+        }
+        else
+        {
+            Debug.Log("Game over condition not met - still have balls in play or launcher");
+        }
+    }
+
+    // Coroutine to check if the game should end periodically
+    private IEnumerator GameOverCheckRoutine()
+    {
+        // Wait for a small delay before starting to check
+        yield return new WaitForSeconds(1.0f);
+
+        // Keep checking until game is over
+        while (!isGameOver)
+        {
+            // Wait for all pending physics operations to complete
+            yield return new WaitForFixedUpdate();
+            yield return new WaitForEndOfFrame();
+
+            // Only check if game is not already over
+            if (!isGameOver && ballLauncher != null)
+            {
+                int ballsInLauncher = ballLauncher.GetBallsRemaining();
+
+                // Use FindGameObjectsWithTag only once and store result
+                GameObject[] activeBallObjects = GameObject.FindGameObjectsWithTag("Ball");
+                int activeBalls = activeBallObjects.Length;
+
+                Debug.Log($"Periodic check - Balls in Launcher {ballsInLauncher}, Active Balls: {activeBalls}");
+
+                // Update UI
+                UpdateBallsRemainingText(ballsInLauncher);
+
+                // Check if all balls are gone
+                if (ballsInLauncher <= 0 && activeBalls <= 0)
+                {
+                    Debug.Log("Game over condition met in periodic check!");
+                    StartCoroutine(EndGameSequence());
+                    yield break; // Exit the coroutine
+                }
+            }
+
+            // Wait before checking again
+            yield return new WaitForSeconds(2.0f); // Check every 2 seconds
+        }
     }
 
     private IEnumerator EndGameSequence()
     {
+        // Set game over flag immediately to prevent further ball launches
+        isGameOver = true;
+        Debug.Log("Game over sequence started");
+        
         // Wait for any final scoring
         yield return new WaitForSeconds(endGameDelay);
 
-        isGameOver = true;
+        // Make sure to clean up any remaining remaining active balls
+        GameObject[] remainingBalls = GameObject.FindGameObjectsWithTag("Ball");
+        foreach (GameObject ball in remainingBalls)
+        {
+            if (ball != null && ball.activeInHierarchy)
+            {
+                // Return any remaining balls to the BallPool
+                Debug.Log("Cleaning up remaining ball: " + ball.name);
+                ball.SetActive(false);
+            }
+        }
+
+        // Play game over sound if available
+        Debug.Log("Attempting to play game over sound...");
+        if (SFXManager.Instance != null)
+        {
+            Debug.Log("SFXManager instance found, playing game over sound");
+            yield return new WaitForSeconds(0.2f);
+            SFXManager.Instance.PlayGameOverSound();
+        }
+        else
+        {
+            Debug.LogError("SFXManager.Instance is null when trying to play game over sound");
+        }
 
         // Switch to no Glass Camera for a better view of the final state
         if (noGlassCamera != null && activeCamera != noGlassCamera)
@@ -164,6 +279,7 @@ public class GameManager : MonoBehaviour
         // Display game over UI
         if (gameOverPanel != null)
         {
+            Debug.Log("Activating game over panel");
             gameOverPanel.SetActive(true);
 
             if (finalScoreText != null)
@@ -175,6 +291,10 @@ public class GameManager : MonoBehaviour
             {
                 highScoreText.text ="High Score: " + highScore.ToString("N0");
             }
+        }
+        else
+        {
+            Debug.LogError("Game over panel not found in GameManager");
         }
     }
 
