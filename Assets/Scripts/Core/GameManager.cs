@@ -57,6 +57,12 @@ public class GameManager : MonoBehaviour
         {
             // Both Cameras exist in the same position, but we only activate one at a time
             noGlassCamera.gameObject.SetActive(false);
+            
+            // Ensure audio listener is disabled on the inactive camera
+            if (noGlassCamera.GetComponent<AudioListener>() != null)
+            {
+                noGlassCamera.GetComponent<AudioListener>().enabled = false;
+            }
         } 
     }
     // Private method to initialize the game
@@ -305,6 +311,13 @@ public class GameManager : MonoBehaviour
 
         Camera startCamera = activeCamera;
 
+        // Before enabling target camera, disable its audio listener to prevent multiple listeners
+        AudioListener targetAudioListener = targetCamera.GetComponent<AudioListener>();
+        if (targetAudioListener != null)
+        {
+            targetAudioListener.enabled = false;
+        }
+        
         targetCamera.gameObject.SetActive(true);
         targetCamera.depth = startCamera.depth -1; // keep camera behind until transition completes
 
@@ -327,6 +340,14 @@ public class GameManager : MonoBehaviour
         // Complete transition
         activeCamera = targetCamera;
         activeCamera.depth = 0;
+        
+        // Enable audio listener on new active camera and disable on previous camera
+        AudioListener activeAudioListener = activeCamera.GetComponent<AudioListener>();
+        if (activeAudioListener != null)
+        {
+            activeAudioListener.enabled = true;
+        }
+        
         startCamera.gameObject.SetActive(false);
     }
 
