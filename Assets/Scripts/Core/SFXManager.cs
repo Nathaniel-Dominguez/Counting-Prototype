@@ -33,6 +33,7 @@ public class SFXManager : MonoBehaviour
     [SerializeField] private AudioClip drainSound;
     [SerializeField] private AudioClip gameOverSound;
     [SerializeField] private AudioClip newHighScoreSound;
+    [SerializeField] private AudioClip woodenBorderHitSound;
 
     [Header("Sound Effect Settings")]
     [Range(0f, 1f)]
@@ -40,6 +41,12 @@ public class SFXManager : MonoBehaviour
     [SerializeField] private int sfxSourcePoolSize = 10;
     [SerializeField] private Transform sfxSourceParent;
     [SerializeField] private int maxSimulataneousSounds = 20;
+
+    [Header("Randomization Settings")]
+    [Range(0f, 0.7f)]
+    [SerializeField] private float volumeRandomization = 0.05f;
+    [Range(0f, 0.7f)]
+    [SerializeField] private float pitchRandomization = 0.1f;
 
     [Header("Audio Settings Persistence")]
     [SerializeField] private bool saveAudioSettings = true;
@@ -186,7 +193,8 @@ public class SFXManager : MonoBehaviour
             { "ButtonClick", buttonClickSound },
             { "Drain", drainSound },
             { "GameOver", gameOverSound },
-            { "NewHighScore", newHighScoreSound}
+            { "NewHighScore", newHighScoreSound},
+            { "WoodenBorderHit", woodenBorderHitSound }
         };
     }
 
@@ -234,6 +242,18 @@ public class SFXManager : MonoBehaviour
 
     #region PUBLIC SFX METHODS
     
+    private float RandomizeVolume(float baseVolume)
+    {
+        // Apply random variation to volume while keeping it in valid range
+        return Mathf.Clamp01(baseVolume + Random.Range(-volumeRandomization, volumeRandomization));
+    }
+
+    private float RandomizePitch(float basePitch)
+    {
+        // Apply random variation to pitch
+        return basePitch + Random.Range(-pitchRandomization, pitchRandomization);
+    }
+
     /// <summary>
     /// Plays a 2D sound effect from the predefined list
     /// </summary>
@@ -278,8 +298,15 @@ public class SFXManager : MonoBehaviour
                 leastImportantSource.Stop();
                 leastImportantSource.clip = sfxLookup[sfxName];
                 leastImportantSource.gameObject.name = sfxName;
-                leastImportantSource.pitch = pitch;
-                leastImportantSource.volume = volume > 0 ? volume : defaultSFXVolume;
+                
+                // Calculate final volume and pitch with randomization
+                float finalVolume = volume > 0 ? volume : defaultSFXVolume;
+                finalVolume = RandomizeVolume(finalVolume);
+                
+                float finalPitch = RandomizePitch(pitch);
+                
+                leastImportantSource.pitch = finalPitch;
+                leastImportantSource.volume = finalVolume;
                 leastImportantSource.Play();
                 return;
             }
@@ -300,10 +327,17 @@ public class SFXManager : MonoBehaviour
             source.gameObject.name = sfxName; // Name the GameObject for debugging
             source.clip = clip;
             source.spatialBlend = 0f; // 2D sound
-            source.pitch = pitch;
-            source.volume = volume > 0 ? volume : defaultSFXVolume;
+            
+            // Calculate final volume and pitch with randomization
+            float finalVolume = volume > 0 ? volume : defaultSFXVolume;
+            finalVolume = RandomizeVolume(finalVolume);
+            
+            float finalPitch = RandomizePitch(pitch);
+            
+            source.pitch = finalPitch;
+            source.volume = finalVolume;
             source.Play();
-            Debug.Log("Playing " + sfxName + " with volume: " + source.volume + ", pitch: " + pitch);
+            Debug.Log("Playing " + sfxName + " with volume: " + source.volume + ", pitch: " + source.pitch);
         }
         else
         {
@@ -328,8 +362,15 @@ public class SFXManager : MonoBehaviour
             source.clip = clip;
             source.transform.position = position;
             source.spatialBlend = 1f; // 3D sound
-            source.pitch = pitch;
-            source.volume = volume > 0 ? volume : defaultSFXVolume;
+            
+            // Calculate final volume and pitch with randomization
+            float finalVolume = volume > 0 ? volume : defaultSFXVolume;
+            finalVolume = RandomizeVolume(finalVolume);
+            
+            float finalPitch = RandomizePitch(pitch);
+            
+            source.pitch = finalPitch;
+            source.volume = finalVolume;
             source.minDistance = minDistance;
             source.maxDistance = maxDistance;
             source.rolloffMode = AudioRolloffMode.Linear;
@@ -365,8 +406,14 @@ public class SFXManager : MonoBehaviour
             source.spatialBlend = 0f; // 2D sound
         }
 
-        source.pitch = pitch;
-        source.volume = volume > 0 ? volume : defaultSFXVolume;
+        // Calculate final volume and pitch with randomization
+        float finalVolume = volume > 0 ? volume : defaultSFXVolume;
+        finalVolume = RandomizeVolume(finalVolume);
+        
+        float finalPitch = RandomizePitch(pitch);
+        
+        source.pitch = finalPitch;
+        source.volume = finalVolume;
         source.Play();
     }
 
@@ -532,6 +579,18 @@ public class SFXManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         PlaySFX(sfxName);
+    }
+
+    /// <summary>
+    /// Play wooden border hit sound with force-based variations
+    /// </summary>
+    /// <param name="position">Position in 3D space</param>
+    /// <param name="hitForce">Force of the hit (affects volume/pitch)</param>
+    public void PlayWoodenBorderHitSound(Vector3 position, float hitForce = 1.0f)
+    {
+        // Adjust base pitch based on hit force
+        float basePitch = Mathf.Lerp(0.8f, 1.2f, Mathf.Clamp01(hitForce / 10f));
+        PlaySFX3D("WoodenBorderHit", position, -1f, basePitch, 1f, 30f);
     }
     #endregion
 

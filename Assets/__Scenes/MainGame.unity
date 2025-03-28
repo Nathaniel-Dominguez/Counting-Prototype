@@ -2277,7 +2277,7 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 06b6bf92dc8a1764fa97595f5d78dfac, type: 3}
     - target: {fileID: 1403328250996344409, guid: f8babee5f8372cc41b91a4303b7e3096, type: 3}
       propertyPath: defaultSFXVolume
-      value: 1
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 1403328250996344409, guid: f8babee5f8372cc41b91a4303b7e3096, type: 3}
       propertyPath: mediumScoreSound
@@ -2294,6 +2294,10 @@ PrefabInstance:
     - target: {fileID: 1403328250996344409, guid: f8babee5f8372cc41b91a4303b7e3096, type: 3}
       propertyPath: sfxSourcePoolSize
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1403328250996344409, guid: f8babee5f8372cc41b91a4303b7e3096, type: 3}
+      propertyPath: pitchRandomization
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 1548282904812561931, guid: f8babee5f8372cc41b91a4303b7e3096, type: 3}
       propertyPath: m_LocalPosition.x
