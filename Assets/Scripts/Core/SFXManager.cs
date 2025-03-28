@@ -33,7 +33,7 @@ public class SFXManager : MonoBehaviour
     [SerializeField] private AudioClip drainSound;
     [SerializeField] private AudioClip gameOverSound;
     [SerializeField] private AudioClip newHighScoreSound;
-    [SerializeField] private AudioClip woodenBorderHitSound;
+    [SerializeField] private AudioClip WoodenImpactSound;
 
     [Header("Sound Effect Settings")]
     [Range(0f, 1f)]
@@ -194,7 +194,7 @@ public class SFXManager : MonoBehaviour
             { "Drain", drainSound },
             { "GameOver", gameOverSound },
             { "NewHighScore", newHighScoreSound},
-            { "WoodenBorderHit", woodenBorderHitSound }
+            { "WoodenBorderHit", WoodenImpactSound }
         };
     }
 
@@ -467,9 +467,6 @@ public class SFXManager : MonoBehaviour
     /// <param name="hitForce">Force of the hit (affects volume/pitch)</param>
     public void PlayPinHitSound(Vector3 position, float hitForce = 1.0f, int material = 0)
     {
-        // Adjust volume and pitch based on hit force
-        // float volume = Mathf.Lerp(0.8f, 1.0f, Mathf.Clamp01(hitForce / 10f));
-        // float pitch = Mathf.Lerp(0.9f, 1.1f, Mathf.Clamp01(hitForce / 10f));
         PlaySFX3D("PinHit", position, -1, 1f, 30f);
     }
 
@@ -480,9 +477,8 @@ public class SFXManager : MonoBehaviour
     /// <param name="hitforce">Force of the hit (affects pitch)</param>
     public void PlayBumperHitSound(Vector3 position, float hitforce = 1.0f)
     {
-        float pitch = Mathf.Lerp(0.8f, 1.2f, Mathf.Clamp01(hitforce / 10f));
-        // PlaySFX3D("BumperHit", position, -1f, 30f);
-        PlaySFX3D("BumperHit", position, -1f, pitch, 1f, 30f);
+        Debug.Log($"Playing bumper hit sound at position {position}");
+        PlaySFX3D("BumperHit", position, -1f, 1f, 30f);
     }
 
     /// <summary>
@@ -492,27 +488,8 @@ public class SFXManager : MonoBehaviour
     /// <param name="rotationSpeed">Speed of rotation (affects pitch)</param>
     public void PlaySpinnerSound(Vector3 position, float rotationSpeed = 1.0f)
     {
-        // float pitch = Mathf.Lerp(0.7f, 1.3f, Mathf.Clamp01(rotationSpeed / 2f));
-        //     // Check if the spinner sound exists
-        // if (sfxLookup.ContainsKey("Spinner") && sfxLookup["Spinner"] != null)
-        // {
-        //     Debug.Log($"Spinner sound clip found: {sfxLookup["Spinner"].name}");
-        // }
-        // else
-        // {
-        //     Debug.LogError("Spinner sound NOT found in sfxLookup or is null!");
-        //     return;
-        // }
-        
-        Debug.Log($"Playing spinner sound at position {position} with no pitch");
+        Debug.Log($"Playing spinner sound at position {position}");
         PlaySFX3D("Spinner", position, -1f, 1f, 25f);
-    }
-
-    public void TestSpinnerSound()
-    {
-        Debug.Log("Testing spinner sound with 2D playback");
-        // Try direct 2D playback as a test
-        PlaySFX("Spinner", 1.0f, 1.0f);
     }
 
     /// <summary>
@@ -528,7 +505,7 @@ public class SFXManager : MonoBehaviour
     /// </summary>
     public void PlayDrainSound()
     {
-        PlaySFX("Drain");
+        PlaySFX3D("Drain", Vector3.zero, -1f, 1f, 1f, 30f);
     }
 
     /// <summary>
@@ -586,11 +563,9 @@ public class SFXManager : MonoBehaviour
     /// </summary>
     /// <param name="position">Position in 3D space</param>
     /// <param name="hitForce">Force of the hit (affects volume/pitch)</param>
-    public void PlayWoodenBorderHitSound(Vector3 position, float hitForce = 1.0f)
+    public void PlayWoodenImpactSound(Vector3 position, float hitForce = 1.0f)
     {
-        // Adjust base pitch based on hit force
-        float basePitch = Mathf.Lerp(0.8f, 1.2f, Mathf.Clamp01(hitForce / 10f));
-        PlaySFX3D("WoodenBorderHit", position, -1f, basePitch, 1f, 30f);
+        PlaySFX3D("WoodenBorderHit", position, -1f, 1f, 30f);
     }
     #endregion
 

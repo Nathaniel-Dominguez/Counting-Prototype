@@ -400,7 +400,7 @@ PrefabInstance:
       objectReference: {fileID: 24100000, guid: cee5c0ac9734bac4ea0ab583450873e6, type: 2}
     - target: {fileID: 1579710077136620350, guid: 6aea3decf4784db4baa8ef98ed5b83c5, type: 3}
       propertyPath: maxMusicVolume
-      value: 1
+      value: 0.9935529
       objectReference: {fileID: 0}
     - target: {fileID: 1579710077136620350, guid: 6aea3decf4784db4baa8ef98ed5b83c5, type: 3}
       propertyPath: playMusicOnAwake
@@ -424,7 +424,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: ab9a05ca6eea20844bedb06af52a9e9c, type: 2}
     - target: {fileID: 1579710077136620350, guid: 6aea3decf4784db4baa8ef98ed5b83c5, type: 3}
       propertyPath: defaultIntensityBlendDuration
-      value: 0.8
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2835356142403474774, guid: 6aea3decf4784db4baa8ef98ed5b83c5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2284,6 +2284,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 7b67711e554742844910b08c59259667, type: 3}
     - target: {fileID: 1403328250996344409, guid: f8babee5f8372cc41b91a4303b7e3096, type: 3}
+      propertyPath: WoodenImpactSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 1b60674506b214a4cba00e0dce07d303, type: 3}
+    - target: {fileID: 1403328250996344409, guid: f8babee5f8372cc41b91a4303b7e3096, type: 3}
       propertyPath: jackpotScoreSound
       value: 
       objectReference: {fileID: 8300000, guid: ca18170f2b32f9d4ebbe321b0e021f12, type: 3}
@@ -2299,6 +2303,10 @@ PrefabInstance:
       propertyPath: pitchRandomization
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 1403328250996344409, guid: f8babee5f8372cc41b91a4303b7e3096, type: 3}
+      propertyPath: woodenBorderHitSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 1b60674506b214a4cba00e0dce07d303, type: 3}
     - target: {fileID: 1548282904812561931, guid: f8babee5f8372cc41b91a4303b7e3096, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

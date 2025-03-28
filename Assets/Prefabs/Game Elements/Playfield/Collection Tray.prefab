@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1419149447614239}
   - component: {fileID: 399837262192508917}
   - component: {fileID: 3749825567157346901}
+  - component: {fileID: 9144353700254005591}
   m_Layer: 0
   m_Name: Bottom Tray Right
   m_TagString: Untagged
@@ -108,6 +109,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &9144353700254005591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 236532397183055797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbcc962469acf0945af8b6348dca2def, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minImpactVelocity: 0.05
+  impactForceScale: 1
+  soundCooldownTime: 0.2
 --- !u!1 &517782864311306079
 GameObject:
   m_ObjectHideFlags: 0
@@ -120,6 +136,7 @@ GameObject:
   - component: {fileID: 4852879805416564467}
   - component: {fileID: 7291323759650955375}
   - component: {fileID: 622410133645910945}
+  - component: {fileID: 6114587555910327603}
   m_Layer: 0
   m_Name: Feeder Rail Right
   m_TagString: Untagged
@@ -216,6 +233,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6114587555910327603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 517782864311306079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbcc962469acf0945af8b6348dca2def, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minImpactVelocity: 0.05
+  impactForceScale: 1
+  soundCooldownTime: 0.2
 --- !u!1 &577670363929626749
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,6 +260,7 @@ GameObject:
   - component: {fileID: 26811580199893163}
   - component: {fileID: 5913639643278896907}
   - component: {fileID: 102615457605737361}
+  - component: {fileID: 5999278093363916273}
   m_Layer: 0
   m_Name: Tray
   m_TagString: Untagged
@@ -325,6 +358,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5999278093363916273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 577670363929626749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbcc962469acf0945af8b6348dca2def, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minImpactVelocity: 0.05
+  impactForceScale: 1
+  soundCooldownTime: 0.2
 --- !u!1 &1029117905356424327
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,6 +464,7 @@ GameObject:
   - component: {fileID: 2590692642481261471}
   - component: {fileID: 3877205591377459287}
   - component: {fileID: 6273525480606646241}
+  - component: {fileID: 6599880631809286831}
   m_Layer: 0
   m_Name: Feeder Rail Left
   m_TagString: Untagged
@@ -512,6 +561,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6599880631809286831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2820852463514271501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbcc962469acf0945af8b6348dca2def, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minImpactVelocity: 0.05
+  impactForceScale: 1
+  soundCooldownTime: 0.2
 --- !u!1 &4046355526947060820
 GameObject:
   m_ObjectHideFlags: 0
@@ -524,6 +588,7 @@ GameObject:
   - component: {fileID: 1090394942094064960}
   - component: {fileID: 1381266276435330963}
   - component: {fileID: 3667336540485142534}
+  - component: {fileID: 3610663975545739127}
   m_Layer: 0
   m_Name: Bottom Tray Left
   m_TagString: Untagged
@@ -620,6 +685,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3610663975545739127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4046355526947060820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbcc962469acf0945af8b6348dca2def, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minImpactVelocity: 0.05
+  impactForceScale: 1
+  soundCooldownTime: 0.2
 --- !u!1 &5750607300696915902
 GameObject:
   m_ObjectHideFlags: 0

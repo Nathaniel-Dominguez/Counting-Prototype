@@ -76,12 +76,7 @@ public class Bumper : MonoBehaviour
         // Play bumper sound effect through the sfxManager = SFXManager.Instace
         if (sfxManager != null)
         {
-            // Normalize impact for audio volume/pitch (0-1 range)
-            float normalizedForce = Mathf.Clamp01(collision.relativeVelocity.magnitude / 10f);
-            sfxManager.PlaySFX("BumperHit", normalizedForce);
-
-            // Alternative method to include later once 2D works
-            // sfxManager.PlaySFX3D("BumperHit", transform.position, -1f, Mathf.Lerp(0.8f, 1.2f, normalizedForce));
+            sfxManager.PlayBumperHitSound(transform.position, collision.relativeVelocity.magnitude);
         }
 
         // Trigger visual feedback

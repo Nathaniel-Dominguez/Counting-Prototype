@@ -268,7 +268,6 @@ public class GameManager : MonoBehaviour
     {
         if (activeBalls.Length == 0) return false;
 
-        float velocityThreshold = 0.05f; // Minimum velocity to consider a ball "moving"
         int stuckTimeThreshold = 3; // Seconds to consider a ball stuck
         
         bool allBallsStuck = true;
