@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class GameOverPanel : MonoBehaviour
 {
@@ -8,12 +9,17 @@ public class GameOverPanel : MonoBehaviour
     [SerializeField] private Button restartButton;
     [SerializeField] private Button toggleCameraButton;
     
+    [Header("Text References")]
+    [SerializeField] private TextMeshProUGUI highScoreText;
+
     [Header("Animation")]
     [SerializeField] private float fadeInSpeed = 1.0f;
     [SerializeField] private AnimationCurve fadeInCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+    [SerializeField] private float highScorePulseSize = 1.2f;
     
     private CanvasGroup canvasGroup;
     private GameManager gameManager;
+    private bool isHighScore = false;
     
     private void Awake()
     {
@@ -71,8 +77,16 @@ public class GameOverPanel : MonoBehaviour
         {
             SFXManager.Instance.PlaySFX("ButtonClick", 0.7f);
         }
+
+        // Start high score effects if it's a high score
+        if (isHighScore && highScoreText != null)
+        {
+            // Set the initial scale to normal before starting the animation
+            highScoreText.transform.localScale = Vector3.one;
+            StartCoroutine(HighScoreCelebrationEffect());
+        }
     }
-    
+
     public void StartFadeIn()
     {
         // Reset alpha to 0 before starting animation
@@ -82,7 +96,7 @@ public class GameOverPanel : MonoBehaviour
         StartCoroutine(FadeInCoroutine());
     }
     
-    private System.Collections.IEnumerator FadeInCoroutine()
+    private IEnumerator FadeInCoroutine()
     {
         float elapsedTime = 0f;
         float duration = 1.0f / fadeInSpeed;
@@ -103,6 +117,51 @@ public class GameOverPanel : MonoBehaviour
         canvasGroup.alpha = 1f;
     }
     
+    // Public method to set high score status, call will be made from GameManager
+    public void SetHighScore(bool isNewHighScore)
+    {
+        isHighScore = isNewHighScore;
+        Debug.Log("High score flag set to: " + isHighScore);
+    }
+    private IEnumerator HighScoreCelebrationEffect()
+    {
+        // Pulse the high score text size a few times
+        if (highScoreText != null)
+        {
+            Debug.Log("Starting high score celebration effect");
+
+            // Wait a short time before starting the animation
+            yield return new WaitForSeconds(0.5f);
+            for (int i = 0; i < 3; i++)
+            {
+                // Scale up
+                float time = 0;
+                Vector3 originalScale = Vector3.one;
+                Vector3 targetScale = originalScale * highScorePulseSize;
+
+                while (time < 0.5f)
+                {
+                    time += Time.deltaTime;
+                    float t = time / 0.5f;
+                    highScoreText.transform.localScale = Vector3.Lerp(originalScale, targetScale, t);
+                    yield return null;
+                }
+
+                // Scale back down
+                time = 0;
+                while (time < 0.5f)
+                {
+                    time += Time.deltaTime;
+                    float t = time / 0.5f;
+                    highScoreText.transform.localScale = Vector3.Lerp(targetScale, originalScale, t);
+                    yield return null;
+                }
+
+                yield return new WaitForSeconds(0.2f);
+            }
+        }
+    }
+
     private void OnRestartButtonClicked()
     {
         // Play button click sound
@@ -120,7 +179,7 @@ public class GameOverPanel : MonoBehaviour
         {
             // Fallback if GameManager reference is missing
             UnityEngine.SceneManagement.SceneManager.LoadScene(
-                UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+            UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
         }
     }
     

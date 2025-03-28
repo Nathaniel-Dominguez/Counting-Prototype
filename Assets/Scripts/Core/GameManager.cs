@@ -272,32 +272,39 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // Play game over sound if available
-        Debug.Log("Attempting to play game over sound...");
-        if (SFXManager.Instance != null)
+        // Check for high score "PlayerPrefs" Unity's built-in system for storing and retrieving player preferences between game sessions
+        int highScore = PlayerPrefs.GetInt("PachinkoHighScore", 0);
+        bool isNewHighScore = currentScore > highScore;
+
+       
+        if (isNewHighScore)
         {
-            Debug.Log("SFXManager instance found, playing game over sound");
-            yield return new WaitForSeconds(0.2f);
-            SFXManager.Instance.PlaySFX("GameOver", 1f);
+            Debug.Log("New high score achieved! Old: " + highScore + ", New:" + currentScore);
+            highScore = currentScore;
+            PlayerPrefs.SetInt("PachinkoHighScore", highScore);
+            PlayerPrefs.Save();
+
+            // Play high score sound instead of game over sound
+            if (SFXManager.Instance != null)
+            {
+                Debug.Log("Playing new high score sound");
+                SFXManager.Instance.PlayNewHighScoreSound();
+            }
         }
         else
         {
-            Debug.LogError("SFXManager.Instance is null when trying to play game over sound");
+            // Play normal game over sound if no high score
+            if (SFXManager.Instance != null)
+            {
+                Debug.Log("Playing normal game over sound");
+                SFXManager.Instance.PlaySFX("GameOver", 1f);
+            }
         }
 
         // Switch to no Glass Camera for a better view of the final state
         if (noGlassCamera != null && activeCamera != noGlassCamera)
         {
             StartCoroutine(TransitionToCamera(noGlassCamera));
-        }
-
-        // Check for high score "PlayerPrefs" is Unity's built-in system for storing and retrieving player preferences between game sessions
-        int highScore = PlayerPrefs.GetInt("PachinkoHighScore", 0);
-        if (currentScore > highScore)
-        {
-            highScore = currentScore;
-            PlayerPrefs.SetInt("PachinkoHighScore", highScore);
-            PlayerPrefs.Save();
         }
 
         // Display game over UI
@@ -313,6 +320,16 @@ public class GameManager : MonoBehaviour
             if (highScoreText != null)
             {
                 highScoreText.text = "High Score: " + highScore.ToString("N0");
+                // Add an indicator if it's a new high score
+                string highScoreLabel = isNewHighScore ? "NEW HIGH SCORE: " : "High Score: ";
+                highScoreText.text = highScoreLabel + highScore.ToString("N0");
+
+                // Change the color of the high score text to make it more visible
+                if (isNewHighScore && highScoreText.TryGetComponent<TMPro.TextMeshProUGUI>(out var tmpText))
+                {
+                    tmpText.color = new Color(1f, 0.8f, 0f); // Golden color
+                    tmpText.fontStyle = TMPro.FontStyles.Bold;
+                }
             }
             
             // Enable the panel - GameOverPanel component will handle the fade-in animation
@@ -322,6 +339,9 @@ public class GameManager : MonoBehaviour
             GameOverPanel panelComponent = gameOverPanel.GetComponent<GameOverPanel>();
             if (panelComponent != null)
             {
+
+                // Tell the panel if this is a new high score
+                panelComponent.SetHighScore(isNewHighScore);
                 // Let the component handle the fade in
                 panelComponent.StartFadeIn();
             }

@@ -1298,7 +1298,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 41635458293739657, guid: af47beda00afafb41b35d1b92ba3b6ae, type: 3}
       propertyPath: maxLaunchForce
-      value: 40
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 41635458293739657, guid: af47beda00afafb41b35d1b92ba3b6ae, type: 3}
       propertyPath: minLaunchForce
@@ -1310,35 +1310,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6589816281530835027, guid: af47beda00afafb41b35d1b92ba3b6ae, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 14.73
+      value: 14.05
       objectReference: {fileID: 0}
     - target: {fileID: 6589816281530835027, guid: af47beda00afafb41b35d1b92ba3b6ae, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 28.96
+      value: 31.92
       objectReference: {fileID: 0}
     - target: {fileID: 6589816281530835027, guid: af47beda00afafb41b35d1b92ba3b6ae, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.64
+      value: -1.858
       objectReference: {fileID: 0}
     - target: {fileID: 6589816281530835027, guid: af47beda00afafb41b35d1b92ba3b6ae, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.9905012
+      value: 0.99008614
       objectReference: {fileID: 0}
     - target: {fileID: 6589816281530835027, guid: af47beda00afafb41b35d1b92ba3b6ae, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.043246232
+      value: -0.051888157
       objectReference: {fileID: 0}
     - target: {fileID: 6589816281530835027, guid: af47beda00afafb41b35d1b92ba3b6ae, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.005693473
+      value: 0.006831203
       objectReference: {fileID: 0}
     - target: {fileID: 6589816281530835027, guid: af47beda00afafb41b35d1b92ba3b6ae, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.13040192
+      value: 0.13034727
       objectReference: {fileID: 0}
     - target: {fileID: 6589816281530835027, guid: af47beda00afafb41b35d1b92ba3b6ae, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -5
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 6589816281530835027, guid: af47beda00afafb41b35d1b92ba3b6ae, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -2250,7 +2250,7 @@ PrefabInstance:
     - target: {fileID: 1403328250996344409, guid: f8babee5f8372cc41b91a4303b7e3096, type: 3}
       propertyPath: gameOverSound
       value: 
-      objectReference: {fileID: 8300000, guid: 3c278c9b95dd31c47a99cc900b4d3644, type: 3}
+      objectReference: {fileID: 8300000, guid: 417c132aa45d8ef4a90c1fdf5892bc62, type: 3}
     - target: {fileID: 1403328250996344409, guid: f8babee5f8372cc41b91a4303b7e3096, type: 3}
       propertyPath: lowScoreSound
       value: 
@@ -2287,6 +2287,10 @@ PrefabInstance:
       propertyPath: jackpotScoreSound
       value: 
       objectReference: {fileID: 8300000, guid: ca18170f2b32f9d4ebbe321b0e021f12, type: 3}
+    - target: {fileID: 1403328250996344409, guid: f8babee5f8372cc41b91a4303b7e3096, type: 3}
+      propertyPath: newHighScoreSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 0b7e66a25444f2242b194b872dec6598, type: 3}
     - target: {fileID: 1403328250996344409, guid: f8babee5f8372cc41b91a4303b7e3096, type: 3}
       propertyPath: sfxSourcePoolSize
       value: 20

@@ -32,6 +32,7 @@ public class SFXManager : MonoBehaviour
     [SerializeField] private AudioClip buttonClickSound;
     [SerializeField] private AudioClip drainSound;
     [SerializeField] private AudioClip gameOverSound;
+    [SerializeField] private AudioClip newHighScoreSound;
 
     [Header("Sound Effect Settings")]
     [Range(0f, 1f)]
@@ -153,6 +154,7 @@ public class SFXManager : MonoBehaviour
         soundImportance.Add("BumperHit", 3f);
         soundImportance.Add("Spinner", 2.5f);
         soundImportance.Add("PinHit", 2f);
+        soundImportance.Add("NewHighScore", 1.1f);
         // Default importance for sounds not in this list is 1.0
     }
 
@@ -183,7 +185,8 @@ public class SFXManager : MonoBehaviour
             { "Jackpot", jackpotScoreSound },
             { "ButtonClick", buttonClickSound },
             { "Drain", drainSound },
-            { "GameOver", gameOverSound }
+            { "GameOver", gameOverSound },
+            { "NewHighScore", newHighScoreSound}
         };
     }
 
@@ -506,6 +509,29 @@ public class SFXManager : MonoBehaviour
             // Play sound directly instead of through lookup which might be null
             PlaySFX("GameOver");
         }
+    }
+
+    /// <summary>
+    /// Play new high score sound
+    /// </summary>
+    public void PlayNewHighScoreSound()
+    {
+        if (sfxLookup.ContainsKey("NewHighScore"))
+        {
+            PlaySFX("NewHighScore");
+
+            StartCoroutine(PlayDelayedSound("Jackpot", 0.3f));
+        }
+        else
+        {
+            Debug.LogError("NewHighScore sound not found in sfxLookup");
+        }
+    }
+
+    private IEnumerator PlayDelayedSound(string sfxName, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        PlaySFX(sfxName);
     }
     #endregion
 
