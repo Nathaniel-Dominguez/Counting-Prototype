@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1821328583347350677}
   - component: {fileID: 7509988945503629141}
   - component: {fileID: 6337134150372049}
+  - component: {fileID: 4428423014642679688}
   m_Layer: 0
   m_Name: Pachinko Ball
   m_TagString: Ball
@@ -119,7 +120,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 940020498885632871}
   serializedVersion: 4
-  m_Mass: 1.2
+  m_Mass: 1
   m_Drag: 0.05
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -255,5 +256,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76e40ece1a69e1b448fdf54a5cbbb8ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4428423014642679688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940020498885632871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea39fbeddcf146d4ba5b4280b4272cf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

@@ -244,6 +244,18 @@ public class GameManager : MonoBehaviour
                     StartCoroutine(EndGameSequence());
                     yield break; // Exit the coroutine
                 }
+                
+                // Check for stuck balls when no balls left in launcher but active balls exist
+                if (ballsInLauncher <= 0 && activeBalls > 0)
+                {
+                    bool allBallsStuck = CheckForStuckBalls(activeBallObjects);
+                    if (allBallsStuck)
+                    {
+                        Debug.Log("Game over: All remaining balls are stuck!");
+                        StartCoroutine(EndGameSequence());
+                        yield break; // Exit the coroutine
+                    }
+                }
             }
 
             // Wait before checking again
@@ -251,6 +263,65 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Checks if all active balls are stuck (not moving)
+    private bool CheckForStuckBalls(GameObject[] activeBalls)
+    {
+        if (activeBalls.Length == 0) return false;
+
+        float velocityThreshold = 0.05f; // Minimum velocity to consider a ball "moving"
+        int stuckTimeThreshold = 3; // Seconds to consider a ball stuck
+        
+        bool allBallsStuck = true;
+        int stuckBallCount = 0;
+        
+        Debug.Log($"Checking {activeBalls.Length} balls for stuck status...");
+        
+        foreach (GameObject ball in activeBalls)
+        {
+            if (ball == null) 
+            {
+                Debug.Log("Found null ball reference, skipping");
+                continue;
+            }
+            
+            Rigidbody rb = ball.GetComponent<Rigidbody>();
+            if (rb == null) 
+            {
+                Debug.Log($"Ball {ball.name} has no Rigidbody, skipping");
+                continue;
+            }
+            
+            // Check if ball is moving
+            float velocity = rb.linearVelocity.magnitude;
+            
+            // Check if ball has component to track stuck time, add if not
+            StuckBallTracker stuckTracker = ball.GetComponent<StuckBallTracker>();
+            if (stuckTracker == null)
+            {
+                stuckTracker = ball.AddComponent<StuckBallTracker>();
+                Debug.Log($"Added StuckBallTracker to {ball.name}");
+            }
+            
+            // The StuckBallTracker component now handles updating stuck time in its Update method
+            // We just need to check if it's considered stuck
+            if (stuckTracker.IsStuck(stuckTimeThreshold))
+            {
+                stuckBallCount++;
+                Debug.Log($"Ball {ball.name} considered STUCK: {stuckTracker.GetStuckTime():F1} seconds > {stuckTimeThreshold} threshold");
+            }
+            else
+            {
+                Debug.Log($"Ball {ball.name} is not stuck (velocity: {velocity:F3}, stuck time: {stuckTracker.GetStuckTime():F1}/{stuckTimeThreshold}s)");
+                allBallsStuck = false;
+            }
+        }
+        
+        Debug.Log($"Stuck ball check result: {stuckBallCount}/{activeBalls.Length} balls stuck, allBallsStuck={allBallsStuck}");
+        return allBallsStuck;
+    }
+    
+    // The StuckBallTracker class has been moved to its own file
+    
     private IEnumerator EndGameSequence()
     {
         // Set game over flag immediately to prevent further ball launches

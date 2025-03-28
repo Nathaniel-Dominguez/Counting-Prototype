@@ -400,7 +400,7 @@ PrefabInstance:
       objectReference: {fileID: 24100000, guid: cee5c0ac9734bac4ea0ab583450873e6, type: 2}
     - target: {fileID: 1579710077136620350, guid: 6aea3decf4784db4baa8ef98ed5b83c5, type: 3}
       propertyPath: maxMusicVolume
-      value: 0.7
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1579710077136620350, guid: 6aea3decf4784db4baa8ef98ed5b83c5, type: 3}
       propertyPath: playMusicOnAwake
@@ -2277,7 +2277,7 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 06b6bf92dc8a1764fa97595f5d78dfac, type: 3}
     - target: {fileID: 1403328250996344409, guid: f8babee5f8372cc41b91a4303b7e3096, type: 3}
       propertyPath: defaultSFXVolume
-      value: 0.6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1403328250996344409, guid: f8babee5f8372cc41b91a4303b7e3096, type: 3}
       propertyPath: mediumScoreSound
