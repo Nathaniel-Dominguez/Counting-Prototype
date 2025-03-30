@@ -10,16 +10,21 @@ public class BallLauncher : MonoBehaviour
     [SerializeField] private Animation launcherAnimation;
     [SerializeField] private float chargeRate = 10f;
     [SerializeField] private AnimationCurve powerCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+    [SerializeField] private float cooldownTime = 0.5f; // Time in seconds before the next launch can occur
 
     private int ballsRemaining;
     private float currentLaunchForce;
     private bool isCharging = false;
+    private bool isOnCooldown = false; // Track cooldown state
     private SFXManager sfxManager;
 
     // Add getter methods for min and max launch force
     public float GetCurrentLaunchForce() { return currentLaunchForce; }
     public float GetMinLaunchForce() { return minLaunchForce; }
     public float GetMaxLaunchForce() { return maxLaunchForce; }
+
+    // Add this getter method to access cooldown time
+    public bool IsCoolingDown() { return isOnCooldown; }
 
     // Add this getter method to access balls remaining
     public int GetBallsRemaining()
@@ -57,8 +62,8 @@ public class BallLauncher : MonoBehaviour
     // Public method for external control (called by Player)
     public void StartCharging()
     {
-        // Don't allow charging if no balls remain or game is over
-        if (ballsRemaining <= 0 || GameManager.Instance.IsGameOver())
+        // Don't allow charging if no balls remain or game is over or cooldown is active
+        if (ballsRemaining <= 0 || GameManager.Instance.IsGameOver() || isOnCooldown)
         {
             return;
         }
@@ -73,14 +78,17 @@ public class BallLauncher : MonoBehaviour
     // Public method for external control (called by Player)
     public void LaunchBall()
     {
-        // Don't allow launching if no balls remain or game is over
-        if (ballsRemaining <= 0 || GameManager.Instance.IsGameOver())
+        // Don't allow launching if no balls remain or game is over or cooldown is active
+        if (ballsRemaining <= 0 || GameManager.Instance.IsGameOver() || isOnCooldown)
         {
             isCharging = false;
             return;
         }
 
         isCharging = false;
+
+        // Start cooldown
+        StartCoroutine(StartCooldown());
 
         // Only hide the power meter UI after launch without resetting its value
         GameManager.Instance.HidePowerMeter();
@@ -132,6 +140,18 @@ public class BallLauncher : MonoBehaviour
         }
     }
 
+    // Cooldown coroutine
+    private IEnumerator StartCooldown()
+    {
+        isOnCooldown = true;
+
+        // Visual feedback could be added here
+
+        yield return new WaitForSeconds(cooldownTime);
+
+        isOnCooldown = false;
+    }
+
     private void UpdateUI()
     {
         // Update UI to show remaining balls
@@ -180,6 +200,7 @@ public class BallLauncher : MonoBehaviour
     {
         ballsRemaining = numBalls;
         isCharging = false;
+        isOnCooldown = false;
         currentLaunchForce = minLaunchForce;
         UpdateUI();
     }
