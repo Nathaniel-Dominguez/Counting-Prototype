@@ -41,6 +41,7 @@ public class SFXManager : MonoBehaviour
     [SerializeField] private int sfxSourcePoolSize = 10;
     [SerializeField] private Transform sfxSourceParent;
     [SerializeField] private int maxSimulataneousSounds = 20;
+    [SerializeField] private float spinnerSoundCooldown = 0.5f; // Cooldown time for spinner sound
 
     [Header("Randomization Settings")]
     [Range(0f, 0.7f)]
@@ -61,6 +62,7 @@ public class SFXManager : MonoBehaviour
     private List<AudioSource> activeSfxSources;
     private Dictionary<string, AudioClip> sfxLookup;
     private Dictionary<string, float> soundImportance = new Dictionary<string, float>();
+    private float lastSpinnerSoundTime = 0f; // Track when spinner sound was last played
     
     #endregion
 
@@ -467,7 +469,7 @@ public class SFXManager : MonoBehaviour
     /// <param name="hitForce">Force of the hit (affects volume/pitch)</param>
     public void PlayPinHitSound(Vector3 position, float hitForce = 1.0f, int material = 0)
     {
-        PlaySFX3D("PinHit", position, -1, 1f, 30f);
+        PlaySFX3D("PinHit", position, 0.2f, 1f, 30f);
     }
 
     /// <summary>
@@ -489,7 +491,16 @@ public class SFXManager : MonoBehaviour
     public void PlaySpinnerSound(Vector3 position, float rotationSpeed = 1.0f)
     {
         Debug.Log($"Playing spinner sound at position {position}");
+        
+        // Check if enough time has passed since the last spinner sound
+        if (Time.time - lastSpinnerSoundTime < spinnerSoundCooldown)
+        {
+            Debug.Log("Spinner sound cooldown active, skipping sound");
+            return;
+        }
+        
         PlaySFX3D("Spinner", position, -1f, 1f, 25f);
+        lastSpinnerSoundTime = Time.time; // Update the last play time
     }
 
     /// <summary>

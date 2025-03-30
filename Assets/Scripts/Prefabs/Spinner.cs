@@ -22,12 +22,10 @@ public class Spinner : MonoBehaviour
     // Private variables
     private SFXManager sfxManager;
     private float currentRotationSpeed = 0f;
-    // private float lastHitTime;
     private Vector3 originalScale;
     private bool isScaling = false;
     private Quaternion initialRotation;
     private float totalRotationAngle = 0f;
-
 
     // The rotation axis is always Z (forward) for this simplified spinner
     private readonly Vector3 rotationAxis = Vector3.forward;
@@ -167,10 +165,6 @@ public class Spinner : MonoBehaviour
 
             // Use playSFX 
             sfxManager.PlaySpinnerSound(transform.position, normalizedSpeed);
-
-            // Old code, we implement the 3D call in sfxManager
-            // Update to use 3D audio later
-            // sfxManager.PlaySFX3d("Spinner, transform.position, -1f, Mathf.Lerp(0.7f, 1.3f, normalizedSpeed));
         }
         else
         {
