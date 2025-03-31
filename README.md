@@ -55,9 +55,10 @@ The project follows clean code principles with a component-based architecture:
 - Jukebox.cs           # Background music system (stays playing when scene is loaded)
 - Managers/
   |- GameManager.cs       # Central game state management
-  |- GameConfig.cs      # Game configuration and settings
+  |- GameConfig.cs        # Game configuration and settings
   |- BallPoolManager.cs   # Object pooling implementation
   |- SFXManager.cs        # Sound effect management
+  |- MainMenuManager.cs   # Main menu management
   
 - Interactive/
   |- Ball.cs              # Ball behavior and properties
@@ -71,9 +72,11 @@ The project follows clean code principles with a component-based architecture:
   |- BallLauncher.cs      # Ball launching mechanism
   
 - UI/
-  |- PowerMeter.cs        # Visual launch power indicator
+  |- PowerMeterUI.cs        # Visual launch power indicator
   |- CooldownBarUI.cs     # Cooldown bar UI
   |- GameOverPanel.cs     # Game over screen
+  |- OptionsPanel.cs      # Options and Pause menu
+  |- CreditsPanel.cs      # Credits screen
 ```
 
 ### Custom Editor Extensions
@@ -100,6 +103,8 @@ Potential areas for expansion:
 - Advanced scoring systems with multipliers and combos
 - Mobile touch controls for broader platform support
 - VR implementation for immersive gameplay
+- Build out the Shop Menu with custom ball skins and upgrades
+- Add a Tutorial Mode to explain the game to new players
 
 ## 🧰 Built With
 

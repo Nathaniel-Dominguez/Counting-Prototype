@@ -145,8 +145,28 @@ namespace AudioManager
             AudioSource next = musicSourcePool.Find(s => !s.isPlaying);
             if (next == null)
             {
-                next = Instantiate(musicSourcePrefab, transform).GetComponent<AudioSource>();
-                musicSourcePool.Add(next);
+                // Check if the prefab is valid before instantiating
+                if (musicSourcePrefab == null)
+                {
+                    Debug.LogError("Music source prefab is missing or has been destroyed. Cannot create new audio source.");
+                    
+                    // Return the first source in the pool if available, or create a basic one if none exist
+                    if (musicSourcePool.Count > 0)
+                    {
+                        return 0; // Return the first source in the pool
+                    }
+                    else
+                    {
+                        // Create a basic audio source on this GameObject as fallback
+                        next = gameObject.AddComponent<AudioSource>();
+                        musicSourcePool.Add(next);
+                    }
+                }
+                else
+                {
+                    next = Instantiate(musicSourcePrefab, transform).GetComponent<AudioSource>();
+                    musicSourcePool.Add(next);
+                }
             }
             next.gameObject.SetActive(true);
             return musicSourcePool.IndexOf(next);
@@ -170,7 +190,7 @@ namespace AudioManager
             source.volume = endVolume;
 
             // If the volume is 0 or
-            // The fade was between teh same values
+            // The fade was between the same values
             // (this is used when looping to allow for the previous clip to play without fading)
             if (source.volume == 0f || endVolume == startVolume)
             {
