@@ -10,7 +10,7 @@ public class BallLauncher : MonoBehaviour
     [SerializeField] private Animation launcherAnimation;
     [SerializeField] private float chargeRate = 10f;
     [SerializeField] private AnimationCurve powerCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
-    [SerializeField] private float cooldownTime = 0.5f; // Time in seconds before the next launch can occur
+    [SerializeField] private float cooldownTime = 1f; // Time in seconds before the next launch can occur
 
     private int ballsRemaining;
     private float currentLaunchForce;
@@ -68,11 +68,20 @@ public class BallLauncher : MonoBehaviour
             return;
         }
 
+        // Explicitly set charging state first
         isCharging = true;
+        
+        // Reset launch force to minimum value
         currentLaunchForce = minLaunchForce;
 
-        // Initialize the UI 
+        // Make sure to update the UI immediately with the reset value
         UpdateLaunchPowerUI();
+        
+        // Force refresh the power meter text and ensure it's displayed
+        GameManager.Instance.ForceRefreshPowerMeter();
+        
+        // Add debug logging
+        Debug.Log($"BallLauncher: StartCharging - Force reset to {currentLaunchForce}, min: {minLaunchForce}, max: {maxLaunchForce}");
     }
 
     // Public method for external control (called by Player)
@@ -90,8 +99,10 @@ public class BallLauncher : MonoBehaviour
         // Start cooldown
         StartCoroutine(StartCooldown());
 
-        // Only hide the power meter UI after launch without resetting its value
-        GameManager.Instance.HidePowerMeter();
+        // Force an update of the power UI to ensure text is updated with the final value
+        UpdateLaunchPowerUI();
+        // Force refresh the power meter text
+        GameManager.Instance.ForceRefreshPowerMeter();
 
         // Play the launcher animation
         if (launcherAnimation != null)
@@ -111,7 +122,6 @@ public class BallLauncher : MonoBehaviour
 
         if (ball != null)
         {
-
             // Position the ball at the launch point
             ball.transform.position = launchPoint.position;
             ball.transform.rotation = Quaternion.identity;
@@ -144,12 +154,17 @@ public class BallLauncher : MonoBehaviour
     private IEnumerator StartCooldown()
     {
         isOnCooldown = true;
+        Debug.Log($"BallLauncher: Cooldown started, duration: {cooldownTime}s");
 
-        // Visual feedback could be added here
-
+        // Wait for cooldown to complete
         yield return new WaitForSeconds(cooldownTime);
 
         isOnCooldown = false;
+        Debug.Log("BallLauncher: Cooldown ended, launcher ready");
+        
+        // Force a UI update to ensure power meter is ready for next charge
+        UpdateLaunchPowerUI();
+        GameManager.Instance.ForceRefreshPowerMeter();
     }
 
     private void UpdateUI()

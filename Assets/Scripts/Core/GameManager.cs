@@ -127,10 +127,23 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log($"GameManager: Updating PowerMeterUI to {powerPercentage}");
             powerMeterUI.UpdatePower(powerPercentage);
+            
+            // Force an immediate canvas update to ensure UI is refreshed
+            Canvas.ForceUpdateCanvases();
         }
         else
         {
             Debug.LogError("GameManager: PowerMeterUI reference is null! Make sure it's assigned in the Inspector.");
+        }
+    }
+
+    // Public method to force refresh the power meter text
+    public void ForceRefreshPowerMeter()
+    {
+        if (powerMeterUI != null)
+        {
+            Debug.Log("GameManager: Forcing refresh of PowerMeterUI text");
+            powerMeterUI.ForceRefreshText();
         }
     }
 

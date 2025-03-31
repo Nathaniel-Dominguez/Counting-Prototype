@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections;
 
 public class Player : MonoBehaviour 
 {
@@ -12,6 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField] private KeyCode cameraToggleKey = KeyCode.V;
     [SerializeField] private bool useKeyboardControls = true;
     [SerializeField] private bool useMouseControls = true;
+    [SerializeField] private float inputDebounceTime = 0.1f; // Debounce time between input actions
 
     [Header("References")]
     [SerializeField] private BallLauncher ballLauncher;
@@ -19,6 +21,7 @@ public class Player : MonoBehaviour
 
     private bool isChargingLaunch = false;
     private SFXManager sfxManager;
+    private bool inputLocked = false; // Prevents rapid input
 
     private void Start()
     {
@@ -43,7 +46,7 @@ public class Player : MonoBehaviour
             gameManager = GameManager.Instance;
             if (gameManager == null)
             {
-                Debug.LogError("Player: GamerManager reference not set and oculdn't be found in the scene!");
+                Debug.LogError("Player: GamerManager reference not set and couldn't be found in the scene!");
             }
         }
     }
@@ -62,8 +65,8 @@ public class Player : MonoBehaviour
 
     private void HandleBallLauncherInput()
     {
-        // Only process input if we have a valid ball Launcher
-        if (ballLauncher == null) return;
+        // Only process input if we have a valid ball Launcher and input is not locked
+        if (ballLauncher == null || inputLocked) return;
 
         // Keyboard input
         if (useKeyboardControls)
@@ -100,7 +103,39 @@ public class Player : MonoBehaviour
 
     private void StartCharging()
     {
+        // Validate the ball launcher is ready
+        if (ballLauncher == null)
+        {
+            Debug.LogWarning("Player: Cannot start charging - launcher is null");
+            return;
+        }
+        
+        // Check for cooldown separately to provide feedback
+        if (ballLauncher.IsCoolingDown())
+        {
+            Debug.LogWarning("Player: Cannot start charging - launcher is cooling down");
+            
+            // Visual feedback for cooldown state
+            if (SFXManager.Instance != null)
+            {
+                // Play a different sound for cooldown feedback
+                SFXManager.Instance.PlayButtonClickSound();
+            }
+            
+            // Force refresh power meter to show current state
+            GameManager.Instance.ForceRefreshPowerMeter();
+            
+            return;
+        }
+        
+        // Lock input to prevent rapid input issues
+        LockInput();
+        
+        // Set charging state BEFORE calling StartCharging on the launcher
         isChargingLaunch = true;
+        
+        // Log the state change
+        Debug.Log("Player: Starting charging sequence");
 
         // Tell BallLauncher to start charging
         ballLauncher.StartCharging();
@@ -114,16 +149,45 @@ public class Player : MonoBehaviour
 
     private void LaunchBall()
     {
-        isChargingLaunch = false;
-
+        // Make sure we have a valid ball launcher
+        if (ballLauncher == null)
+        {
+            Debug.LogWarning("Player: Cannot launch ball - launcher is null");
+            isChargingLaunch = false;
+            return;
+        }
+        
+        // Lock input to prevent rapid input issues
+        LockInput();
+        
         // Calculate the power level (0-1) from the ball launcher
         float powerPercentage = (ballLauncher.GetCurrentLaunchForce() - ballLauncher.GetMinLaunchForce()) / (ballLauncher.GetMaxLaunchForce() - ballLauncher.GetMinLaunchForce());
+        
+        // Log the launch
+        Debug.Log($"Player: Launching ball at power: {powerPercentage:F2}");
+        
+        // Set charging state to false BEFORE calling LaunchBall
+        isChargingLaunch = false;
 
         // Tell ballLauncher to release the ball
         ballLauncher.LaunchBall();
 
         // Trigger the ball launched event
         OnBallLaunched?.Invoke(powerPercentage);
+    }
+
+    // Locks input for a short time to prevent rapid clicking issues
+    private void LockInput()
+    {
+        inputLocked = true;
+        StartCoroutine(UnlockInputAfterDelay());
+    }
+
+    // Coroutine to unlock input after a short delay
+    private IEnumerator UnlockInputAfterDelay()
+    {
+        yield return new WaitForSeconds(inputDebounceTime);
+        inputLocked = false;
     }
 
     private void ToggleCameraView()
