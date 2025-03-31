@@ -400,7 +400,7 @@ PrefabInstance:
       objectReference: {fileID: 24100000, guid: cee5c0ac9734bac4ea0ab583450873e6, type: 2}
     - target: {fileID: 1579710077136620350, guid: 6aea3decf4784db4baa8ef98ed5b83c5, type: 3}
       propertyPath: maxMusicVolume
-      value: 0.9935529
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 1579710077136620350, guid: 6aea3decf4784db4baa8ef98ed5b83c5, type: 3}
       propertyPath: playMusicOnAwake

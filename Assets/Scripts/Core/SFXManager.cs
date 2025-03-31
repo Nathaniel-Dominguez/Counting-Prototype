@@ -583,6 +583,17 @@ public class SFXManager : MonoBehaviour
     #region VOLUME CONTROL METHODS
 
     /// <summary>
+    /// Check if an AudioMixer parameter exists
+    /// </summary>
+    private bool AudioMixerParameterCheck(string paramName)
+    {
+        if (audioMixer == null) return false;
+
+        float value;
+        return audioMixer.GetFloat(paramName, out value);
+    }
+
+    /// <summary>
     /// Set the master volume level 
     /// </summary>
     /// <param name="volume">Volume level (0-1)</param>
@@ -594,9 +605,13 @@ public class SFXManager : MonoBehaviour
         // Silence when volume is 0: -80dB
         float decibelValue = volume > 0 ? Mathf.Log10(volume) * 20f : -80f;
 
-        if (audioMixer != null)
+        if (audioMixer != null && AudioMixerParameterCheck(masterVolumeParam))
         {
             audioMixer.SetFloat(masterVolumeParam, decibelValue);
+        }
+        else if (audioMixer != null)
+        {
+            Debug.LogWarning($"AudioMixer parameter '{masterVolumeParam}' not found. Make sure to expose this parameter in the AudioMixer.");
         }
 
         if (saveAudioSettings)
