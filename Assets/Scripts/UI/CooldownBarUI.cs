@@ -49,7 +49,7 @@ public class CooldownBarUI : MonoBehaviour
     private void Start()
     {
         // Get reference to the ball launcher
-        ballLauncher = FindObjectOfType<BallLauncher>();
+        ballLauncher = FindFirstObjectByType<BallLauncher>();
         
         if (ballLauncher == null)
         {

@@ -72,6 +72,7 @@ The project follows clean code principles with a component-based architecture:
   
 - UI/
   |- PowerMeter.cs        # Visual launch power indicator
+  |- CooldownBarUI.cs     # Cooldown bar UI
   |- GameOverPanel.cs     # Game over screen
 ```
 

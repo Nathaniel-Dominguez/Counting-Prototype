@@ -94,10 +94,10 @@ public class GameManager : MonoBehaviour
         }
 
         // Reset power meter
-        if (powerMeterUI != null)
-        {
-            powerMeterUI.HidePowerMeter();
-        }
+        // if (powerMeterUI != null)
+        // {
+        //     powerMeterUI.HidePowerMeter();
+        // }
 
         // Check if the game should end periodically
         StartCoroutine(GameOverCheckRoutine());

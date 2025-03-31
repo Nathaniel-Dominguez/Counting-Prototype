@@ -431,8 +431,6 @@ public class SFXManager : MonoBehaviour
         if (points >= 5000)
         {
             sfxName = "Jackpot";
-            // for emphasis, also play game over sound for jackpot
-            PlaySFX("GameOver");
         }
         else if (points >= 1000)
         {
@@ -554,8 +552,6 @@ public class SFXManager : MonoBehaviour
         if (sfxLookup.ContainsKey("NewHighScore"))
         {
             PlaySFX("NewHighScore");
-
-            StartCoroutine(PlayDelayedSound("Jackpot", 0.3f));
         }
         else
         {

@@ -149,7 +149,7 @@ GameObject:
   - component: {fileID: 750318562661893638}
   - component: {fileID: 5351019972240525691}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: GameplayOverlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
