@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI ballsRemainingText;
     [SerializeField] private PowerMeterUI powerMeterUI;
+    [SerializeField] private CooldownBarUI cooldownBarUI;
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private TextMeshProUGUI finalScoreText;
     [SerializeField] private TextMeshProUGUI highScoreText;
@@ -499,6 +500,48 @@ public class GameManager : MonoBehaviour
         else if (activeCamera == noGlassCamera && mainCamera != null)
         {
             StartCoroutine(TransitionToCamera(mainCamera));
+        }
+    }
+
+    // Public method to reset the cooldown bar (called when ball is launched)
+    public void ResetCooldownBar()
+    {
+        if (cooldownBarUI != null)
+        {
+            Debug.Log("GameManager: Resetting CooldownBarUI");
+            cooldownBarUI.ResetCooldown();
+        }
+        else
+        {
+            Debug.LogError("GameManager: CooldownBarUI reference is null! Make sure it's assigned in the Inspector.");
+        }
+    }
+
+    // Public method to set the cooldown bar to ready state
+    public void SetCooldownReady()
+    {
+        if (cooldownBarUI != null)
+        {
+            Debug.Log("GameManager: Setting CooldownBarUI to ready state");
+            cooldownBarUI.SetReady();
+        }
+        else
+        {
+            Debug.LogError("GameManager: CooldownBarUI reference is null! Make sure it's assigned in the Inspector.");
+        }
+    }
+
+    // Public method to update the cooldown bar directly
+    public void UpdateCooldownBar(float cooldownPercentage)
+    {
+        if (cooldownBarUI != null)
+        {
+            Debug.Log($"GameManager: Updating CooldownBarUI to {cooldownPercentage}");
+            cooldownBarUI.UpdateCooldown(cooldownPercentage);
+        }
+        else
+        {
+            Debug.LogError("GameManager: CooldownBarUI reference is null! Make sure it's assigned in the Inspector.");
         }
     }
 }

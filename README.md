@@ -71,8 +71,8 @@ The project follows clean code principles with a component-based architecture:
   |- BallLauncher.cs      # Ball launching mechanism
   
 - UI/
-  |- UIManager.cs         # User interface management
   |- PowerMeter.cs        # Visual launch power indicator
+  |- GameOverPanel.cs     # Game over screen
 ```
 
 ### Custom Editor Extensions
@@ -114,4 +114,5 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - Based on Unity's "Counting Prototype" tutorial
 - Inspired by traditional Japanese pachinko machines
+- Audio Support From Ovani Sound and Voice Acting by Hannah Weeks
 - Special thanks to Pachitalk forums, Pachinkoman, KeppyLabs mentors and the Unity community :shipit:

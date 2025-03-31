@@ -16,6 +16,7 @@ public class BallLauncher : MonoBehaviour
     private float currentLaunchForce;
     private bool isCharging = false;
     private bool isOnCooldown = false; // Track cooldown state
+    private float remainingCooldownTime = 0f; // Track remaining cooldown time
     private SFXManager sfxManager;
 
     // Add getter methods for min and max launch force
@@ -25,6 +26,8 @@ public class BallLauncher : MonoBehaviour
 
     // Add this getter method to access cooldown time
     public bool IsCoolingDown() { return isOnCooldown; }
+    public float GetCooldownTime() { return cooldownTime; }
+    public float GetRemainingCooldownTime() { return remainingCooldownTime; }
 
     // Add this getter method to access balls remaining
     public int GetBallsRemaining()
@@ -56,6 +59,17 @@ public class BallLauncher : MonoBehaviour
 
             // Update UI to show current power
             UpdateLaunchPowerUI();
+        }
+        
+        // Update remaining cooldown time if on cooldown
+        if (isOnCooldown && remainingCooldownTime > 0)
+        {
+            remainingCooldownTime -= Time.deltaTime;
+            if (remainingCooldownTime <= 0)
+            {
+                // Ensure we don't go below zero
+                remainingCooldownTime = 0;
+            }
         }
     }
 
@@ -98,6 +112,9 @@ public class BallLauncher : MonoBehaviour
 
         // Start cooldown
         StartCoroutine(StartCooldown());
+        
+        // Notify cooldown UI that we're starting cooldown
+        GameManager.Instance.ResetCooldownBar();
 
         // Force an update of the power UI to ensure text is updated with the final value
         UpdateLaunchPowerUI();
@@ -154,17 +171,22 @@ public class BallLauncher : MonoBehaviour
     private IEnumerator StartCooldown()
     {
         isOnCooldown = true;
+        remainingCooldownTime = cooldownTime;
         Debug.Log($"BallLauncher: Cooldown started, duration: {cooldownTime}s");
 
         // Wait for cooldown to complete
         yield return new WaitForSeconds(cooldownTime);
 
         isOnCooldown = false;
+        remainingCooldownTime = 0f;
         Debug.Log("BallLauncher: Cooldown ended, launcher ready");
         
         // Force a UI update to ensure power meter is ready for next charge
         UpdateLaunchPowerUI();
         GameManager.Instance.ForceRefreshPowerMeter();
+        
+        // Notify the cooldown UI that cooldown is complete
+        GameManager.Instance.SetCooldownReady();
     }
 
     private void UpdateUI()
@@ -216,6 +238,7 @@ public class BallLauncher : MonoBehaviour
         ballsRemaining = numBalls;
         isCharging = false;
         isOnCooldown = false;
+        remainingCooldownTime = 0f;
         currentLaunchForce = minLaunchForce;
         UpdateUI();
     }
