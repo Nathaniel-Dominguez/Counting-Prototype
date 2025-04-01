@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     [Header("Input Settings")]
     [SerializeField] private KeyCode launchKey = KeyCode.Space;
     [SerializeField] private KeyCode cameraToggleKey = KeyCode.V;
+    [SerializeField] private KeyCode pauseKey = KeyCode.Escape;
     [SerializeField] private bool useKeyboardControls = true;
     [SerializeField] private bool useMouseControls = true;
     [SerializeField] private float inputDebounceTime = 0.1f; // Debounce time between input actions
@@ -18,10 +19,13 @@ public class Player : MonoBehaviour
     [Header("References")]
     [SerializeField] private BallLauncher ballLauncher;
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private OptionsPanel optionsPanel;
+    [SerializeField] private GameObject gameplayElements; // Optional: parent object containing gameplay elements to disable during pause
 
     private bool isChargingLaunch = false;
     private SFXManager sfxManager;
     private bool inputLocked = false; // Prevents rapid input
+    private bool isPaused = false;
 
     private void Start()
     {
@@ -49,18 +53,112 @@ public class Player : MonoBehaviour
                 Debug.LogError("Player: GamerManager reference not set and couldn't be found in the scene!");
             }
         }
+        
+        // Setup options panel if it exists
+        if (optionsPanel != null)
+        {
+            // Make sure it starts hidden
+            optionsPanel.gameObject.SetActive(false);
+            
+            // Set the ESC key handling to disabled since we'll handle it here
+            optionsPanel.disableEscKeyHandling = true;
+            
+            // Subscribe to events
+            optionsPanel.onBackClicked.AddListener(ResumeGame);
+            optionsPanel.onMainMenuClicked.AddListener(OnReturnToMainMenu);
+        }
     }
 
     private void Update()
     {
-        // handle camera toggle input
-        if (Input.GetKeyDown(cameraToggleKey))
+        // Check for pause input
+        if (Input.GetKeyDown(pauseKey))
         {
-            ToggleCameraView();
+            TogglePause();
+            return; // Skip other inputs when pausing/unpausing
         }
+        
+        // Only process other inputs if game is not paused
+        if (!isPaused)
+        {
+            // handle camera toggle input
+            if (Input.GetKeyDown(cameraToggleKey))
+            {
+                ToggleCameraView();
+            }
 
-        // Handle ball launcher input
-        HandleBallLauncherInput();
+            // Handle ball launcher input
+            HandleBallLauncherInput();
+        }
+    }
+    
+    private void OnDestroy()
+    {
+        // Ensure we clean up our event subscriptions
+        if (optionsPanel != null)
+        {
+            optionsPanel.onBackClicked.RemoveListener(ResumeGame);
+            optionsPanel.onMainMenuClicked.RemoveListener(OnReturnToMainMenu);
+        }
+        
+        // Make sure we reset time scale when destroyed
+        Time.timeScale = 1f;
+    }
+    
+    public void TogglePause()
+    {
+        isPaused = !isPaused;
+        
+        if (isPaused)
+        {
+            PauseGame();
+        }
+        else
+        {
+            ResumeGame();
+        }
+    }
+    
+    private void PauseGame()
+    {
+        // Pause time
+        Time.timeScale = 0f;
+        
+        // Optionally disable gameplay elements
+        if (gameplayElements != null)
+        {
+            gameplayElements.SetActive(false);
+        }
+        
+        // Show options panel
+        if (optionsPanel != null)
+        {
+            Debug.Log("Showing options panel");
+            optionsPanel.ShowPanel();
+        }
+        else
+        {
+            Debug.LogError("Options panel reference is missing on Player script!");
+        }
+    }
+    
+    public void ResumeGame()
+    {
+        // Resume time
+        Time.timeScale = 1f;
+        isPaused = false;
+        
+        // Re-enable gameplay elements
+        if (gameplayElements != null)
+        {
+            gameplayElements.SetActive(true);
+        }
+        
+        // Hide options panel
+        if (optionsPanel != null)
+        {
+            optionsPanel.HidePanel();
+        }
     }
 
     private void HandleBallLauncherInput()
@@ -204,5 +302,20 @@ public class Player : MonoBehaviour
     {
         useKeyboardControls = useKeyboard;
         useMouseControls = useMouse;
+    }
+
+    private void OnReturnToMainMenu()
+    {
+        // Clean up any resources or state before returning to main menu
+        isPaused = false;
+        Time.timeScale = 1f;
+        
+        // Re-enable gameplay elements if they were disabled
+        if (gameplayElements != null)
+        {
+            gameplayElements.SetActive(true);
+        }
+        
+        Debug.Log("Returning to main menu from Player script");
     }
 }

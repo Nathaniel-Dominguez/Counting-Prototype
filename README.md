@@ -52,31 +52,35 @@ This project evolved from Unity's "Counting Prototype" tutorial into a full-feat
 The project follows clean code principles with a component-based architecture:
 
 ```
-- Jukebox.cs           # Background music system (stays playing when scene is loaded)
-- Managers/
-  |- GameManager.cs       # Central game state management
-  |- GameConfig.cs        # Game configuration and settings
-  |- BallPoolManager.cs   # Object pooling implementation
-  |- SFXManager.cs        # Sound effect management
-  |- MainMenuManager.cs   # Main menu management
-  
-- Interactive/
-  |- Ball.cs              # Ball behavior and properties
-  |- Bumper.cs            # Interactive bumper elements
-  |- Spinner.cs           # Rotating field elements
-  |- ScorePocket.cs       # Scoring zone implementation
-  |- CollectionTray.cs    # Ball collection management
-  
-- Player/
-  |- Player.cs            # Player input handling
-  |- BallLauncher.cs      # Ball launching mechanism
+- Core/
+  |- GameManager.cs        # Central game state management
+  |- BallPoolManager.cs    # Object pooling implementation  
+  |- Jukebox.cs            # Background music system
+  |- Song.cs               # Song configuration for Jukebox
+  |- SFXManager.cs         # Sound effect management
+  |- Player.cs             # Player input handling
+  |- StuckBallTracker.cs   # Tracks and handles balls that get stuck
+
+- Prefabs/
+  |- Ball.cs               # Ball behavior and properties
+  |- BallLauncher.cs       # Ball launching mechanism
+  |- Bumper.cs             # Interactive bumper elements
+  |- Cabinet.cs            # Cabinet-related functionality
+  |- CollectionTray.cs     # Ball collection management
+  |- Pin.cs                # Interactive pin elements
+  |- ScorePocket.cs        # Scoring zone implementation
+  |- Spinner.cs            # Rotating field elements
+  |- BumperEditor.cs       # Custom editor for bumpers
+  |- ScorePocketEditor.cs  # Custom editor for score pockets
+  |- SpinnerEditor.cs      # Custom editor for spinners
   
 - UI/
-  |- PowerMeterUI.cs        # Visual launch power indicator
-  |- CooldownBarUI.cs     # Cooldown bar UI
-  |- GameOverPanel.cs     # Game over screen
-  |- OptionsPanel.cs      # Options and Pause menu
-  |- CreditsPanel.cs      # Credits screen
+  |- PowerMeterUI.cs       # Visual launch power indicator
+  |- CooldownBarUI.cs      # Cooldown bar UI
+  |- GameOverPanel.cs      # Game over screen
+  |- OptionsPanel.cs       # Options and pause menu
+  |- OptionsButton.cs      # Button for options menu
+  |- MainMenuManager.cs    # Main menu management
 ```
 
 ### Custom Editor Extensions

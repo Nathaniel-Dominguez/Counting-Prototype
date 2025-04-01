@@ -3,28 +3,36 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class OptionsPanel : MonoBehaviour
 {
     [Header("UI Elements")]
     [SerializeField] private Button backButton;
+    [SerializeField] private Button saveSettingsButton;
+    [SerializeField] private Button mainMenuButton;
     [SerializeField] private Slider masterVolumeSlider;
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private Slider sfxVolumeSlider;
     [SerializeField] private TextMeshProUGUI masterVolumeText;
     [SerializeField] private TextMeshProUGUI musicVolumeText;
     [SerializeField] private TextMeshProUGUI sfxVolumeText;
+    [SerializeField] private TextMeshProUGUI saveConfirmationText;
 
     [Header("Settings")]
     [SerializeField] private float defaultMasterVolume = 1.0f;
     [SerializeField] private float defaultMusicVolume = 0.7f;
     [SerializeField] private float defaultSFXVolume = 0.8f;
+    [SerializeField] private float saveConfirmationDisplayTime = 1.5f;
+    [SerializeField] public bool disableEscKeyHandling = false;
+    [SerializeField] private string mainMenuSceneName = "MainMenu";
 
     [Header("UI Animation")]
     [SerializeField] private float panelFadeTime = 0.3f;
     [SerializeField] private AnimationCurve fadeCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
     [HideInInspector] public UnityEvent onBackClicked = new UnityEvent();
+    [HideInInspector] public UnityEvent onMainMenuClicked = new UnityEvent();
 
     private CanvasGroup optionsCanvasGroup;
     private bool isPaused = false;
@@ -40,17 +48,130 @@ public class OptionsPanel : MonoBehaviour
         // Set up button listeners
         if (backButton != null)
             backButton.onClick.AddListener(OnBackClicked);
+        if (saveSettingsButton != null)
+            saveSettingsButton.onClick.AddListener(OnSaveSettingsClicked);
+        if (mainMenuButton != null)
+            mainMenuButton.onClick.AddListener(OnMainMenuClicked);
+        
+        // Hide save confirmation text initially
+        if (saveConfirmationText != null)
+            saveConfirmationText.gameObject.SetActive(false);
 
         // Initialize volume sliders
         SetupVolumeSliders();
+
+        // Load current values from the audio managers
+        LoadCurrentAudioValues();
     }
 
     private void Update()
     {
-        // Check for ESC key to toggle pause
-        if (Input.GetKeyDown(KeyCode.Escape))
+        // Only check for ESC key if not disabled
+        if (!disableEscKeyHandling && Input.GetKeyDown(KeyCode.Escape))
         {
             TogglePause();
+        }
+    }
+
+    private void LoadCurrentAudioValues()
+    {
+        // Try to get current values from the audio managers
+        if (AudioManager.Jukebox.Instance != null && AudioManager.Jukebox.Instance.audioMixer != null)
+        {
+            float masterVolume = defaultMasterVolume;
+            float musicVolume = defaultMusicVolume;
+
+            // Get master volume from the audio mixer
+            if (AudioManager.Jukebox.Instance.audioMixer.GetFloat("MasterVolume", out float masterDB))
+            {
+                // Convert from decibels to linear scale 0-1 range
+                masterVolume = masterDB <= -80f ? 0f : Mathf.Pow(10f, masterDB / 20f);
+                if (masterVolumeSlider != null)
+                {
+                    masterVolumeSlider.value = masterVolume;
+                    UpdateVolumeText(masterVolumeText, masterVolume);
+                }
+            }
+
+            if (AudioManager.Jukebox.Instance.audioMixer.GetFloat("MusicVolume", out float musicDB))
+            {
+                musicVolume = musicDB <= -80f ? 0f : Mathf.Pow(10f, musicDB / 20f);
+                if (musicVolumeSlider != null)
+                {
+                    musicVolumeSlider.value = musicVolume;
+                    UpdateVolumeText(musicVolumeText, musicVolume);
+                }
+            }
+        }
+
+        if (SFXManager.Instance != null && SFXManager.Instance.audioMixer != null)
+        {
+            float sfxVolume = defaultSFXVolume;
+
+            if (SFXManager.Instance.audioMixer.GetFloat("SFXVolume", out float sfxDB))
+            {
+                sfxVolume = sfxDB <= -80f ? 0f : Mathf.Pow(10f, sfxDB / 20f);
+                if (sfxVolumeSlider != null)
+                {
+                    sfxVolumeSlider.value = sfxVolume;
+                    UpdateVolumeText(sfxVolumeText, sfxVolume);
+                }
+            }
+        }
+    }
+
+    private void OnSaveSettingsClicked()
+    {
+        if (SFXManager.Instance != null)
+        {
+            SFXManager.Instance.PlayButtonClickSound();
+        }
+
+        // Save the settings
+        SaveSettings();
+
+        // Display save confirmation
+        if (saveConfirmationText != null)
+        {
+            saveConfirmationText.gameObject.SetActive(true);
+            StartCoroutine(HideSaveConfirmation());
+        }
+    }
+    
+
+    private void SaveSettings()
+    {
+        if (AudioManager.Jukebox.Instance != null)
+        {
+            // Save master volume
+            if (masterVolumeSlider != null)
+            {
+                AudioManager.Jukebox.Instance.SetMasterVolume(masterVolumeSlider.value);
+            }
+
+            // Save music volume
+            if (musicVolumeSlider != null)
+            {
+                AudioManager.Jukebox.Instance.SetMusicVolume(musicVolumeSlider.value);
+            }
+        }
+
+        if (SFXManager.Instance != null)
+        {
+            // Save SFX volume
+            SFXManager.Instance.SetSFXVolume(sfxVolumeSlider.value);
+        }
+
+        // Save the settings to PlayerPrefs
+        PlayerPrefs.Save();
+    }
+
+    private IEnumerator HideSaveConfirmation()
+    {
+        yield return new WaitForSeconds(saveConfirmationDisplayTime);
+        if (saveConfirmationText != null)
+        {
+            saveConfirmationText.gameObject.SetActive(false);
         }
     }
 
@@ -146,6 +267,26 @@ public class OptionsPanel : MonoBehaviour
         }
     }
 
+    private void OnMainMenuClicked()
+    {
+        if (SFXManager.Instance != null)
+        {
+            SFXManager.Instance.PlayButtonClickSound();
+        }
+        
+        // Save settings before returning to menu
+        SaveSettings();
+        
+        // Ensure time scale is reset
+        Time.timeScale = 1f;
+        
+        // Invoke event so external scripts can respond (like Player.cs)
+        onMainMenuClicked.Invoke();
+        
+        // Load the main menu scene
+        SceneManager.LoadScene(mainMenuSceneName);
+    }
+
     public void TogglePause()
     {
         if (isPaused)
@@ -174,13 +315,37 @@ public class OptionsPanel : MonoBehaviour
 
     public void ShowPanel()
     {
+        Debug.Log($"ShowPanel called on {gameObject.name}, gameObject.activeSelf: {gameObject.activeSelf}");
+        
+        // Make sure the game object is active
         gameObject.SetActive(true);
+        
+        // Get or add canvas group if needed
+        if (optionsCanvasGroup == null)
+        {
+            Debug.LogWarning("OptionsPanel: Canvas group is null, creating one");
+            optionsCanvasGroup = GetOrAddCanvasGroup(gameObject);
+        }
+        
         if (optionsCanvasGroup != null)
         {
             StopAllCoroutines();
-            StartCoroutine(FadeCanvasGroup(optionsCanvasGroup, 0, 1, panelFadeTime));
+            
+            // Make sure panel is immediately interactive
             optionsCanvasGroup.interactable = true;
             optionsCanvasGroup.blocksRaycasts = true;
+            
+            // Start at least slightly visible to ensure it's seen
+            optionsCanvasGroup.alpha = 0.1f;
+            
+            // Start fade animation
+            StartCoroutine(FadeCanvasGroup(optionsCanvasGroup, 0, 1, panelFadeTime));
+            
+            Debug.Log($"Started fade in for {gameObject.name}, current alpha: {optionsCanvasGroup.alpha}");
+        }
+        else
+        {
+            Debug.LogError($"Failed to get or create canvas group for {gameObject.name}");
         }
     }
 

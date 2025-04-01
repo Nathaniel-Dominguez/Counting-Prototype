@@ -18,7 +18,7 @@ namespace AudioManager
         #region INSPECTOR FIELDS
 
         [Header("Audio Mixing")]
-        [SerializeField] private AudioMixer audioMixer;
+        [SerializeField] public AudioMixer audioMixer;
         [SerializeField] private string masterVolumeParam = "MasterVolume";
         [SerializeField] private string musicVolumeParam = "MusicVolume";
 
@@ -428,7 +428,18 @@ namespace AudioManager
         // Load audio settings from player prefs
         private void LoadAudioSettings()
         {
-            // Use default values if not fouond
+            // Check if AudioMixer values are already set (from previous scenes)
+            bool hasMasterVolume = audioMixer != null && audioMixer.GetFloat(masterVolumeParam, out float currentMasterDB);
+            bool hasMusicVolume = audioMixer != null && audioMixer.GetFloat(musicVolumeParam, out float currentMusicDB);
+            
+            // If mixer values are already set, don't override them
+            if (hasMasterVolume && hasMusicVolume)
+            {
+                Debug.Log("Audio settings already exist in mixer, preserving current values");
+                return;
+            }
+            
+            // Otherwise, load from PlayerPrefs
             float masterVolume = PlayerPrefs.GetFloat(masterVolumePrefKey, 1.0f);
             float musicVolume = PlayerPrefs.GetFloat(musicVolumePrefKey, maxMusicVolume);
 

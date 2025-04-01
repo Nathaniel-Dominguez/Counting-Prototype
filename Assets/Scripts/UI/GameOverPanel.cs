@@ -2,12 +2,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GameOverPanel : MonoBehaviour
 {
     [Header("Button References")]
     [SerializeField] private Button restartButton;
     [SerializeField] private Button toggleCameraButton;
+    [SerializeField] private Button mainMenuButton;
+    
+    [Header("Scene References")]
+    [SerializeField] private string mainMenuSceneName = "MainMenu";
     
     [Header("Text References")]
     [SerializeField] private TextMeshProUGUI highScoreText;
@@ -61,6 +66,15 @@ public class GameOverPanel : MonoBehaviour
         else
         {
             Debug.LogError("GameOverPanel: Toggle camera button reference not set!");
+        }
+        
+        if (mainMenuButton != null)
+        {
+            mainMenuButton.onClick.AddListener(OnMainMenuButtonClicked);
+        }
+        else
+        {
+            Debug.LogWarning("GameOverPanel: Main Menu button reference not set!");
         }
         
         // Initially hide the panel
@@ -196,5 +210,17 @@ public class GameOverPanel : MonoBehaviour
         {
             gameManager.ToggleCameraView();
         }
+    }
+
+    private void OnMainMenuButtonClicked()
+    {
+        // Play button click sound
+        if (SFXManager.Instance != null)
+        {
+            SFXManager.Instance.PlayButtonClickSound();
+        }
+        
+        // Load the main menu scene
+        UnityEngine.SceneManagement.SceneManager.LoadScene(mainMenuSceneName);
     }
 } 
