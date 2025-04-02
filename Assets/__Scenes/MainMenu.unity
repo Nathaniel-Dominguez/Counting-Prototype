@@ -472,7 +472,7 @@ Transform:
   m_GameObject: {fileID: 386870086}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.038624804, y: -4.264091, z: 0.63628674}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1126,6 +1126,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Button (Exit Game)
       objectReference: {fileID: 0}
+    - target: {fileID: 3916003546844101049, guid: 1534a2f465c1f274b98a730339824307, type: 3}
+      propertyPath: m_Color.a
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 3916003546844101049, guid: 1534a2f465c1f274b98a730339824307, type: 3}
+      propertyPath: m_Color.b
+      value: 0.23529412
+      objectReference: {fileID: 0}
+    - target: {fileID: 3916003546844101049, guid: 1534a2f465c1f274b98a730339824307, type: 3}
+      propertyPath: m_Color.g
+      value: 0.23529412
+      objectReference: {fileID: 0}
+    - target: {fileID: 3916003546844101049, guid: 1534a2f465c1f274b98a730339824307, type: 3}
+      propertyPath: m_Color.r
+      value: 0.23529412
+      objectReference: {fileID: 0}
     - target: {fileID: 5215345010834846442, guid: 1534a2f465c1f274b98a730339824307, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1274,9 +1290,49 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 68038324}
     m_Modifications:
+    - target: {fileID: 385885862270635480, guid: cd1953d895f34484bbc39b4be6c88ac7, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 539033849226081697, guid: cd1953d895f34484bbc39b4be6c88ac7, type: 3}
+      propertyPath: defaultSFXVolume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 539033849226081697, guid: cd1953d895f34484bbc39b4be6c88ac7, type: 3}
+      propertyPath: defaultMusicVolume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 539033849226081697, guid: cd1953d895f34484bbc39b4be6c88ac7, type: 3}
+      propertyPath: disableEscKeyHandling
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1115703002158026434, guid: cd1953d895f34484bbc39b4be6c88ac7, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2862672257953662355, guid: cd1953d895f34484bbc39b4be6c88ac7, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4429475554802423474, guid: cd1953d895f34484bbc39b4be6c88ac7, type: 3}
       propertyPath: m_Name
       value: OptionsPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4429475554802423474, guid: cd1953d895f34484bbc39b4be6c88ac7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742097379141351728, guid: cd1953d895f34484bbc39b4be6c88ac7, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5556117661548025245, guid: cd1953d895f34484bbc39b4be6c88ac7, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5789967501291162902, guid: cd1953d895f34484bbc39b4be6c88ac7, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6548596113119027379, guid: cd1953d895f34484bbc39b4be6c88ac7, type: 3}
       propertyPath: m_Pivot.x
@@ -1357,6 +1413,22 @@ PrefabInstance:
     - target: {fileID: 6548596113119027379, guid: cd1953d895f34484bbc39b4be6c88ac7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7525596870924410110, guid: cd1953d895f34484bbc39b4be6c88ac7, type: 3}
+      propertyPath: m_Color.a
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 7525596870924410110, guid: cd1953d895f34484bbc39b4be6c88ac7, type: 3}
+      propertyPath: m_Color.b
+      value: 0.23529412
+      objectReference: {fileID: 0}
+    - target: {fileID: 7525596870924410110, guid: cd1953d895f34484bbc39b4be6c88ac7, type: 3}
+      propertyPath: m_Color.g
+      value: 0.23529412
+      objectReference: {fileID: 0}
+    - target: {fileID: 7525596870924410110, guid: cd1953d895f34484bbc39b4be6c88ac7, type: 3}
+      propertyPath: m_Color.r
+      value: 0.23529412
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1466,6 +1538,22 @@ PrefabInstance:
     - target: {fileID: 7116848640914411204, guid: bd0e0a88a30c5b14f8179b6439f96da0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7432245666581171392, guid: bd0e0a88a30c5b14f8179b6439f96da0, type: 3}
+      propertyPath: m_Color.a
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 7432245666581171392, guid: bd0e0a88a30c5b14f8179b6439f96da0, type: 3}
+      propertyPath: m_Color.b
+      value: 0.23529412
+      objectReference: {fileID: 0}
+    - target: {fileID: 7432245666581171392, guid: bd0e0a88a30c5b14f8179b6439f96da0, type: 3}
+      propertyPath: m_Color.g
+      value: 0.23529412
+      objectReference: {fileID: 0}
+    - target: {fileID: 7432245666581171392, guid: bd0e0a88a30c5b14f8179b6439f96da0, type: 3}
+      propertyPath: m_Color.r
+      value: 0.23529412
       objectReference: {fileID: 0}
     - target: {fileID: 7614537539333114891, guid: bd0e0a88a30c5b14f8179b6439f96da0, type: 3}
       propertyPath: m_Name

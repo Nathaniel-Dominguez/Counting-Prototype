@@ -16,6 +16,8 @@ This project evolved from Unity's "Counting Prototype" tutorial into a full-feat
 - **Visual Effects**: Enjoy particle effects, dynamic lighting, and material animations that provide satisfying feedback
 - **Audio Design**: Immerse yourself in spatial audio with adaptive music intensity based on gameplay
 - **Optimized Performance**: Play smoothly thanks to efficient object pooling and physics layer management
+- **Custom Editor Extensions**: Intuitive setup and visualization for bumpers, score pockets, and spinners
+- **PBR Materials**: Realistic material appearance
 
 ## 🚀 Installation
 
@@ -98,10 +100,15 @@ This project demonstrates several key game development concepts:
 2. **Component Design**: Creating reusable, modular components with clear responsibilities
 3. **Visual Feedback**: Connecting game events to visual and audio feedback systems
 4. **Performance Optimization**: Balancing visual fidelity with runtime performance
+5. **Custom Editor Extensions**: Intuitive setup and visualization for bumpers, score pockets, and spinners
+6. **PBR Materials**: Realistic material appearance
 
 ## 🔍 Future Enhancements
 
 Potential areas for expansion:
+- Play tray that visually shows balls being fed into the launcher
+- Upgrade the Score Pockets and Drain Tray to have more interesting animations
+- Add a Ball Reward system that gives the player a chance to earn extra balls based on their score
 - Multiple machine layouts with varying difficulty
 - Custom ball types with unique physics properties
 - Advanced scoring systems with multipliers and combos
@@ -115,6 +122,7 @@ Potential areas for expansion:
 - **Unity 6**: Core game engine
 - **Universal Render Pipeline**: Enhanced visual fidelity
 - **TextMeshPro**: High-quality text rendering
+- **PBR Materials**: Realistic material appearance
 
 ## 📝 License
 
