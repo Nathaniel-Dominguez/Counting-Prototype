@@ -8,18 +8,11 @@ public class MainMenuManager : MonoBehaviour
 {
     [Header("UI Panels")]
     [SerializeField] private GameObject mainMenuPanel;
-    [SerializeField] private GameObject creditsPanel;
     [SerializeField] private OptionsPanel optionsPanel;
     
     [Header("Main Menu Buttons")]
     [SerializeField] private Button newGameButton;
     [SerializeField] private Button optionsButton;
-    [SerializeField] private Button creditsButton;
-    
-    [Header("Credits Panel")]
-    [SerializeField] private Button backFromCreditsButton;
-    [SerializeField] private Button quitButton;
-    [SerializeField] private TextMeshProUGUI creditsText;
     
     [Header("Scene Management")]
     [SerializeField] private string mainGameSceneName = "MainGame";
@@ -30,13 +23,11 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private AnimationCurve fadeCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
     
     private CanvasGroup mainMenuCanvasGroup;
-    private CanvasGroup creditsCanvasGroup;
     
     private void Awake()
     {
         // Get or add canvas groups to panels
         mainMenuCanvasGroup = GetOrAddCanvasGroup(mainMenuPanel);
-        creditsCanvasGroup = GetOrAddCanvasGroup(creditsPanel);
         
         // Initialize UI state
         ShowMainMenu();
@@ -47,11 +38,6 @@ public class MainMenuManager : MonoBehaviour
         // Set up button listeners
         newGameButton.onClick.AddListener(OnNewGameClicked);
         optionsButton.onClick.AddListener(OnOptionsClicked);
-        creditsButton.onClick.AddListener(OnCreditsClicked);
-        quitButton.onClick.AddListener(OnQuitClicked);
-            
-        if (backFromCreditsButton != null)
-            backFromCreditsButton.onClick.AddListener(OnBackFromCreditsClicked);
             
         // Subscribe to options panel back button
         if (optionsPanel != null)
@@ -96,43 +82,8 @@ public class MainMenuManager : MonoBehaviour
         {
             optionsPanel.ShowPanel();
             HidePanel(mainMenuPanel, mainMenuCanvasGroup);
-            HidePanel(creditsPanel, creditsCanvasGroup);
         }
     }
-    
-    private void OnCreditsClicked()
-    {
-        // Play sound
-        if (SFXManager.Instance != null)
-        {
-            SFXManager.Instance.PlayButtonClickSound();
-        }
-        
-        ShowCreditsPanel();
-    }
-    
-    private void OnBackFromCreditsClicked()
-    {
-        // Play sound
-        if (SFXManager.Instance != null)
-        {
-            SFXManager.Instance.PlayButtonClickSound();
-        }
-        
-        ShowMainMenu();
-    }
-
-    private void OnQuitClicked()
-    {
-        // Play sound
-        if (SFXManager.Instance != null)
-        {
-            SFXManager.Instance.PlayButtonClickSound();
-        }
-        
-        Application.Quit();
-    }
-    
     #endregion
     
     #region Panel Management
@@ -140,17 +91,6 @@ public class MainMenuManager : MonoBehaviour
     private void ShowMainMenu()
     {
         ShowPanel(mainMenuPanel, mainMenuCanvasGroup);
-        HidePanel(creditsPanel, creditsCanvasGroup);
-        if (optionsPanel != null)
-        {
-            optionsPanel.HidePanel();
-        }
-    }
-    
-    private void ShowCreditsPanel()
-    {
-        HidePanel(mainMenuPanel, mainMenuCanvasGroup);
-        ShowPanel(creditsPanel, creditsCanvasGroup);
         if (optionsPanel != null)
         {
             optionsPanel.HidePanel();
