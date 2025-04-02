@@ -126,10 +126,10 @@ MonoBehaviour:
   maxRotationSpeed: 500
   spinRateDecay: 0.3
   spinnerFriction: 0.5
-  ballSpinTorque: 2
+  ballSpinTorque: 5
   minImpactVelocity: 0.5
   hitImpulseMultiplier: 10
-  bounceForce: 3
+  bounceForce: 1
   hitScaleDuration: 0.1
   hitScaleFactor: 1.1
   spinnerParticles: {fileID: 0}

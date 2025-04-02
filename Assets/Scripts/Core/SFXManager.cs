@@ -160,6 +160,7 @@ public class SFXManager : MonoBehaviour
         soundImportance.Add("HighScore", 8f);
         soundImportance.Add("MediumScore", 6f);
         soundImportance.Add("LowScore", 4f);
+        soundImportance.Add("BallLaunch", 4f);
         soundImportance.Add("BumperHit", 3f);
         soundImportance.Add("Spinner", 2.5f);
         soundImportance.Add("PinHit", 2f);

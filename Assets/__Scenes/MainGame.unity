@@ -771,6 +771,10 @@ PrefabInstance:
       propertyPath: immediateReturn
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8895416136512106880, guid: 5829c32aa93432c48bd1dfb4df0ee90f, type: 3}
+      propertyPath: ballRetentionTime
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -850,15 +854,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1624982511}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.9914449, z: -0.13052616, w: 0}
-  m_LocalPosition: {x: 0, y: 45, z: 35}
+  m_LocalRotation: {x: 0, y: 0.9961947, z: -0.08715578, w: 0}
+  m_LocalPosition: {x: 0, y: 40, z: 30}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1648811353}
   - {fileID: 50147172}
   m_Father: {fileID: 1600454347}
-  m_LocalEulerAnglesHint: {x: 15, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 10, y: 180, z: 0}
 --- !u!1 &1626156809
 GameObject:
   m_ObjectHideFlags: 1
@@ -1277,6 +1281,10 @@ PrefabInstance:
     - target: {fileID: 41635458293739657, guid: af47beda00afafb41b35d1b92ba3b6ae, type: 3}
       propertyPath: maxBalls
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 41635458293739657, guid: af47beda00afafb41b35d1b92ba3b6ae, type: 3}
+      propertyPath: cooldownTime
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 41635458293739657, guid: af47beda00afafb41b35d1b92ba3b6ae, type: 3}
       propertyPath: maxLaunchForce
@@ -1996,7 +2004,7 @@ PrefabInstance:
       objectReference: {fileID: 50147175}
     - target: {fileID: 535596187540731245, guid: e19a546d8f209e34dacdbcb8de9b7130, type: 3}
       propertyPath: startingBalls
-      value: 10
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 535596187540731245, guid: e19a546d8f209e34dacdbcb8de9b7130, type: 3}
       propertyPath: collectionTray
@@ -2137,7 +2145,7 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 0b7e66a25444f2242b194b872dec6598, type: 3}
     - target: {fileID: 1403328250996344409, guid: f8babee5f8372cc41b91a4303b7e3096, type: 3}
       propertyPath: sfxSourcePoolSize
-      value: 20
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 1403328250996344409, guid: f8babee5f8372cc41b91a4303b7e3096, type: 3}
       propertyPath: pitchRandomization
@@ -2375,6 +2383,54 @@ PrefabInstance:
       propertyPath: m_Name
       value: Constructed Playfield
       objectReference: {fileID: 0}
+    - target: {fileID: 1756886218871499560, guid: 857c0e48d9c6baf4eb5838c73ba41ec5, type: 3}
+      propertyPath: bounceForce
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1756886218871499560, guid: 857c0e48d9c6baf4eb5838c73ba41ec5, type: 3}
+      propertyPath: spinRateDecay
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1756886218871499560, guid: 857c0e48d9c6baf4eb5838c73ba41ec5, type: 3}
+      propertyPath: ballSpinTorque
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1756886218871499560, guid: 857c0e48d9c6baf4eb5838c73ba41ec5, type: 3}
+      propertyPath: spinnerFriction
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1756886218871499560, guid: 857c0e48d9c6baf4eb5838c73ba41ec5, type: 3}
+      propertyPath: maxRotationSpeed
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1756886218871499560, guid: 857c0e48d9c6baf4eb5838c73ba41ec5, type: 3}
+      propertyPath: hitImpulseMultiplier
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2784251291897632804, guid: 857c0e48d9c6baf4eb5838c73ba41ec5, type: 3}
+      propertyPath: bounceForce
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2784251291897632804, guid: 857c0e48d9c6baf4eb5838c73ba41ec5, type: 3}
+      propertyPath: ballSpinTorque
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2784251291897632804, guid: 857c0e48d9c6baf4eb5838c73ba41ec5, type: 3}
+      propertyPath: hitImpulseMultiplier
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2951082627467690976, guid: 857c0e48d9c6baf4eb5838c73ba41ec5, type: 3}
+      propertyPath: bounceForce
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2951082627467690976, guid: 857c0e48d9c6baf4eb5838c73ba41ec5, type: 3}
+      propertyPath: ballSpinTorque
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2951082627467690976, guid: 857c0e48d9c6baf4eb5838c73ba41ec5, type: 3}
+      propertyPath: hitImpulseMultiplier
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2962174857511767965, guid: 857c0e48d9c6baf4eb5838c73ba41ec5, type: 3}
       propertyPath: returnDirectlyToPool
       value: 1
@@ -2382,6 +2438,18 @@ PrefabInstance:
     - target: {fileID: 3046567203814776384, guid: 857c0e48d9c6baf4eb5838c73ba41ec5, type: 3}
       propertyPath: returnDirectlyToPool
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4549659184597040164, guid: 857c0e48d9c6baf4eb5838c73ba41ec5, type: 3}
+      propertyPath: bounceForce
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4549659184597040164, guid: 857c0e48d9c6baf4eb5838c73ba41ec5, type: 3}
+      propertyPath: ballSpinTorque
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4549659184597040164, guid: 857c0e48d9c6baf4eb5838c73ba41ec5, type: 3}
+      propertyPath: hitImpulseMultiplier
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4738369036006750432, guid: 857c0e48d9c6baf4eb5838c73ba41ec5, type: 3}
       propertyPath: m_LocalPosition.x
