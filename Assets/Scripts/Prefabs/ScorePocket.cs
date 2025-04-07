@@ -47,12 +47,12 @@ public class ScorePocket : MonoBehaviour
     [Header("Ball Award System")]
     [SerializeField] private bool awardBallsEnabled = true;
     [SerializeField] private float ballAwardChance = 0.2f; // 20% chance for a ball award
-    [SerializeField] private int minBallsAwarded = 5;
-    [SerializeField] private int maxBallsAwarded = 20;
-
-    // Higher tier pockets have a chance to award more balls
-    [SerializeField] private float chanceMultiplierForHighScore = 1.5f;
-    [SerializeField] private float chanceMultiplierForJackpot = 3f;
+    
+    // All pocket types have their own multipliers for ball awards
+    [SerializeField] private float chanceMultiplierForLowScore = 1.0f; // 100% of base chance
+    [SerializeField] private float chanceMultiplierForMediumScore = 1.2f; // 120% of base chance
+    [SerializeField] private float chanceMultiplierForHighScore = 1.5f; // 150% of base chance
+    [SerializeField] private float chanceMultiplierForJackpot = 3f; // 300% of base chance
 
     private SFXManager sfxManager;
     private float originalLightIntensity;
@@ -399,13 +399,20 @@ public class ScorePocket : MonoBehaviour
         // Calculate actual chance based on pocket type
         float actualChance = ballAwardChance;
 
-        if (pocketType == ScoreType.HighScore)
+        switch (pocketType)
         {
-            actualChance *= chanceMultiplierForHighScore;
-        }
-        else if (pocketType == ScoreType.Jackpot)
-        {
-            actualChance *= chanceMultiplierForJackpot;
+            case ScoreType.LowScore:
+                actualChance *= chanceMultiplierForLowScore;
+                break;
+            case ScoreType.MediumScore:
+                actualChance *= chanceMultiplierForMediumScore;
+                break;
+            case ScoreType.HighScore:
+                actualChance *= chanceMultiplierForHighScore;
+                break;
+            case ScoreType.Jackpot:
+                actualChance *= chanceMultiplierForJackpot;
+                break;
         }
         
         // Cap chance at 100%
@@ -414,14 +421,48 @@ public class ScorePocket : MonoBehaviour
         // Random roll to see if balls are awarded
         if (Random.value <= actualChance)
         {
-            // Determine number of balls to award
-            int ballsToAward = Random.Range(minBallsAwarded, maxBallsAwarded + 1);
+            int ballsToAward;
 
-            // For jackpots, also award extra balls based on players current total score
-            if (pocketType == ScoreType.Jackpot)
+            // Set specific ball award ranges for each pocket type
+            switch (pocketType)
             {
-                int extraBalls = (int)(ballsToAward * (GameManager.Instance.currentScore / 10000));
-                ballsToAward += extraBalls;
+                case ScoreType.LowScore:
+                    // Low score pockets award 1-5 balls
+                    ballsToAward = Random.Range(1, 2);
+                    break;
+                case ScoreType.MediumScore:
+                    // Medium score pockets award 5-10 balls
+                    ballsToAward = Random.Range(2, 5);
+                    break;
+                case ScoreType.HighScore:
+                    // High score pockets award 10-20 balls
+                    ballsToAward = Random.Range(5, 10);
+                    break;
+                case ScoreType.Jackpot:
+                    // Base jackpot award
+                    ballsToAward = Random.Range(10, 20);
+                    
+                    // Special logic based on current score:
+                    // Award extra balls based on current score milestones
+                    int currentScore = GameManager.Instance.currentScore;
+                    
+                    // For every 5000 points, add another ball (up to a maximum of 20 bonus balls)
+                    int bonusBalls = Mathf.Min(20, currentScore / 5000);
+                    
+                    // For scores over 50,000, give an additional jackpot bonus
+                    if (currentScore > 50000)
+                    {
+                        bonusBalls += 10;
+                    }
+                    
+                    ballsToAward += bonusBalls;
+                    
+                    // Show special message for jackpot awards
+                    Debug.Log($"JACKPOT! Awarded {ballsToAward} balls ({bonusBalls} bonus balls based on score: {currentScore})");
+                    break;
+                default:
+                    ballsToAward = Random.Range(1, 6);
+                    break;
             }
 
             // Award the balls
@@ -564,6 +605,12 @@ public class ScorePocket : MonoBehaviour
         // Apply multipliers based on pocket type
         switch (pocketType)
         {
+            case ScoreType.LowScore:
+                effectiveChance *= chanceMultiplierForLowScore;
+                break;
+            case ScoreType.MediumScore:
+                effectiveChance *= chanceMultiplierForMediumScore;
+                break;
             case ScoreType.HighScore:
                 effectiveChance *= chanceMultiplierForHighScore;
                 break;

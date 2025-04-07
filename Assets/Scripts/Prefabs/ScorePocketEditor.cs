@@ -25,8 +25,8 @@ public class ScorePocketEditor : Editor
     // Add new properties for ball awards
     SerializedProperty awardBallsEnabledProp;
     SerializedProperty ballAwardChanceProp;
-    SerializedProperty minBallsAwardedProp;
-    SerializedProperty maxBallsAwardedProp;
+    SerializedProperty chanceMultiplierForLowScoreProp;
+    SerializedProperty chanceMultiplierForMediumScoreProp;
     SerializedProperty chanceMultiplierForHighScoreProp;
     SerializedProperty chanceMultiplierForJackpotProp;
 
@@ -55,8 +55,8 @@ public class ScorePocketEditor : Editor
         // Initialize new properties
         awardBallsEnabledProp = serializedObject.FindProperty("awardBallsEnabled");
         ballAwardChanceProp = serializedObject.FindProperty("ballAwardChance");
-        minBallsAwardedProp = serializedObject.FindProperty("minBallsAwarded");
-        maxBallsAwardedProp = serializedObject.FindProperty("maxBallsAwarded");
+        chanceMultiplierForLowScoreProp = serializedObject.FindProperty("chanceMultiplierForLowScore");
+        chanceMultiplierForMediumScoreProp = serializedObject.FindProperty("chanceMultiplierForMediumScore");
         chanceMultiplierForHighScoreProp = serializedObject.FindProperty("chanceMultiplierForHighScore");
         chanceMultiplierForJackpotProp = serializedObject.FindProperty("chanceMultiplierForJackpot");
     }
@@ -172,11 +172,16 @@ public class ScorePocketEditor : Editor
             if (awardBallsEnabledProp.boolValue)
             {
                 EditorGUILayout.PropertyField(ballAwardChanceProp, new GUIContent("Award Chance", "Base chance to award balls (0-1)"));
-                EditorGUILayout.PropertyField(minBallsAwardedProp, new GUIContent("Min Balls", "Minimum number of balls to award"));
-                EditorGUILayout.PropertyField(maxBallsAwardedProp, new GUIContent("Max Balls", "Maximum number of balls to award"));
+                
+                // Display information about the fixed ball ranges
+                ScorePocket.ScoreType pocketType = (ScorePocket.ScoreType)pocketTypeProp.enumValueIndex;
+                string ballRangeInfo = GetBallRangeInfo(pocketType);
+                EditorGUILayout.HelpBox(ballRangeInfo, MessageType.Info);
                 
                 EditorGUILayout.Space();
                 EditorGUILayout.LabelField("Chance Multipliers", EditorStyles.boldLabel);
+                EditorGUILayout.PropertyField(chanceMultiplierForLowScoreProp, new GUIContent("Low Score Multiplier", "Multiplier for low score pockets"));
+                EditorGUILayout.PropertyField(chanceMultiplierForMediumScoreProp, new GUIContent("Medium Score Multiplier", "Multiplier for medium score pockets"));
                 EditorGUILayout.PropertyField(chanceMultiplierForHighScoreProp, new GUIContent("High Score Multiplier", "Multiplier for high score pockets"));
                 EditorGUILayout.PropertyField(chanceMultiplierForJackpotProp, new GUIContent("Jackpot Multiplier", "Multiplier for jackpot pockets"));
                 
@@ -321,6 +326,24 @@ public class ScorePocketEditor : Editor
                 return new Color(1f, 0.2f, 0.2f); // Red
             default:
                 return Color.white;
+        }
+    }
+
+    // Helper method to get the appropriate ball range info for each pocket type
+    private string GetBallRangeInfo(ScorePocket.ScoreType pocketType)
+    {
+        switch (pocketType)
+        {
+            case ScorePocket.ScoreType.LowScore:
+                return "Low Score Pockets award 1 ball";
+            case ScorePocket.ScoreType.MediumScore:
+                return "Medium Score Pockets award 2-4 balls";
+            case ScorePocket.ScoreType.HighScore:
+                return "High Score Pockets award 5-9 balls";
+            case ScorePocket.ScoreType.Jackpot:
+                return "Jackpot Pockets award 10-19 balls plus bonuses based on current score";
+            default:
+                return "Ball award range not defined";
         }
     }
 }

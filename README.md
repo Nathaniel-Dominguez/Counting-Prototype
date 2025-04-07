@@ -17,6 +17,7 @@ This project evolved from Unity's "Counting Prototype" tutorial into a full-feat
 - **Audio Design**: Immerse yourself in spatial audio with adaptive music intensity based on gameplay
 - **Optimized Performance**: Play smoothly thanks to efficient object pooling and physics layer management
 - **Custom Editor Extensions**: Intuitive setup and visualization for bumpers, score pockets, and spinners
+- **Ball Award System**: Scoring pockets have a chance to award extra balls based on pocket type, with higher-tier pockets offering better rewards
 - **PBR Materials**: Realistic material appearance
 
 ## 🚀 Installation
@@ -48,6 +49,11 @@ This project evolved from Unity's "Counting Prototype" tutorial into a full-feat
 - **Object Pooling**: Efficient ball management through advanced object pooling
 - **Interactive Elements**: Component-based architecture for bumpers, spinners, and scoring zones
 - **Audio Management**: Comprehensive audio system with spatial sound and adaptive music
+- **Ball Award System**: Configurable chance-based mechanism that awards extra balls when scoring in pockets
+  - Low Score pockets (blue): Awards 1 extra ball
+  - Medium Score pockets (purple): Awards 2-4 extra balls
+  - High Score pockets (yellow): Awards 5-9 extra balls
+  - Jackpot pockets (red): Awards 10-19 extra balls plus bonuses based on current score
 
 ### Code Architecture
 
@@ -108,7 +114,6 @@ This project demonstrates several key game development concepts:
 Potential areas for expansion:
 - Play tray that visually shows balls being fed into the launcher
 - Upgrade the Score Pockets and Drain Tray to have more interesting animations
-- Add a Ball Reward system that gives the player a chance to earn extra balls based on their score
 - Multiple machine layouts with varying difficulty
 - Custom ball types with unique physics properties
 - Advanced scoring systems with multipliers and combos
