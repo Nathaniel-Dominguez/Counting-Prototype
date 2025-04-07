@@ -1209,9 +1209,15 @@ MonoBehaviour:
   scoreDelay: 0.2
   pocketAnimator: {fileID: 0}
   triggerAnimationName: Activate
-  returnDirectlyToPool: 0
+  returnDirectlyToPool: 1
   directReturnDelay: 0.2
   collectionPoint: {fileID: 0}
+  awardBallsEnabled: 1
+  ballAwardChance: 0.2
+  minBallsAwarded: 5
+  maxBallsAwarded: 20
+  chanceMultiplierForHighScore: 1.5
+  chanceMultiplierForJackpot: 3
 --- !u!198 &8441294643915851063
 ParticleSystem:
   m_ObjectHideFlags: 0

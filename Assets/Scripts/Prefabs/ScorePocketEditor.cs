@@ -22,11 +22,19 @@ public class ScorePocketEditor : Editor
     SerializedProperty returnDirectlyToPoolProp;
     SerializedProperty directReturnDelayProp;
     SerializedProperty collectionPointProp;
+    // Add new properties for ball awards
+    SerializedProperty awardBallsEnabledProp;
+    SerializedProperty ballAwardChanceProp;
+    SerializedProperty minBallsAwardedProp;
+    SerializedProperty maxBallsAwardedProp;
+    SerializedProperty chanceMultiplierForHighScoreProp;
+    SerializedProperty chanceMultiplierForJackpotProp;
 
     private bool showScoreSettings = true;
     private bool showVisualSettings = true;
     private bool showAnimationSettings = true;
     private bool showBallHandlingSettings = true;
+    private bool showBallAwardSettings = true;
 
     private void OnEnable()
     {
@@ -44,6 +52,13 @@ public class ScorePocketEditor : Editor
         returnDirectlyToPoolProp = serializedObject.FindProperty("returnDirectlyToPool");
         directReturnDelayProp = serializedObject.FindProperty("directReturnDelay");
         collectionPointProp = serializedObject.FindProperty("collectionPoint");
+        // Initialize new properties
+        awardBallsEnabledProp = serializedObject.FindProperty("awardBallsEnabled");
+        ballAwardChanceProp = serializedObject.FindProperty("ballAwardChance");
+        minBallsAwardedProp = serializedObject.FindProperty("minBallsAwarded");
+        maxBallsAwardedProp = serializedObject.FindProperty("maxBallsAwarded");
+        chanceMultiplierForHighScoreProp = serializedObject.FindProperty("chanceMultiplierForHighScore");
+        chanceMultiplierForJackpotProp = serializedObject.FindProperty("chanceMultiplierForJackpot");
     }
 
     public override void OnInspectorGUI() {
@@ -99,7 +114,7 @@ public class ScorePocketEditor : Editor
 
         EditorGUILayout.Space();
         showVisualSettings = EditorGUILayout.Foldout(showVisualSettings, "Visual Effects", true, EditorStyles.foldoutHeader);
-        if (showAnimationSettings)
+        if (showVisualSettings)
         {
             EditorGUI.indentLevel++;
             EditorGUILayout.PropertyField(scoreParticlesProp);
@@ -142,6 +157,33 @@ public class ScorePocketEditor : Editor
                 {
                     EditorGUILayout.HelpBox("No collection point set. Will use GameManager's collection tray.", MessageType.Info);
                 }
+            }
+            EditorGUI.indentLevel--;
+        }
+
+        // Ball Award Settings Foldout
+        EditorGUILayout.Space();
+        showBallAwardSettings = EditorGUILayout.Foldout(showBallAwardSettings, "Ball Award System", true, EditorStyles.foldoutHeader);
+        if (showBallAwardSettings)
+        {
+            EditorGUI.indentLevel++;
+            EditorGUILayout.PropertyField(awardBallsEnabledProp, new GUIContent("Enable Ball Awards", "Enable/disable the ball award system for this pocket"));
+            
+            if (awardBallsEnabledProp.boolValue)
+            {
+                EditorGUILayout.PropertyField(ballAwardChanceProp, new GUIContent("Award Chance", "Base chance to award balls (0-1)"));
+                EditorGUILayout.PropertyField(minBallsAwardedProp, new GUIContent("Min Balls", "Minimum number of balls to award"));
+                EditorGUILayout.PropertyField(maxBallsAwardedProp, new GUIContent("Max Balls", "Maximum number of balls to award"));
+                
+                EditorGUILayout.Space();
+                EditorGUILayout.LabelField("Chance Multipliers", EditorStyles.boldLabel);
+                EditorGUILayout.PropertyField(chanceMultiplierForHighScoreProp, new GUIContent("High Score Multiplier", "Multiplier for high score pockets"));
+                EditorGUILayout.PropertyField(chanceMultiplierForJackpotProp, new GUIContent("Jackpot Multiplier", "Multiplier for jackpot pockets"));
+                
+                // Show current effective chance based on pocket type
+                ScorePocket scorePocket = (ScorePocket)target;
+                float effectiveChance = scorePocket.GetEffectiveBallAwardChance();
+                EditorGUILayout.HelpBox($"Effective Award Chance: {effectiveChance:P0}", MessageType.Info);
             }
             EditorGUI.indentLevel--;
         }

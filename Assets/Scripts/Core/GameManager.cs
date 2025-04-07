@@ -110,6 +110,9 @@ public class GameManager : MonoBehaviour
         
         // Add balls to the launcher
         ballLauncher.AddBalls(ballsToAdd);
+        
+        // Show bonus ball notification
+        BonusBallNotification.ShowNotification(ballsToAdd);
     }
 
     // Public method to update the power meter

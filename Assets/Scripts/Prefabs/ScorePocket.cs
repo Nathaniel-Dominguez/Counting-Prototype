@@ -553,6 +553,29 @@ public class ScorePocket : MonoBehaviour
         return pocketType;
     }
 
+    // Helper method to calculate the effective ball award chance based on pocket type
+    public float GetEffectiveBallAwardChance()
+    {
+        if (!awardBallsEnabled)
+            return 0f;
+
+        float effectiveChance = ballAwardChance;
+
+        // Apply multipliers based on pocket type
+        switch (pocketType)
+        {
+            case ScoreType.HighScore:
+                effectiveChance *= chanceMultiplierForHighScore;
+                break;
+            case ScoreType.Jackpot:
+                effectiveChance *= chanceMultiplierForJackpot;
+                break;
+        }
+
+        // Cap at 100%
+        return Mathf.Min(effectiveChance, 1f);
+    }
+
     // Helper method to check if an object is inside the pocket bounds
     private bool IsObjectInsidePocket(GameObject obj)
     {
