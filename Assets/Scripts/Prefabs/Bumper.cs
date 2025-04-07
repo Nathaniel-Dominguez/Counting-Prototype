@@ -11,17 +11,12 @@ public class Bumper : MonoBehaviour
     [SerializeField] private float cooldownTime = 0.1f;
 
     [Header("Visual Feedback")]
-    [SerializeField] private Animator bumperAnimator;
     [SerializeField] private Light bumperLight;
-    [SerializeField] private ParticleSystem bumperParticles;
 
     // Private fields
     private SFXManager sfxManager;
     private bool isActive = true;
     private float originalLightIntensity;
-    private Material bumperMaterial;
-    private Color originalEmissionColor;
-    private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
 
     private void Start()
     {
@@ -38,17 +33,6 @@ public class Bumper : MonoBehaviour
         if (bumperLight != null)
         {
             originalLightIntensity = bumperLight.intensity;
-        }
-
-        // Cache renderer material for emission effects
-        Renderer renderer = GetComponent<Renderer>();
-        if (renderer != null && renderer.material != null)
-        {
-            bumperMaterial = renderer.material;
-            if (bumperMaterial.HasProperty(EmissionColor))
-            {
-                originalEmissionColor = bumperMaterial.GetColor(EmissionColor);
-            }
         }
     }
 
@@ -87,28 +71,10 @@ public class Bumper : MonoBehaviour
 
     private void ActivateBumperFeedback()
     {
-        // Play animation if available
-        if (bumperAnimator != null)
-        {
-            bumperAnimator.SetTrigger("Activate");
-        }
-
-        // Play particles
-        if (bumperParticles != null)
-        {
-            bumperParticles.Play();
-        }
-
         // Flash light
         if (bumperLight != null)
         {
             StartCoroutine(FlashLightRoutine());
-        }
-
-        // Flash emission
-        if (bumperMaterial != null && bumperMaterial.HasProperty(EmissionColor))
-        {
-            StartCoroutine(FlashEmissionRoutine());
         }
     }
 
@@ -118,6 +84,7 @@ public class Bumper : MonoBehaviour
         yield return new WaitForSeconds(cooldownTime);
         isActive = true;
     }
+    
     private IEnumerator FlashLightRoutine()
     {
         bumperLight.intensity = originalLightIntensity * 2; // Brighter flash
@@ -132,28 +99,5 @@ public class Bumper : MonoBehaviour
             yield return null;
         }
         bumperLight.intensity = 0;
-    }
-
-    private IEnumerator FlashEmissionRoutine()
-    {
-        // Enhance emission temporarily
-        bumperMaterial.EnableKeyword("_EMISSION");
-        Color enhancedEmission = originalEmissionColor * 3.0f;
-
-        bumperMaterial.SetColor(EmissionColor, enhancedEmission);
-
-        float elapsed = 0f;
-        float flashDuration = 0.3f;
-
-        while (elapsed < flashDuration)
-        {
-            Color currentColor = Color.Lerp(enhancedEmission, originalEmissionColor, elapsed / flashDuration);
-
-            bumperMaterial.SetColor(EmissionColor, currentColor);
-            
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-        bumperMaterial.SetColor(EmissionColor, originalEmissionColor);
     }
 }

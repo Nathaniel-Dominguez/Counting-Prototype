@@ -15,9 +15,7 @@ public class BumperEditor : Editor
     SerializedProperty cooldownTimeProperty;
 
     // Visual Feedback
-    SerializedProperty bumperAnimatorProperty;
     SerializedProperty bumperLightProperty;
-    SerializedProperty bumperParticlesProperty;
 
     // Called when the editor is enabled
     private void OnEnable()
@@ -27,9 +25,7 @@ public class BumperEditor : Editor
         minImpactVelocityProperty = serializedObject.FindProperty("minImpactVelocity");
         cooldownTimeProperty = serializedObject.FindProperty("cooldownTime");
 
-        bumperAnimatorProperty = serializedObject.FindProperty("bumperAnimator");
         bumperLightProperty = serializedObject.FindProperty("bumperLight");
-        bumperParticlesProperty = serializedObject.FindProperty("bumperParticles");
     }
 
     public override void OnInspectorGUI() 
@@ -64,9 +60,7 @@ public class BumperEditor : Editor
 
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Visual Feedback", EditorStyles.boldLabel);
-        EditorGUILayout.PropertyField(bumperAnimatorProperty);
         EditorGUILayout.PropertyField(bumperLightProperty);
-        EditorGUILayout.PropertyField(bumperParticlesProperty);
 
         // Add helpful information
         EditorGUILayout.Space();
