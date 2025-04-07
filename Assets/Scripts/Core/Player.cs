@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
     private SFXManager sfxManager;
     private bool inputLocked = false; // Prevents rapid input
     private bool isPaused = false;
+    private bool allowPauseInput = true; // Flag to control whether pause input is allowed
 
     private void Start()
     {
@@ -71,8 +72,8 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        // Check for pause input
-        if (Input.GetKeyDown(pauseKey))
+        // Check for pause input only if allowed
+        if (allowPauseInput && Input.GetKeyDown(pauseKey))
         {
             TogglePause();
             return; // Skip other inputs when pausing/unpausing
@@ -314,5 +315,19 @@ public class Player : MonoBehaviour
         }
         
         Debug.Log("Returning to main menu from Player script");
+    }
+
+    // Public method to disable pause input functionality
+    public void DisablePauseInput()
+    {
+        allowPauseInput = false;
+        Debug.Log("Pause input disabled");
+    }
+
+    // Public method to enable pause input functionality
+    public void EnablePauseInput()
+    {
+        allowPauseInput = true;
+        Debug.Log("Pause input enabled");
     }
 }

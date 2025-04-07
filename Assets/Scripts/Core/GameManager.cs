@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PowerMeterUI powerMeterUI;
     [SerializeField] private CooldownBarUI cooldownBarUI;
     [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private GameObject pauseButton; // Reference to the pause button
+    [SerializeField] private Player player; // Reference to the player for handling ESC key
 
     [Header("Game References")]
     [SerializeField] private Transform collectionTray;
@@ -328,6 +330,18 @@ public class GameManager : MonoBehaviour
         // Set game over flag immediately to prevent further ball launches
         isGameOver = true;
         Debug.Log("Game over sequence started");
+        
+        // Hide pause button when game is over
+        if (pauseButton != null)
+        {
+            pauseButton.SetActive(false);
+        }
+        
+        // Disable ESC key pause functionality
+        if (player != null)
+        {
+            player.DisablePauseInput();
+        }
         
         // Wait for any final scoring
         yield return new WaitForSeconds(endGameDelay);
