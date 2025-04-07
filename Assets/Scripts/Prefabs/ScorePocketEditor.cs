@@ -12,13 +12,7 @@ public class ScorePocketEditor : Editor
     SerializedProperty pocketTypeProp;
     SerializedProperty pointValueProp;
     SerializedProperty ballTagProp;
-    SerializedProperty scoreParticlesProp;
-    SerializedProperty scoreLightProp;
-    SerializedProperty lightFlashDurationProp;
-    SerializedProperty lightColorProp;
     SerializedProperty scoreDelayProp;
-    SerializedProperty pocketAnimatorProp;
-    SerializedProperty triggerAnimationNameProp;
     SerializedProperty returnDirectlyToPoolProp;
     SerializedProperty directReturnDelayProp;
     SerializedProperty collectionPointProp;
@@ -31,8 +25,6 @@ public class ScorePocketEditor : Editor
     SerializedProperty chanceMultiplierForJackpotProp;
 
     private bool showScoreSettings = true;
-    private bool showVisualSettings = true;
-    private bool showAnimationSettings = true;
     private bool showBallHandlingSettings = true;
     private bool showBallAwardSettings = true;
 
@@ -42,13 +34,7 @@ public class ScorePocketEditor : Editor
         pocketTypeProp = serializedObject.FindProperty("pocketType");
         pointValueProp = serializedObject.FindProperty("pointValue");
         ballTagProp = serializedObject.FindProperty("ballTag");
-        scoreParticlesProp = serializedObject.FindProperty("scoreParticles");
-        scoreLightProp = serializedObject.FindProperty("scoreLight");
-        lightFlashDurationProp = serializedObject.FindProperty("lightFlashDuration");
-        lightColorProp = serializedObject.FindProperty("lightColor");
         scoreDelayProp = serializedObject.FindProperty("scoreDelay");
-        pocketAnimatorProp = serializedObject.FindProperty("pocketAnimator");
-        triggerAnimationNameProp = serializedObject.FindProperty("triggerAnimationName");
         returnDirectlyToPoolProp = serializedObject.FindProperty("returnDirectlyToPool");
         directReturnDelayProp = serializedObject.FindProperty("directReturnDelay");
         collectionPointProp = serializedObject.FindProperty("collectionPoint");
@@ -109,30 +95,7 @@ public class ScorePocketEditor : Editor
             EditorGUI.indentLevel++;
             EditorGUILayout.PropertyField(pointValueProp);
             EditorGUILayout.PropertyField(ballTagProp);
-            EditorGUI.indentLevel--;
-        }
-
-        EditorGUILayout.Space();
-        showVisualSettings = EditorGUILayout.Foldout(showVisualSettings, "Visual Effects", true, EditorStyles.foldoutHeader);
-        if (showVisualSettings)
-        {
-            EditorGUI.indentLevel++;
-            EditorGUILayout.PropertyField(scoreParticlesProp);
-            EditorGUILayout.PropertyField(scoreLightProp);
-            EditorGUILayout.PropertyField(lightFlashDurationProp);
-            EditorGUILayout.PropertyField(lightColorProp);
             EditorGUILayout.PropertyField(scoreDelayProp);
-            EditorGUI.indentLevel--;
-        }
-
-        // Animation Settings Foldout
-        EditorGUILayout.Space();
-        showAnimationSettings = EditorGUILayout.Foldout(showAnimationSettings, "Animation", true, EditorStyles.foldoutHeader);
-        if (showAnimationSettings)
-        {
-            EditorGUI.indentLevel++;
-            EditorGUILayout.PropertyField(pocketAnimatorProp);
-            EditorGUILayout.PropertyField(triggerAnimationNameProp);
             EditorGUI.indentLevel--;
         }
 
@@ -207,24 +170,17 @@ public class ScorePocketEditor : Editor
         {
             case ScorePocket.ScoreType.LowScore:
                 pointValueProp.intValue = 100;
-                lightColorProp.colorValue = new Color(0.2f, 0.4f, 1f); // Blue
-                lightFlashDurationProp.floatValue = 0.5f;
                 break;
 
             case ScorePocket.ScoreType.MediumScore:
                 pointValueProp.intValue = 500;
-                lightColorProp.colorValue = new Color(0.8f, 0.2f, 0.8f); // Purple
                 break;
 
             case ScorePocket.ScoreType.HighScore:
                 pointValueProp.intValue = 1000;
-                lightColorProp.colorValue = new Color(1f, 0.9f, 0.2f); // Yellow
-                lightFlashDurationProp.floatValue = 0.9f;
                 break;
             case ScorePocket.ScoreType.Jackpot:
                 pointValueProp.intValue = 5000;
-                lightColorProp.colorValue = new Color(1f, 0.2f, 0.2f); // Red
-                lightFlashDurationProp.floatValue = 1.2f;
                 break;
         }
 

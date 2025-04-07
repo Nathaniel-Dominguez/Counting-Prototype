@@ -26,16 +26,8 @@ public class ScorePocket : MonoBehaviour
     [SerializeField] private float velocityThreshold = 1.0f; // Ball must be below this velocity to be considered settled
     [SerializeField] private float maxSettleWaitTime = 2.0f; // Max time to wait for a ball to settle
 
-    [Header("Visual Effects")]
-    [SerializeField] private ParticleSystem scoreParticles;
-    [SerializeField] private Light scoreLight;
-    [SerializeField] private float lightFlashDuration = 0.5f;
-    [SerializeField] private Color lightColor = Color.white; // check if this can be changed in editor, remove this comment once fixed
+    [Header("Score Feedback")]
     [SerializeField] private float scoreDelay = 0.2f;
-
-    [Header("Animation")]
-    [SerializeField] private Animator pocketAnimator;
-    [SerializeField] private string triggerAnimationName = "Activate";
 
     [Header("Ball Handling")]
     [Tooltip("If true, ball will immediately return to pool without animating to collection point")]
@@ -55,7 +47,6 @@ public class ScorePocket : MonoBehaviour
     [SerializeField] private float chanceMultiplierForJackpot = 3f; // 300% of base chance
 
     private SFXManager sfxManager;
-    private float originalLightIntensity;
     private bool isProcessingBall = false;
     private Collider triggerCollider;
 
@@ -98,14 +89,6 @@ public class ScorePocket : MonoBehaviour
         if (sfxManager == null)
         {
             Debug.LogWarning("ScorePocket: SFXManager.Instance is null. SFX features will be disabled.");
-        }
-
-        // Configure light
-        if (scoreLight != null)
-        {
-            originalLightIntensity = scoreLight.intensity;
-            scoreLight.color = lightColor;
-            scoreLight.intensity = 0;
         }
     }
 
@@ -283,24 +266,6 @@ public class ScorePocket : MonoBehaviour
         isProcessingBall = true;
         Debug.Log($"Processing scored ball: {ball.name} in pocket: {gameObject.name}");
 
-        // Play the score particles 
-        if (scoreParticles != null)
-        {
-            scoreParticles.Play();
-        }
-
-        // Flash the light
-        if (scoreLight != null)
-        {
-            StartCoroutine(FlashLight());
-        }
-
-        // Trigger animation if available
-        if (pocketAnimator != null)
-        {
-            pocketAnimator.SetTrigger(triggerAnimationName);
-        }
-
         // Play appropriate sound effect
         PlayScoreSound();
 
@@ -314,8 +279,6 @@ public class ScorePocket : MonoBehaviour
         }
     }
     
-    
-
     private void PlayScoreSound()
     {
         // Use the audio manager to play the appropriate sound
@@ -337,23 +300,6 @@ public class ScorePocket : MonoBehaviour
                     break;
             }
         }
-    }
-
-    private IEnumerator FlashLight()
-    {
-        scoreLight.intensity = originalLightIntensity * 2; // Brighter flash
-
-        float elapsed = 0f;
-        while (elapsed < lightFlashDuration)
-        {
-            float intensity = Mathf.Lerp(originalLightIntensity * 2, 0, elapsed / lightFlashDuration);
-            scoreLight.intensity = intensity;
-
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        scoreLight.intensity = 0;
     }
 
     private IEnumerator DelayedScoring(GameObject ball)
