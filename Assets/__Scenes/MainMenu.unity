@@ -317,14 +317,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainMenuPanel: {fileID: 1749935329}
-  creditsPanel: {fileID: 0}
   optionsPanel: {fileID: 1917464833}
   newGameButton: {fileID: 6267775707797852623}
   optionsButton: {fileID: 6267775707797852622}
-  creditsButton: {fileID: 0}
-  backFromCreditsButton: {fileID: 0}
-  quitButton: {fileID: 0}
-  creditsText: {fileID: 0}
   mainGameSceneName: MainGame
   transitionTime: 1
   panelFadeTime: 0.3
@@ -1343,11 +1338,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7116848640914411204, guid: bd0e0a88a30c5b14f8179b6439f96da0, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: -800
       objectReference: {fileID: 0}
     - target: {fileID: 7116848640914411204, guid: bd0e0a88a30c5b14f8179b6439f96da0, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: 7116848640914411204, guid: bd0e0a88a30c5b14f8179b6439f96da0, type: 3}
       propertyPath: m_LocalPosition.x

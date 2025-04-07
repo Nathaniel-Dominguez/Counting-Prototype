@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using System.Collections;
 
 public class BallPoolManager : MonoBehaviour
 {
@@ -10,8 +12,11 @@ public class BallPoolManager : MonoBehaviour
     [SerializeField] private GameObject ballPrefab;
     [SerializeField] private int initialPoolSize = 20;
     [SerializeField] private bool expandIfNeeded = true;
+    [SerializeField] private float poolCheckInterval = 10f; // How often to check and shuffle the pool (seconds)
 
     private Queue<GameObject> ballPool;
+    private int consecutiveEmptyChecks = 0;
+    private bool isShuffling = false;
 
     private void Awake()
     {
@@ -29,6 +34,12 @@ public class BallPoolManager : MonoBehaviour
         // Initialize the ball pool
         InitializePool();
         PrewarmPool();
+    }
+    
+    private void Start()
+    {
+        // Start the ball pool check routine
+        StartCoroutine(PeriodicPoolCheck());
     }
 
     private void InitializePool()
@@ -86,14 +97,53 @@ public class BallPoolManager : MonoBehaviour
 
     public GameObject GetBall()
     {
-        // If pool is empty and expansion is allowed, create a new ball
-        if (ballPool.Count == 0 && expandIfNeeded)
+        // Loop until we find an inactive ball or exhaust the pool
+        GameObject ball = null;
+        int safetyCounter = 0;
+        int maxAttempts = ballPool.Count;
+        
+        while (safetyCounter < maxAttempts)
         {
-            return CreateNewBall();
+            // If pool is empty and expansion is allowed, create a new ball
+            if (ballPool.Count == 0 && expandIfNeeded)
+            {
+                ball = CreateNewBall();
+                break;
+            }
+            
+            // Get a ball from the pool
+            if (ballPool.Count > 0)
+            {
+                ball = ballPool.Dequeue();
+                
+                // Check if the ball is already active in the scene
+                if (ball != null && ball.activeInHierarchy)
+                {
+                    // This ball is already active, put it back at the end of the queue
+                    // and try another one
+                    Debug.LogWarning($"Found active ball in pool: {ball.name}. Skipping and trying another.");
+                    ballPool.Enqueue(ball);
+                    ball = null;
+                    safetyCounter++;
+                    continue;
+                }
+                
+                // If we found a valid inactive ball, break the loop
+                if (ball != null)
+                {
+                    break;
+                }
+            }
+            
+            safetyCounter++;
         }
-
-        // Get a ball from the pool the (?) works as a compact if-else statement
-        GameObject ball = ballPool.Count > 0 ? ballPool.Dequeue() : null;
+        
+        // If we couldn't find a valid ball and can expand, create a new one
+        if (ball == null && expandIfNeeded)
+        {
+            Debug.LogWarning("Couldn't find a valid inactive ball, creating a new one.");
+            ball = CreateNewBall();
+        }
 
         if (ball != null)
         {
@@ -110,8 +160,13 @@ public class BallPoolManager : MonoBehaviour
                 ballRb.isKinematic = false;
             }
 
-            // Activate the ball
-            // old code ball.SetActive(true);
+            // Additional check to make absolutely sure the ball is inactive before giving it out
+            if (ball.activeInHierarchy)
+            {
+                Debug.LogError($"Ball {ball.name} is still active despite all checks. Deactivating now.");
+                ball.SetActive(false);
+            }
+
             // Don't activate here, let the launcher activate it after positioning
         }
 
@@ -149,7 +204,12 @@ public class BallPoolManager : MonoBehaviour
                 pocket.OnBallReturnedToPool(ball);
             }
         }
-        ball.SetActive(false);
+        
+        // Make absolutely sure the ball is deactivated
+        if (ball.activeInHierarchy)
+        {
+            ball.SetActive(false);
+        }
 
         // Add back to the pool
         ballPool.Enqueue(ball);
@@ -165,6 +225,98 @@ public class BallPoolManager : MonoBehaviour
             {
                 ReturnBall(ball);
             }
+        }
+    }
+    
+    // Shuffle the ball pool to prevent balls from getting stuck at the end
+    private void ShufflePool()
+    {
+        if (isShuffling || ballPool.Count <= 1)
+            return;
+            
+        isShuffling = true;
+        
+        // Convert queue to array, shuffle, then convert back to queue
+        GameObject[] ballsArray = ballPool.ToArray();
+        
+        // Fisher-Yates shuffle algorithm
+        for (int i = ballsArray.Length - 1; i > 0; i--)
+        {
+            int randomIndex = Random.Range(0, i + 1);
+            GameObject temp = ballsArray[i];
+            ballsArray[i] = ballsArray[randomIndex];
+            ballsArray[randomIndex] = temp;
+        }
+        
+        // Clear and refill the queue
+        ballPool.Clear();
+        foreach (GameObject ball in ballsArray)
+        {
+            ballPool.Enqueue(ball);
+        }
+        
+        Debug.Log($"Ball pool shuffled. Pool now contains {ballPool.Count} balls.");
+        isShuffling = false;
+    }
+    
+    // Periodically check if we need to recover or shuffle balls
+    private IEnumerator PeriodicPoolCheck()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(poolCheckInterval);
+            
+            // Count active balls in scene
+            GameObject[] activeBalls = GameObject.FindGameObjectsWithTag("Ball");
+            int activeBallCount = activeBalls.Length;
+            
+            // Check if pool is critically low
+            if (ballPool.Count == 0 || ballPool.Count < initialPoolSize * 0.25f)
+            {
+                consecutiveEmptyChecks++;
+                Debug.LogWarning($"Ball pool is low! Pool size: {ballPool.Count}, Active balls: {activeBallCount}");
+                
+                // If we've had multiple checks with empty pool, recover stuck balls
+                if (consecutiveEmptyChecks >= 2)
+                {
+                    RecoverStuckBalls();
+                    consecutiveEmptyChecks = 0;
+                }
+            }
+            else
+            {
+                consecutiveEmptyChecks = 0;
+                
+                // Periodically shuffle the pool to avoid getting stuck with the same few balls
+                ShufflePool();
+            }
+        }
+    }
+    
+    // Try to find and recover any stuck balls
+    private void RecoverStuckBalls()
+    {
+        // Find all stuck balls using the StuckBallTracker
+        GameObject[] allBalls = GameObject.FindGameObjectsWithTag("Ball");
+        int recoveredCount = 0;
+        
+        foreach (GameObject ball in allBalls)
+        {
+            if (ball != null && ball.activeInHierarchy)
+            {
+                StuckBallTracker stuckTracker = ball.GetComponent<StuckBallTracker>();
+                if (stuckTracker != null && stuckTracker.IsStuck())
+                {
+                    Debug.Log($"Recovering stuck ball: {ball.name}, stuck for {stuckTracker.GetStuckTime()} seconds");
+                    ReturnBall(ball);
+                    recoveredCount++;
+                }
+            }
+        }
+        
+        if (recoveredCount > 0)
+        {
+            Debug.Log($"Recovered {recoveredCount} stuck balls");
         }
     }
 }
