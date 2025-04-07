@@ -20,6 +20,7 @@ This project evolved from Unity's "Counting Prototype" tutorial into a full-feat
 - **Ball Award System**: Scoring pockets have a chance to award extra balls based on pocket type, with higher-tier pockets offering better rewards
 - **High Score Tracking**: Track both point-based high scores and a separate balls earned high score with celebration effects for new records
 - **PBR Materials**: Realistic material appearance
+- **Main Menu UI**: Intuitive main menu with How To Play instructions and Credits panel to acknowledge contributors
 
 ## 🚀 Installation
 
@@ -42,6 +43,8 @@ This project evolved from Unity's "Counting Prototype" tutorial into a full-feat
 3. **Objective**: Score points by getting balls into the scoring pockets
 4. **Game End**: The game ends when you run out of balls
 
+A detailed how-to-play guide is also available in the main menu!
+
 ## 🛠️ Technical Implementation
 
 ### Core Systems
@@ -56,6 +59,7 @@ This project evolved from Unity's "Counting Prototype" tutorial into a full-feat
   - High Score pockets (yellow): Awards 5-9 extra balls
   - Jackpot pockets (red): Awards 10-19 extra balls plus bonuses based on current score
 - **Achievement System**: Track and reward player accomplishments including both score-based and balls earned high scores with celebratory visual effects
+- **UI System**: Modular panel system for menus with smooth transitions and consistent navigation
 
 ### Code Architecture
 
@@ -91,6 +95,8 @@ The project follows clean code principles with a component-based architecture:
   |- OptionsPanel.cs       # Options and pause menu
   |- OptionsButton.cs      # Button for options menu
   |- MainMenuManager.cs    # Main menu management
+  |- CreditsPanel.cs       # Credits display panel
+  |- HowToPlayPanel.cs     # How to play instructions panel
 ```
 
 ### Custom Editor Extensions
@@ -110,6 +116,7 @@ This project demonstrates several key game development concepts:
 4. **Performance Optimization**: Balancing visual fidelity with runtime performance
 5. **Custom Editor Extensions**: Intuitive setup and visualization for bumpers, score pockets, and spinners
 6. **PBR Materials**: Realistic material appearance
+7. **Modular UI Architecture**: Panel-based UI system with reusable components and consistent navigation
 
 ## 🔍 Future Enhancements
 

@@ -10,11 +10,13 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private GameObject mainMenuPanel;
     [SerializeField] private OptionsPanel optionsPanel;
     [SerializeField] private CreditsPanel creditsPanel;
+    [SerializeField] private HowToPlayPanel howToPlayPanel;
     
     [Header("Main Menu Buttons")]
     [SerializeField] private Button newGameButton;
     [SerializeField] private Button optionsButton;
     [SerializeField] private Button creditsButton;
+    [SerializeField] private Button howToPlayButton;
     
     [Header("Scene Management")]
     [SerializeField] private string mainGameSceneName = "MainGame";
@@ -41,6 +43,7 @@ public class MainMenuManager : MonoBehaviour
         newGameButton.onClick.AddListener(OnNewGameClicked);
         optionsButton.onClick.AddListener(OnOptionsClicked);
         creditsButton.onClick.AddListener(OnCreditsClicked);
+        howToPlayButton.onClick.AddListener(OnHowToPlayClicked);
             
         // Subscribe to options panel back button
         if (optionsPanel != null)
@@ -49,6 +52,10 @@ public class MainMenuManager : MonoBehaviour
         // Subscribe to credits panel back button
         if (creditsPanel != null)
             creditsPanel.onBackClicked.AddListener(ShowMainMenu);
+            
+        // Subscribe to how to play panel back button
+        if (howToPlayPanel != null)
+            howToPlayPanel.onBackClicked.AddListener(ShowMainMenu);
     }
     
     private CanvasGroup GetOrAddCanvasGroup(GameObject panel)
@@ -106,6 +113,21 @@ public class MainMenuManager : MonoBehaviour
             HidePanel(mainMenuPanel, mainMenuCanvasGroup);
         }
     }
+    
+    private void OnHowToPlayClicked()
+    {
+        // Play sound
+        if (SFXManager.Instance != null)
+        {
+            SFXManager.Instance.PlayButtonClickSound();
+        }
+        
+        if (howToPlayPanel != null)
+        {
+            howToPlayPanel.ShowPanel();
+            HidePanel(mainMenuPanel, mainMenuCanvasGroup);
+        }
+    }
     #endregion
     
     #region Panel Management
@@ -120,6 +142,10 @@ public class MainMenuManager : MonoBehaviour
         if (creditsPanel != null)
         {
             creditsPanel.HidePanel();
+        }
+        if (howToPlayPanel != null)
+        {
+            howToPlayPanel.HidePanel();
         }
     }
     

@@ -296,6 +296,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1749935330}
+  - {fileID: 1959445845}
   - {fileID: 1917464830}
   - {fileID: 903797930}
   m_Father: {fileID: 0}
@@ -320,9 +321,11 @@ MonoBehaviour:
   mainMenuPanel: {fileID: 1749935329}
   optionsPanel: {fileID: 1917464833}
   creditsPanel: {fileID: 903797931}
+  howToPlayPanel: {fileID: 1959445849}
   newGameButton: {fileID: 6267775707797852623}
   optionsButton: {fileID: 6267775707797852622}
   creditsButton: {fileID: 6267775707797852621}
+  howToPlayButton: {fileID: 1451191400}
   mainGameSceneName: MainGame
   transitionTime: 1
   panelFadeTime: 0.3
@@ -1111,6 +1114,17 @@ PrefabInstance:
       addedObject: {fileID: 749068810}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90627195cf18f2941bd8f95c240954c6, type: 3}
+--- !u!114 &1451191400 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8502257517052673583, guid: bd0e0a88a30c5b14f8179b6439f96da0, type: 3}
+  m_PrefabInstance: {fileID: 6267775707797852620}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1718668456
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1278,6 +1292,243 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &1959445844
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 68038324}
+    m_Modifications:
+    - target: {fileID: 3012667065141221727, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_text
+      value: '
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 3012667065141221727, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_fontSize
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 3012667065141221727, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 3012667065141221727, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_TextWrappingMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3012667065141221727, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 3012667065141221727, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4812882602574178753, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_Name
+      value: HowToPlayPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4812882602574178753, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5406243036852880974, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_Name
+      value: How to Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 5932919359504684472, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5932919359504684472, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_Color.b
+      value: 0.23529413
+      objectReference: {fileID: 0}
+    - target: {fileID: 5932919359504684472, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_Color.g
+      value: 0.23529413
+      objectReference: {fileID: 0}
+    - target: {fileID: 5932919359504684472, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_Color.r
+      value: 0.23529413
+      objectReference: {fileID: 0}
+    - target: {fileID: 8834391654193957332, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: assetPackName
+      value: 'Ovani Sound: Hannah Weeks Voice Over Pack'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8834391654193957332, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: additionalCredits
+      value: Built by Caanon
+      objectReference: {fileID: 0}
+    - target: {fileID: 9201549909874540253, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9201549909874540253, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9201549909874540253, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9201549909874540253, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9201549909874540253, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9201549909874540253, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9201549909874540253, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9201549909874540253, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9201549909874540253, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9201549909874540253, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9201549909874540253, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9201549909874540253, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9201549909874540253, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9201549909874540253, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9201549909874540253, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9201549909874540253, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9201549909874540253, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9201549909874540253, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9201549909874540253, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9201549909874540253, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 8834391654193957332, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4812882602574178753, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1959445849}
+  m_SourcePrefab: {fileID: 100100000, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+--- !u!224 &1959445845 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 9201549909874540253, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+  m_PrefabInstance: {fileID: 1959445844}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1959445846 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3012667065141221727, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+  m_PrefabInstance: {fileID: 1959445844}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1959445847 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8856188398922382580, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+  m_PrefabInstance: {fileID: 1959445844}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1959445848 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4812882602574178753, guid: 899eff31592e41042bda9ac308ce4834, type: 3}
+  m_PrefabInstance: {fileID: 1959445844}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1959445849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1959445848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a2ffb01e5cc7b44085aa3f432f79084, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backButton: {fileID: 1959445847}
+  instructionsText: {fileID: 1959445846}
+  gameInstructions: "How to play:\n\n1. Fire Pachinko Balls into the Pachinko Machine
+    Playfield\n\n2. Score points earn balls by landing shots in the score pockets
+    \n\n3. The Jackpot is the highest score pocket, and scales based on your current
+    score!\n\n4. The game ends when you run out of balls\n\n Good Luck!"
+  panelFadeTime: 0.3
+  fadeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  onBackClicked:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &4477603834371452067
 PrefabInstance:
   m_ObjectHideFlags: 0
