@@ -17,6 +17,7 @@ public class GameOverPanel : MonoBehaviour
     [Header("Text References")]
     [SerializeField] private TextMeshProUGUI highScoreText;
     [SerializeField] private TextMeshProUGUI ballsEarnedText;
+    [SerializeField] private TextMeshProUGUI ballsEarnedHighScoreText;
     [SerializeField] private TextMeshProUGUI finalScoreText;
 
     [Header("Animation")]
@@ -27,6 +28,7 @@ public class GameOverPanel : MonoBehaviour
     private CanvasGroup canvasGroup;
     private GameManager gameManager;
     private bool isHighScore = false;
+    private bool isNewBallsHighScore = false;
     private int ballsEarned = 0;
     
     private void Awake()
@@ -101,6 +103,13 @@ public class GameOverPanel : MonoBehaviour
             // Set the initial scale to normal before starting the animation
             highScoreText.transform.localScale = Vector3.one;
             StartCoroutine(HighScoreCelebrationEffect());
+        }
+        
+        // Start balls high score effect if it's a new balls high score
+        if (isNewBallsHighScore && ballsEarnedHighScoreText != null)
+        {
+            ballsEarnedHighScoreText.transform.localScale = Vector3.one;
+            StartCoroutine(BallsHighScoreCelebrationEffect());
         }
     }
 
@@ -191,6 +200,43 @@ public class GameOverPanel : MonoBehaviour
         }
     }
 
+    // Public method to set balls earned high score
+    public void SetBallsEarnedHighScore(int highScore, bool isNewRecord)
+    {
+        isNewBallsHighScore = isNewRecord;
+        
+        if (ballsEarnedHighScoreText != null)
+        {
+            string label = isNewRecord ? "NEW BALLS HIGH SCORE: " : "Balls Earned High Score: ";
+            ballsEarnedHighScoreText.text = label + highScore.ToString();
+            
+            // Apply styling similar to score high score
+            if (isNewRecord)
+            {
+                ballsEarnedHighScoreText.color = new Color(1f, 0.8f, 0f); // Golden color
+                ballsEarnedHighScoreText.fontStyle = FontStyles.Bold;
+                
+                // Set initial scale to normal before starting the animation
+                ballsEarnedHighScoreText.transform.localScale = Vector3.one;
+                
+                // Start the celebration effect if panel is already enabled
+                if (gameObject.activeInHierarchy)
+                {
+                    StartCoroutine(BallsHighScoreCelebrationEffect());
+                }
+            }
+            else
+            {
+                ballsEarnedHighScoreText.color = Color.white;
+                ballsEarnedHighScoreText.fontStyle = FontStyles.Normal;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("GameOverPanel: ballsEarnedHighScoreText reference not set!");
+        }
+    }
+
     private IEnumerator HighScoreCelebrationEffect()
     {
         // Pulse the high score text size a few times
@@ -222,6 +268,45 @@ public class GameOverPanel : MonoBehaviour
                     time += Time.deltaTime;
                     float t = time / 0.5f;
                     highScoreText.transform.localScale = Vector3.Lerp(targetScale, originalScale, t);
+                    yield return null;
+                }
+
+                yield return new WaitForSeconds(0.2f);
+            }
+        }
+    }
+
+    private IEnumerator BallsHighScoreCelebrationEffect()
+    {
+        // Pulse the balls high score text size a few times
+        if (ballsEarnedHighScoreText != null)
+        {
+            Debug.Log("Starting balls high score celebration effect");
+
+            // Wait a short time before starting the animation
+            yield return new WaitForSeconds(0.5f);
+            for (int i = 0; i < 3; i++)
+            {
+                // Scale up
+                float time = 0;
+                Vector3 originalScale = Vector3.one;
+                Vector3 targetScale = originalScale * highScorePulseSize;
+
+                while (time < 0.5f)
+                {
+                    time += Time.deltaTime;
+                    float t = time / 0.5f;
+                    ballsEarnedHighScoreText.transform.localScale = Vector3.Lerp(originalScale, targetScale, t);
+                    yield return null;
+                }
+
+                // Scale back down
+                time = 0;
+                while (time < 0.5f)
+                {
+                    time += Time.deltaTime;
+                    float t = time / 0.5f;
+                    ballsEarnedHighScoreText.transform.localScale = Vector3.Lerp(targetScale, originalScale, t);
                     yield return null;
                 }
 

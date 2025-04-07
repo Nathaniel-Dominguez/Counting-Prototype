@@ -362,6 +362,9 @@ public class GameManager : MonoBehaviour
         int highScore = PlayerPrefs.GetInt("PachinkoHighScore", 0);
         bool isNewHighScore = currentScore > highScore;
 
+        // Check for balls earned high score
+        int ballsEarnedHighScore = PlayerPrefs.GetInt("BallsEarnedHighScore", 0);
+        bool isNewBallsHighScore = totalBallsEarned > ballsEarnedHighScore;
        
         if (isNewHighScore)
         {
@@ -387,6 +390,15 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        // Save balls earned high score if new record
+        if (isNewBallsHighScore)
+        {
+            Debug.Log("New balls earned high score! Old: " + ballsEarnedHighScore + ", New: " + totalBallsEarned);
+            ballsEarnedHighScore = totalBallsEarned;
+            PlayerPrefs.SetInt("BallsEarnedHighScore", ballsEarnedHighScore);
+            PlayerPrefs.Save();
+        }
+
         // Switch to no Glass Camera for a better view of the final state
         if (noGlassCamera != null && activeCamera != noGlassCamera)
         {
@@ -406,6 +418,7 @@ public class GameManager : MonoBehaviour
                 panelComponent.SetHighScore(isNewHighScore);
                 panelComponent.SetFinalScore(currentScore);
                 panelComponent.SetBallsEarned(totalBallsEarned);
+                panelComponent.SetBallsEarnedHighScore(ballsEarnedHighScore, isNewBallsHighScore);
                 
                 // Enable the panel
                 gameOverPanel.SetActive(true);
