@@ -8,7 +8,6 @@ public class BallLauncher : MonoBehaviour
     [SerializeField] private Transform launchPoint;
     [SerializeField] private float minLaunchForce = 5f;
     [SerializeField] private float maxLaunchForce = 15f;
-    [SerializeField] private Animation launcherAnimation;
     [SerializeField] private float chargeRate = 10f;
     [SerializeField] private AnimationCurve powerCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
     [SerializeField] private float cooldownTime = 1f; // Time in seconds before the next launch can occur
@@ -128,12 +127,6 @@ public class BallLauncher : MonoBehaviour
         UpdateLaunchPowerUI();
         // Force refresh the power meter text
         GameManager.Instance.ForceRefreshPowerMeter();
-
-        // Play the launcher animation
-        if (launcherAnimation != null)
-        {
-            launcherAnimation.Play("Launch");
-        }
 
         // Validate launchPoint before using it
         if (launchPoint == null)
