@@ -18,6 +18,7 @@ This project evolved from Unity's "Counting Prototype" tutorial into a full-feat
 - **Optimized Performance**: Play smoothly thanks to efficient object pooling and physics layer management
 - **Custom Editor Extensions**: Intuitive setup and visualization for bumpers, score pockets, and spinners
 - **Ball Award System**: Scoring pockets have a chance to award extra balls based on pocket type, with higher-tier pockets offering better rewards
+- **High Score Tracking**: Track both point-based high scores and a separate balls earned high score with celebration effects for new records
 - **PBR Materials**: Realistic material appearance
 
 ## 🚀 Installation
@@ -54,6 +55,7 @@ This project evolved from Unity's "Counting Prototype" tutorial into a full-feat
   - Medium Score pockets (purple): Awards 2-4 extra balls
   - High Score pockets (yellow): Awards 5-9 extra balls
   - Jackpot pockets (red): Awards 10-19 extra balls plus bonuses based on current score
+- **Achievement System**: Track and reward player accomplishments including both score-based and balls earned high scores with celebratory visual effects
 
 ### Code Architecture
 
@@ -61,7 +63,7 @@ The project follows clean code principles with a component-based architecture:
 
 ```
 - Core/
-  |- GameManager.cs        # Central game state management
+  |- GameManager.cs        # Central game state management, high score tracking
   |- BallPoolManager.cs    # Object pooling implementation  
   |- Jukebox.cs            # Background music system
   |- Song.cs               # Song configuration for Jukebox
@@ -85,7 +87,7 @@ The project follows clean code principles with a component-based architecture:
 - UI/
   |- PowerMeterUI.cs       # Visual launch power indicator
   |- CooldownBarUI.cs      # Cooldown bar UI
-  |- GameOverPanel.cs      # Game over screen
+  |- GameOverPanel.cs      # Game over screen with high score displays
   |- OptionsPanel.cs       # Options and pause menu
   |- OptionsButton.cs      # Button for options menu
   |- MainMenuManager.cs    # Main menu management

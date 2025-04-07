@@ -2099,18 +2099,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2405137322574828195}
     m_Modifications:
-    - target: {fileID: 3292891217199879216, guid: 6b388b7b6cebb8e4ba6aa452ead53270, type: 3}
-      propertyPath: backgroundColor.b
-      value: 0.23529412
-      objectReference: {fileID: 0}
-    - target: {fileID: 3292891217199879216, guid: 6b388b7b6cebb8e4ba6aa452ead53270, type: 3}
-      propertyPath: backgroundColor.g
-      value: 0.23529412
-      objectReference: {fileID: 0}
-    - target: {fileID: 3292891217199879216, guid: 6b388b7b6cebb8e4ba6aa452ead53270, type: 3}
-      propertyPath: backgroundColor.r
-      value: 0.23529412
-      objectReference: {fileID: 0}
     - target: {fileID: 5152045247382293240, guid: 6b388b7b6cebb8e4ba6aa452ead53270, type: 3}
       propertyPath: m_Name
       value: BonusBallNotification
@@ -2194,18 +2182,6 @@ PrefabInstance:
     - target: {fileID: 8599544248947823369, guid: 6b388b7b6cebb8e4ba6aa452ead53270, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8874485052038589751, guid: 6b388b7b6cebb8e4ba6aa452ead53270, type: 3}
-      propertyPath: m_Color.b
-      value: 0.23529412
-      objectReference: {fileID: 0}
-    - target: {fileID: 8874485052038589751, guid: 6b388b7b6cebb8e4ba6aa452ead53270, type: 3}
-      propertyPath: m_Color.g
-      value: 0.23529412
-      objectReference: {fileID: 0}
-    - target: {fileID: 8874485052038589751, guid: 6b388b7b6cebb8e4ba6aa452ead53270, type: 3}
-      propertyPath: m_Color.r
-      value: 0.23529412
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2407,12 +2383,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1403328250996344409, guid: f8babee5f8372cc41b91a4303b7e3096, type: 3}
       propertyPath: pitchRandomization
-      value: 0.2
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 1403328250996344409, guid: f8babee5f8372cc41b91a4303b7e3096, type: 3}
       propertyPath: woodenBorderHitSound
       value: 
       objectReference: {fileID: 8300000, guid: 1b60674506b214a4cba00e0dce07d303, type: 3}
+    - target: {fileID: 1403328250996344409, guid: f8babee5f8372cc41b91a4303b7e3096, type: 3}
+      propertyPath: maxSimulataneousSounds
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 1548282904812561931, guid: f8babee5f8372cc41b91a4303b7e3096, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

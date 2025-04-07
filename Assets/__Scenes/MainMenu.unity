@@ -545,6 +545,10 @@ PrefabInstance:
       propertyPath: defaultSFXVolume
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1403328250996344409, guid: f8babee5f8372cc41b91a4303b7e3096, type: 3}
+      propertyPath: maxSimulataneousSounds
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 1548282904812561931, guid: f8babee5f8372cc41b91a4303b7e3096, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.038624804
