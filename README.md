@@ -8,6 +8,11 @@ A visually stunning and physically accurate 3D pachinko machine simulation built
 
 This project evolved from Unity's "Counting Prototype" tutorial into a full-featured 3D pachinko simulation. It demonstrates advanced physics interactions, custom material properties, object pooling, and a comprehensive audio management system - all essential skills for game development.
 
+## 🎮 Play the Game
+
+You can play the game directly in your browser on Unity Play:
+[Play Classic Pachinko](https://play.unity.com/en/games/1c684692-1751-4ed6-a92a-317289d51585/classic-pachinko)
+
 ### Key Features
 
 - **Physics-Based Gameplay**: Experience realistic ball movement with precise collision detection using Unity's 3D physics system
