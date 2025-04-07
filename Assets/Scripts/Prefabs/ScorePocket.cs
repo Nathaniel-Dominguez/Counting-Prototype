@@ -416,8 +416,15 @@ public class ScorePocket : MonoBehaviour
         // Cap chance at 100%
         actualChance = Mathf.Min(actualChance, 1f);
 
-        // Random roll to see if balls are awarded
-        if (Random.value <= actualChance)
+        // Always award at least 1 ball for LowScore pockets and always award for HighScore and Jackpot
+        bool shouldAwardBalls = 
+            pocketType == ScoreType.LowScore || 
+            pocketType == ScoreType.HighScore || 
+            pocketType == ScoreType.Jackpot || 
+            Random.value <= actualChance;
+
+        // Award balls if enabled and either guaranteed or won the random chance
+        if (awardBallsEnabled && shouldAwardBalls)
         {
             int ballsToAward;
 
@@ -425,20 +432,20 @@ public class ScorePocket : MonoBehaviour
             switch (pocketType)
             {
                 case ScoreType.LowScore:
-                    // Low score pockets award 1-5 balls
-                    ballsToAward = Random.Range(1, 2);
+                    // Low score pockets always award at least 1 ball
+                    ballsToAward = 1;
                     break;
                 case ScoreType.MediumScore:
-                    // Medium score pockets award 5-10 balls
-                    ballsToAward = Random.Range(2, 5);
+                    // Medium score pockets award 2-5 balls
+                    ballsToAward = Random.Range(2, 6);
                     break;
                 case ScoreType.HighScore:
-                    // High score pockets award 10-20 balls
-                    ballsToAward = Random.Range(5, 10);
+                    // High score pockets always award at least 5 balls
+                    ballsToAward = Random.Range(5, 11);
                     break;
                 case ScoreType.Jackpot:
-                    // Base jackpot award
-                    ballsToAward = Random.Range(10, 20);
+                    // Base jackpot award, always at least 10 balls
+                    ballsToAward = Random.Range(10, 21);
                     
                     // Special logic based on current score:
                     // Award extra balls based on current score milestones

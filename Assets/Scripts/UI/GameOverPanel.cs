@@ -16,6 +16,8 @@ public class GameOverPanel : MonoBehaviour
     
     [Header("Text References")]
     [SerializeField] private TextMeshProUGUI highScoreText;
+    [SerializeField] private TextMeshProUGUI ballsEarnedText;
+    [SerializeField] private TextMeshProUGUI finalScoreText;
 
     [Header("Animation")]
     [SerializeField] private float fadeInSpeed = 1.0f;
@@ -25,6 +27,7 @@ public class GameOverPanel : MonoBehaviour
     private CanvasGroup canvasGroup;
     private GameManager gameManager;
     private bool isHighScore = false;
+    private int ballsEarned = 0;
     
     private void Awake()
     {
@@ -136,7 +139,58 @@ public class GameOverPanel : MonoBehaviour
     {
         isHighScore = isNewHighScore;
         Debug.Log("High score flag set to: " + isHighScore);
+        
+        // Update high score text display format based on whether it's a new high score
+        if (highScoreText != null)
+        {
+            int highScore = PlayerPrefs.GetInt("PachinkoHighScore", 0);
+            string highScoreLabel = isNewHighScore ? "NEW HIGH SCORE: " : "High Score: ";
+            highScoreText.text = highScoreLabel + highScore.ToString("N0");
+            
+            // Change the color of the high score text to make it more visible
+            if (isNewHighScore)
+            {
+                highScoreText.color = new Color(1f, 0.8f, 0f); // Golden color
+                highScoreText.fontStyle = FontStyles.Bold;
+            }
+            else
+            {
+                highScoreText.color = Color.white;
+                highScoreText.fontStyle = FontStyles.Normal;
+            }
+        }
     }
+
+    // Public method to set balls earned, call will be made from GameManager
+    public void SetBallsEarned(int amount)
+    {
+        ballsEarned = amount;
+        
+        if (ballsEarnedText != null)
+        {
+            ballsEarnedText.text = $"Balls Earned: {ballsEarned}";
+            Debug.Log($"Set balls earned to: {ballsEarned}");
+        }
+        else
+        {
+            Debug.LogWarning("GameOverPanel: ballsEarnedText reference not set!");
+        }
+    }
+
+    // Public method to set final score, call will be made from GameManager
+    public void SetFinalScore(int score)
+    {
+        if (finalScoreText != null)
+        {
+            finalScoreText.text = "Final Score: " + score.ToString("N0");
+            Debug.Log($"Set final score to: {score}");
+        }
+        else
+        {
+            Debug.LogWarning("GameOverPanel: finalScoreText reference not set!");
+        }
+    }
+
     private IEnumerator HighScoreCelebrationEffect()
     {
         // Pulse the high score text size a few times

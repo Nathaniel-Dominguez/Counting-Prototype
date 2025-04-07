@@ -15,8 +15,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PowerMeterUI powerMeterUI;
     [SerializeField] private CooldownBarUI cooldownBarUI;
     [SerializeField] private GameObject gameOverPanel;
-    [SerializeField] private TextMeshProUGUI finalScoreText;
-    [SerializeField] private TextMeshProUGUI highScoreText;
 
     [Header("Game References")]
     [SerializeField] private Transform collectionTray;
@@ -30,6 +28,7 @@ public class GameManager : MonoBehaviour
     public int currentScore = 0;
     private bool isGameOver = false;
     private Camera activeCamera;
+    private int totalBallsEarned = 0; // Track total balls earned during gameplay
 
     private void Awake()
     {
@@ -110,6 +109,9 @@ public class GameManager : MonoBehaviour
         
         // Add balls to the launcher
         ballLauncher.AddBalls(ballsToAdd);
+        
+        // Track total balls earned
+        totalBallsEarned += ballsToAdd;
         
         // Show bonus ball notification
         BonusBallNotification.ShowNotification(ballsToAdd);
@@ -381,39 +383,27 @@ public class GameManager : MonoBehaviour
         if (gameOverPanel != null)
         {
             Debug.Log("Activating game over panel");
-            // Set the text values first before activating the panel
-            if (finalScoreText != null)
-            {
-                finalScoreText.text = "Final Score: " + currentScore.ToString("N0");
-            }
-
-            if (highScoreText != null)
-            {
-                highScoreText.text = "High Score: " + highScore.ToString("N0");
-                // Add an indicator if it's a new high score
-                string highScoreLabel = isNewHighScore ? "NEW HIGH SCORE: " : "High Score: ";
-                highScoreText.text = highScoreLabel + highScore.ToString("N0");
-
-                // Change the color of the high score text to make it more visible
-                if (isNewHighScore && highScoreText.TryGetComponent<TMPro.TextMeshProUGUI>(out var tmpText))
-                {
-                    tmpText.color = new Color(1f, 0.8f, 0f); // Golden color
-                    tmpText.fontStyle = TMPro.FontStyles.Bold;
-                }
-            }
-            
-            // Enable the panel - GameOverPanel component will handle the fade-in animation
-            gameOverPanel.SetActive(true);
             
             // Check if the panel has the GameOverPanel component
             GameOverPanel panelComponent = gameOverPanel.GetComponent<GameOverPanel>();
             if (panelComponent != null)
             {
-
-                // Tell the panel if this is a new high score
+                // Set all the data in the panel before activating it
                 panelComponent.SetHighScore(isNewHighScore);
+                panelComponent.SetFinalScore(currentScore);
+                panelComponent.SetBallsEarned(totalBallsEarned);
+                
+                // Enable the panel
+                gameOverPanel.SetActive(true);
+                
                 // Let the component handle the fade in
                 panelComponent.StartFadeIn();
+            }
+            else
+            {
+                Debug.LogError("GameOverPanel component not found on game over panel");
+                // Fallback - just enable the panel
+                gameOverPanel.SetActive(true);
             }
         }
         else
