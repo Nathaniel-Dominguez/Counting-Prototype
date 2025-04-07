@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviour
     [Header("UI References")]
     [SerializeField] private BallLauncher ballLauncher;
     [SerializeField] private TextMeshProUGUI scoreText;
-    [SerializeField] private TextMeshProUGUI ballsRemainingText;
     [SerializeField] private PowerMeterUI powerMeterUI;
     [SerializeField] private CooldownBarUI cooldownBarUI;
     [SerializeField] private GameObject gameOverPanel;
@@ -26,10 +25,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float cameraSwitchSpeed = 2.0f;
 
     [Header("Game Settings")]
-    [SerializeField] private int startingBalls = 200;
     [SerializeField] private float endGameDelay = 2.0f;
 
-    private int currentScore = 0;
+    public int currentScore = 0;
     private bool isGameOver = false;
     private Camera activeCamera;
 
@@ -66,6 +64,7 @@ public class GameManager : MonoBehaviour
             }
         } 
     }
+
     // Private method to initialize the game
     private void InitializeGame()
     {
@@ -75,16 +74,14 @@ public class GameManager : MonoBehaviour
         // Update UI 
         UpdateScoreText();
 
-        // Initialize ball launcher with the starting balls count
+        // Initialize ball launcher
         if (ballLauncher != null)
         {
-            ballLauncher.ResetLauncher(startingBalls);
+            ballLauncher.ResetLauncher(ballLauncher.GetBallsRemaining());
         }
         else
         {
             Debug.LogError("BallLauncher not found in GameManager");
-            // fallback to default starting balls
-            UpdateBallsRemainingText(startingBalls);
         }
 
         // Hide game over panel
@@ -92,12 +89,6 @@ public class GameManager : MonoBehaviour
         {
             gameOverPanel.SetActive(false);
         }
-
-        // Reset power meter
-        // if (powerMeterUI != null)
-        // {
-        //     powerMeterUI.HidePowerMeter();
-        // }
 
         // Check if the game should end periodically
         StartCoroutine(GameOverCheckRoutine());
@@ -112,13 +103,13 @@ public class GameManager : MonoBehaviour
         UpdateScoreText();
     }
 
-    // Public method to update the balls remaining text
-    public void UpdateBallsRemainingText(int ballsRemaining)
+    // Add balls to the launcher
+    public void AddBalls(int ballsToAdd)
     {
-        if (ballsRemainingText != null)
-        {
-            ballsRemainingText.text = "Balls: " + ballsRemaining.ToString();
-        }
+        if (isGameOver || ballLauncher == null) return;
+        
+        // Add balls to the launcher
+        ballLauncher.AddBalls(ballsToAdd);
     }
 
     // Public method to update the power meter
@@ -209,9 +200,6 @@ public class GameManager : MonoBehaviour
         
         Debug.Log($"CheckGameOver - Balls in launcher: {ballsInLauncher}, Active balls: {activeBalls}");
 
-        // Update UI to always show correct ball count
-        UpdateBallsRemainingText(ballsInLauncher);
-
         // If no balls remain in launcher and no balls are in play, end the game
         if (ballsInLauncher <= 0 && activeBalls <= 0)
         {
@@ -247,9 +235,6 @@ public class GameManager : MonoBehaviour
                 int activeBalls = activeBallObjects.Length;
 
                 Debug.Log($"Periodic check - Balls in Launcher {ballsInLauncher}, Active Balls: {activeBalls}");
-
-                // Update UI
-                UpdateBallsRemainingText(ballsInLauncher);
 
                 // Check if all balls are gone
                 if (ballsInLauncher <= 0 && activeBalls <= 0)

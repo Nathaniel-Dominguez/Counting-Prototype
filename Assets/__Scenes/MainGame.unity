@@ -1294,6 +1294,10 @@ PrefabInstance:
       propertyPath: minLaunchForce
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 41635458293739657, guid: af47beda00afafb41b35d1b92ba3b6ae, type: 3}
+      propertyPath: ballsRemainingText
+      value: 
+      objectReference: {fileID: 938974166}
     - target: {fileID: 155133286400629808, guid: af47beda00afafb41b35d1b92ba3b6ae, type: 3}
       propertyPath: m_Name
       value: Ball Launcher

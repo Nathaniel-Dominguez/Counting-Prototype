@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using TMPro;
 
 public class BallLauncher : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public class BallLauncher : MonoBehaviour
     [SerializeField] private float chargeRate = 10f;
     [SerializeField] private AnimationCurve powerCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
     [SerializeField] private float cooldownTime = 1f; // Time in seconds before the next launch can occur
+
+    [Header("UI References")]
+    [SerializeField] private TextMeshProUGUI ballsRemainingText;
+    [SerializeField] private int startingBalls = 200;
 
     private int ballsRemaining;
     private float currentLaunchForce;
@@ -46,6 +51,9 @@ public class BallLauncher : MonoBehaviour
         {
             Debug.LogWarning("BallLauncher: SFXManager.Instance is null. SFX features will be disabled.");
         }
+
+        // Initialize with starting balls
+        ResetLauncher(startingBalls);
     }
 
     // Update is called once per frame
@@ -192,7 +200,10 @@ public class BallLauncher : MonoBehaviour
     private void UpdateUI()
     {
         // Update UI to show remaining balls
-        GameManager.Instance.UpdateBallsRemainingText(ballsRemaining);
+        if (ballsRemainingText != null)
+        {
+            ballsRemainingText.text = "Balls: " + ballsRemaining.ToString();
+        }
     }
 
     private void UpdateLaunchPowerUI()
@@ -241,5 +252,16 @@ public class BallLauncher : MonoBehaviour
         remainingCooldownTime = 0f;
         currentLaunchForce = minLaunchForce;
         UpdateUI();
+    }
+
+    // Add a method to add balls to the launcher
+    public void AddBalls(int ballsToAdd)
+    {
+        if (ballsToAdd <= 0) return;
+        
+        ballsRemaining += ballsToAdd;
+        UpdateUI();
+        
+        Debug.Log($"BallLauncher: Added {ballsToAdd} balls. Now have {ballsRemaining} balls.");
     }
 }

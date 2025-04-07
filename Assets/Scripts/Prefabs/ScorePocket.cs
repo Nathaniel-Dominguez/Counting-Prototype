@@ -44,6 +44,16 @@ public class ScorePocket : MonoBehaviour
     [SerializeField] private float directReturnDelay = 0.5f;
     [SerializeField] private Transform collectionPoint;
 
+    [Header("Ball Award System")]
+    [SerializeField] private bool awardBallsEnabled = true;
+    [SerializeField] private float ballAwardChance = 0.2f; // 20% chance for a ball award
+    [SerializeField] private int minBallsAwarded = 5;
+    [SerializeField] private int maxBallsAwarded = 20;
+
+    // Higher tier pockets have a chance to award more balls
+    [SerializeField] private float chanceMultiplierForHighScore = 1.5f;
+    [SerializeField] private float chanceMultiplierForJackpot = 3f;
+
     private SFXManager sfxManager;
     private float originalLightIntensity;
     private bool isProcessingBall = false;
@@ -269,17 +279,11 @@ public class ScorePocket : MonoBehaviour
     }
 
     private void ProcessScoredBall(GameObject ball)
-    {
-        // Safety check - make sure ball is still valid and active
-        if (ball == null || !ball.activeInHierarchy)
-        {
-            isProcessingBall = false;
-            return;
-        }
-        
+    {   
         isProcessingBall = true;
+        Debug.Log($"Processing scored ball: {ball.name} in pocket: {gameObject.name}");
 
-        // Play particles immediately
+        // Play the score particles 
         if (scoreParticles != null)
         {
             scoreParticles.Play();
@@ -302,7 +306,15 @@ public class ScorePocket : MonoBehaviour
 
         // Delay the actual scoring for visual effect
         StartCoroutine(DelayedScoring(ball));
+
+        // Award balls if enabled
+        if (awardBallsEnabled)
+        {
+            AttemptBallAward();
+        }
     }
+    
+    
 
     private void PlayScoreSound()
     {
@@ -378,6 +390,44 @@ public class ScorePocket : MonoBehaviour
             {
                 StartCoroutine(MoveBallToCollectionTray(ball));
             }
+        }
+    }
+
+    // Method to attempt to award balls based on score pocket and random chance
+    private void AttemptBallAward()
+    {
+        // Calculate actual chance based on pocket type
+        float actualChance = ballAwardChance;
+
+        if (pocketType == ScoreType.HighScore)
+        {
+            actualChance *= chanceMultiplierForHighScore;
+        }
+        else if (pocketType == ScoreType.Jackpot)
+        {
+            actualChance *= chanceMultiplierForJackpot;
+        }
+        
+        // Cap chance at 100%
+        actualChance = Mathf.Min(actualChance, 1f);
+
+        // Random roll to see if balls are awarded
+        if (Random.value <= actualChance)
+        {
+            // Determine number of balls to award
+            int ballsToAward = Random.Range(minBallsAwarded, maxBallsAwarded + 1);
+
+            // For jackpots, also award extra balls based on players current total score
+            if (pocketType == ScoreType.Jackpot)
+            {
+                int extraBalls = (int)(ballsToAward * (GameManager.Instance.currentScore / 10000));
+                ballsToAward += extraBalls;
+            }
+
+            // Award the balls
+            GameManager.Instance.AddBalls(ballsToAward);
+
+            Debug.Log($"ScorePocket: Awarded {ballsToAward} balls for scoring in the {gameObject.name} pocket");
         }
     }
 
