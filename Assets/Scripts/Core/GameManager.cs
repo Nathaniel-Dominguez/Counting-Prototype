@@ -120,7 +120,6 @@ public class GameManager : MonoBehaviour
     {
         if (powerMeterUI != null)
         {
-            Debug.Log($"GameManager: Updating PowerMeterUI to {powerPercentage}");
             powerMeterUI.UpdatePower(powerPercentage);
             
             // Force an immediate canvas update to ensure UI is refreshed
@@ -137,7 +136,6 @@ public class GameManager : MonoBehaviour
     {
         if (powerMeterUI != null)
         {
-            Debug.Log("GameManager: Forcing refresh of PowerMeterUI text");
             powerMeterUI.ForceRefreshText();
         }
     }
@@ -496,7 +494,6 @@ public class GameManager : MonoBehaviour
     {
         if (cooldownBarUI != null)
         {
-            Debug.Log("GameManager: Resetting CooldownBarUI");
             cooldownBarUI.ResetCooldown();
         }
         else
@@ -510,7 +507,6 @@ public class GameManager : MonoBehaviour
     {
         if (cooldownBarUI != null)
         {
-            Debug.Log("GameManager: Setting CooldownBarUI to ready state");
             cooldownBarUI.SetReady();
         }
         else
@@ -524,7 +520,6 @@ public class GameManager : MonoBehaviour
     {
         if (cooldownBarUI != null)
         {
-            Debug.Log($"GameManager: Updating CooldownBarUI to {cooldownPercentage}");
             cooldownBarUI.UpdateCooldown(cooldownPercentage);
         }
         else

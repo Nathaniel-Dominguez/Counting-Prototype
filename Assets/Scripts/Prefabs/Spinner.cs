@@ -161,7 +161,6 @@ public class Spinner : MonoBehaviour
         {
             // Calculate normalized rotation speed for audio effects (0-1 range)
             float normalizedSpeed = Mathf.Abs(currentRotationSpeed) / maxRotationSpeed;
-            Debug.Log($"Spinner: Calling PlaySpinnerSound with normalizedSpeed={normalizedSpeed}");
 
             // Use playSFX 
             sfxManager.PlaySpinnerSound(transform.position, normalizedSpeed);

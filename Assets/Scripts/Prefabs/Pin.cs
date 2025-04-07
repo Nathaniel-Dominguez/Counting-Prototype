@@ -33,9 +33,6 @@ public class Pin : MonoBehaviour
         // Calculate impact force (clamped to resonable range)
         float impactForce = Mathf.Clamp(collision.relativeVelocity.magnitude, 0f, 5f);
 
-        // Debug to check if collision is detected and with what force
-        Debug.Log($"Pin collision detected with force: {impactForce}");
-
         // Skip very small impacts
         if (impactForce < minImpactForce)
             return;

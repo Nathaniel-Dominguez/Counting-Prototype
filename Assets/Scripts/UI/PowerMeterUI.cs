@@ -67,9 +67,7 @@ public class PowerMeterUI : MonoBehaviour
     public void UpdatePower(float powerPercentage)
     {
         if (powerSlider != null)
-        {
-            Debug.Log($"PowerMeterUI: Updating power to {powerPercentage}");
-            
+        {   
             // Make sure the value is valid (sometimes during rapid state changes we can get invalid values)
             powerPercentage = Mathf.Clamp01(powerPercentage);
             
@@ -104,8 +102,6 @@ public class PowerMeterUI : MonoBehaviour
         // Ensure the value is valid
         currentValue = Mathf.Clamp01(currentValue);
         
-        Debug.Log($"PowerMeterUI: Force refreshing text with value {currentValue}");
-        
         // Update the power text and synchronize the stored value
         currentPowerValue = currentValue;
         UpdatePowerText(currentValue);
@@ -122,7 +118,6 @@ public class PowerMeterUI : MonoBehaviour
             // Format power as percentage with 0 decimal places
             string newText = $"Power: {powerPercentage * 100:F0}%";
             powerValueText.text = newText;
-            Debug.Log($"PowerMeterUI: Updated text to '{newText}'");
             
             // Force text to update immediately
             Canvas.ForceUpdateCanvases();

@@ -261,9 +261,6 @@ public class Player : MonoBehaviour
         // Calculate the power level (0-1) from the ball launcher
         float powerPercentage = (ballLauncher.GetCurrentLaunchForce() - ballLauncher.GetMinLaunchForce()) / (ballLauncher.GetMaxLaunchForce() - ballLauncher.GetMinLaunchForce());
         
-        // Log the launch
-        Debug.Log($"Player: Launching ball at power: {powerPercentage:F2}");
-        
         // Set charging state to false BEFORE calling LaunchBall
         isChargingLaunch = false;
 

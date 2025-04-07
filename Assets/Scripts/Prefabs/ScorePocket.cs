@@ -334,8 +334,6 @@ public class ScorePocket : MonoBehaviour
                     break;
                 case ScoreType.Jackpot:
                     sfxManager.PlaySFX("Jackpot");
-                    // Use existing sound for emphasis 
-                    sfxManager.PlaySFX("GameOver"); 
                     break;
             }
         }
