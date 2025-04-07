@@ -17,7 +17,6 @@ public class Spinner : MonoBehaviour
     [Header("Visual Feedback")]
     [SerializeField] private float hitScaleDuration = 0.1f;
     [SerializeField] private float hitScaleFactor = 1.1f;
-    [SerializeField] private ParticleSystem spinnerParticles;
 
     // Private variables
     private SFXManager sfxManager;
@@ -147,13 +146,6 @@ public class Spinner : MonoBehaviour
         if (!isScaling)
         {
             StartCoroutine(ScalePulseRoutine()); 
-        }
-
-        // Particle effects
-        if (spinnerParticles != null)
-        {
-            spinnerParticles.transform.position = impactPoint;
-            spinnerParticles.Play();
         }
 
         // Play spinner sound through the AudioManager

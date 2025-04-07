@@ -20,7 +20,6 @@ public class SpinnerEditor : Editor
     // Visual Feedback
     SerializedProperty hitScaleDurationProp;
     SerializedProperty hitScaleFactorProp;
-    SerializedProperty spinnerParticlesProp;
 
     private void OnEnable()
     {
@@ -36,7 +35,6 @@ public class SpinnerEditor : Editor
 
         hitScaleDurationProp = serializedObject.FindProperty("hitScaleDuration");
         hitScaleFactorProp = serializedObject.FindProperty("hitScaleFactor");
-        spinnerParticlesProp = serializedObject.FindProperty("spinnerParticles");
     }
 
     public override void OnInspectorGUI()
@@ -83,7 +81,6 @@ public class SpinnerEditor : Editor
         EditorGUILayout.LabelField("Visual Feedback", EditorStyles.boldLabel);
         EditorGUILayout.PropertyField(hitScaleDurationProp, new GUIContent("Hit Scale Duration", "Time for the scale effect when hit"));
         EditorGUILayout.PropertyField(hitScaleFactorProp, new GUIContent("Hit Scale Factor", "Size multiplier when spinner is hit"));
-        EditorGUILayout.PropertyField(spinnerParticlesProp, new GUIContent("Spinner Particles", "Particles to play when spinner is hit"));
 
         serializedObject.ApplyModifiedProperties();
     }
