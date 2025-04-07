@@ -9,10 +9,12 @@ public class MainMenuManager : MonoBehaviour
     [Header("UI Panels")]
     [SerializeField] private GameObject mainMenuPanel;
     [SerializeField] private OptionsPanel optionsPanel;
+    [SerializeField] private CreditsPanel creditsPanel;
     
     [Header("Main Menu Buttons")]
     [SerializeField] private Button newGameButton;
     [SerializeField] private Button optionsButton;
+    [SerializeField] private Button creditsButton;
     
     [Header("Scene Management")]
     [SerializeField] private string mainGameSceneName = "MainGame";
@@ -38,10 +40,15 @@ public class MainMenuManager : MonoBehaviour
         // Set up button listeners
         newGameButton.onClick.AddListener(OnNewGameClicked);
         optionsButton.onClick.AddListener(OnOptionsClicked);
+        creditsButton.onClick.AddListener(OnCreditsClicked);
             
         // Subscribe to options panel back button
         if (optionsPanel != null)
             optionsPanel.onBackClicked.AddListener(ShowMainMenu);
+            
+        // Subscribe to credits panel back button
+        if (creditsPanel != null)
+            creditsPanel.onBackClicked.AddListener(ShowMainMenu);
     }
     
     private CanvasGroup GetOrAddCanvasGroup(GameObject panel)
@@ -84,6 +91,21 @@ public class MainMenuManager : MonoBehaviour
             HidePanel(mainMenuPanel, mainMenuCanvasGroup);
         }
     }
+    
+    private void OnCreditsClicked()
+    {
+        // Play sound
+        if (SFXManager.Instance != null)
+        {
+            SFXManager.Instance.PlayButtonClickSound();
+        }
+        
+        if (creditsPanel != null)
+        {
+            creditsPanel.ShowPanel();
+            HidePanel(mainMenuPanel, mainMenuCanvasGroup);
+        }
+    }
     #endregion
     
     #region Panel Management
@@ -94,6 +116,10 @@ public class MainMenuManager : MonoBehaviour
         if (optionsPanel != null)
         {
             optionsPanel.HidePanel();
+        }
+        if (creditsPanel != null)
+        {
+            creditsPanel.HidePanel();
         }
     }
     
