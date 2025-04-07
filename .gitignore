@@ -64,6 +64,24 @@ sysinfo.txt
 *.unitypackage.meta
 *.app
 
+# WebGL Builds
+/[Bb]uild/[Ww]ebGL/
+/[Bb]uild/[Ww]ebGL.meta
+/[Ww]ebGL/
+/[Ww]ebGL.meta
+*.js
+*.js.meta
+*.data
+*.data.meta
+*.mem
+*.mem.meta
+*.unityweb
+*.unityweb.meta
+*.wasm
+*.wasm.meta
+*.symbols.json
+*.symbols.json.meta
+
 # Crashlytics generated file
 crashlytics-build.properties
 
