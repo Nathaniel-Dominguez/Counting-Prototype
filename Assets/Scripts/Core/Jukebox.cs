@@ -242,6 +242,25 @@ namespace AudioManager
 
         #region PUBLIC MUSIC METHODS
             /// <summary>
+            /// Returns the index of the currently playing song
+            /// </summary>
+            /// <returns>Current song index</returns>
+            public int GetCurrentSongIndex()
+            {
+                return currentSongIndex;
+            }
+            
+            /// <summary>
+            /// Returns the total number of songs available
+            /// </summary>
+            /// <returns>Number of songs</returns>
+            public int GetSongCount()
+            {
+                UpdateSongData();
+                return songDataCollection.Count;
+            }
+            
+            /// <summary>
             /// We're using a new design concept here, Method Overloading
             /// By creating two methods with the same name but different parameters.
             /// This provides a simpler interface when default values are sufficent

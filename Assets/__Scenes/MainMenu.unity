@@ -928,7 +928,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7826493903956698226, guid: 857c0e48d9c6baf4eb5838c73ba41ec5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.81689644
+      value: -0.07
       objectReference: {fileID: 0}
     - target: {fileID: 7826493903956698226, guid: 857c0e48d9c6baf4eb5838c73ba41ec5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1281,17 +1281,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cfa1036ad6b54f41b15845036f70d22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1923069192 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5468254513125993485, guid: cd1953d895f34484bbc39b4be6c88ac7, type: 3}
-  m_PrefabInstance: {fileID: 4477603834371452067}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1959445844
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1541,22 +1530,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 539033849226081697, guid: cd1953d895f34484bbc39b4be6c88ac7, type: 3}
-      propertyPath: mainMenuButton
-      value: 
-      objectReference: {fileID: 1923069192}
-    - target: {fileID: 539033849226081697, guid: cd1953d895f34484bbc39b4be6c88ac7, type: 3}
-      propertyPath: defaultSFXVolume
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 539033849226081697, guid: cd1953d895f34484bbc39b4be6c88ac7, type: 3}
-      propertyPath: defaultMusicVolume
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 539033849226081697, guid: cd1953d895f34484bbc39b4be6c88ac7, type: 3}
-      propertyPath: disableEscKeyHandling
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1115703002158026434, guid: cd1953d895f34484bbc39b4be6c88ac7, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -1665,22 +1638,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7525596870924410110, guid: cd1953d895f34484bbc39b4be6c88ac7, type: 3}
-      propertyPath: m_Color.a
-      value: 0.78431374
-      objectReference: {fileID: 0}
-    - target: {fileID: 7525596870924410110, guid: cd1953d895f34484bbc39b4be6c88ac7, type: 3}
-      propertyPath: m_Color.b
-      value: 0.23529412
-      objectReference: {fileID: 0}
-    - target: {fileID: 7525596870924410110, guid: cd1953d895f34484bbc39b4be6c88ac7, type: 3}
-      propertyPath: m_Color.g
-      value: 0.23529412
-      objectReference: {fileID: 0}
-    - target: {fileID: 7525596870924410110, guid: cd1953d895f34484bbc39b4be6c88ac7, type: 3}
-      propertyPath: m_Color.r
-      value: 0.23529412
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1694,6 +1651,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 68038324}
     m_Modifications:
+    - target: {fileID: 511484126638289425, guid: bd0e0a88a30c5b14f8179b6439f96da0, type: 3}
+      propertyPath: m_text
+      value: Controls / Options
+      objectReference: {fileID: 0}
     - target: {fileID: 7116848640914411204, guid: bd0e0a88a30c5b14f8179b6439f96da0, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

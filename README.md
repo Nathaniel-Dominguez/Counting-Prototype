@@ -129,7 +129,6 @@ Potential areas for expansion:
 - Mobile touch controls for broader platform support
 - VR implementation for immersive gameplay
 - Build out the Shop Menu with custom ball skins and upgrades
-- Add a Tutorial Mode to explain the game to new players
 
 ## 🧰 Built With
 

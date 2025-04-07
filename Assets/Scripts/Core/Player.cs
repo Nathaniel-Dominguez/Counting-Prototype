@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     [Header("Input Settings")]
     [SerializeField] private KeyCode launchKey = KeyCode.Space;
     [SerializeField] private KeyCode cameraToggleKey = KeyCode.V;
+    [SerializeField] private KeyCode nextSongKey = KeyCode.N;
     [SerializeField] private KeyCode pauseKey = KeyCode.Escape;
     [SerializeField] private bool useKeyboardControls = true;
     [SerializeField] private bool useMouseControls = true;
@@ -86,6 +87,12 @@ public class Player : MonoBehaviour
             if (Input.GetKeyDown(cameraToggleKey))
             {
                 ToggleCameraView();
+            }
+            
+            // Handle next song input
+            if (Input.GetKeyDown(nextSongKey))
+            {
+                PlayNextSong();
             }
 
             // Handle ball launcher input
@@ -329,5 +336,27 @@ public class Player : MonoBehaviour
     {
         allowPauseInput = true;
         Debug.Log("Pause input enabled");
+    }
+
+    private void PlayNextSong()
+    {
+        // Access Jukebox and play the next song
+        if (AudioManager.Jukebox.Instance != null)
+        {
+            AudioManager.Jukebox jukebox = AudioManager.Jukebox.Instance;
+            
+            // Get the current song index and total song count
+            int currentSong = jukebox.GetCurrentSongIndex();
+            int songCount = jukebox.GetSongCount();
+            
+            if (songCount > 0)
+            {
+                // Calculate next song index with wrap-around
+                int nextSong = (currentSong + 1) % songCount;
+                
+                // Play the next song
+                jukebox.PlaySong(nextSong);
+            }
+        }
     }
 }
