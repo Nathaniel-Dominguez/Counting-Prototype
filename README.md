@@ -16,7 +16,7 @@ You can play the game directly in your browser on Unity Play:
 ### Key Features
 
 - **Physics-Based Gameplay**: Experience realistic ball movement with precise collision detection using Unity's 3D physics system
-- **Dual Camera System**: Toggle between a realistic glass-panel view and a clear gameplay view
+- **Quad Camera System**: Toggle between four different views - standard and high-angle perspectives, each with glass-panel or clear gameplay options
 - **Interactive Elements**: Encounter dynamic bumpers, spinners, and scoring pockets that respond to ball impacts
 - **Visual Effects**: Enjoy particle effects, dynamic lighting, and material animations that provide satisfying feedback
 - **Audio Design**: Immerse yourself in spatial audio with adaptive music intensity based on gameplay
@@ -44,7 +44,7 @@ You can play the game directly in your browser on Unity Play:
 ## 🎯 How to Play
 
 1. **Launch Balls**: Hold and release the left mouse button or spacebar to launch balls (hold longer for more power)
-2. **Toggle View**: Press 'V' to switch between glass-on and glass-off views
+2. **Toggle View**: Press 'V' to cycle through four camera views - standard with glass, standard without glass, high-angle with glass, high-angle without glass
 3. **Objective**: Score points by getting balls into the scoring pockets
 4. **Game End**: The game ends when you run out of balls
 

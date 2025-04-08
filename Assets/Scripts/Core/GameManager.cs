@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform collectionTray;
     [SerializeField] private Camera mainCamera;
     [SerializeField] private Camera noGlassCamera; 
+    [SerializeField] private Camera highCamera; // Higher perspective with glass
+    [SerializeField] private Camera highNoGlassCamera; // Higher perspective without glass
     [SerializeField] private float cameraSwitchSpeed = 2.0f;
 
     [Header("Game Settings")]
@@ -63,7 +65,26 @@ public class GameManager : MonoBehaviour
             {
                 noGlassCamera.GetComponent<AudioListener>().enabled = false;
             }
-        } 
+        }
+        
+        // Initialize the high perspective cameras
+        if (highCamera != null)
+        {
+            highCamera.gameObject.SetActive(false);
+            if (highCamera.GetComponent<AudioListener>() != null)
+            {
+                highCamera.GetComponent<AudioListener>().enabled = false;
+            }
+        }
+        
+        if (highNoGlassCamera != null)
+        {
+            highNoGlassCamera.gameObject.SetActive(false);
+            if (highNoGlassCamera.GetComponent<AudioListener>() != null)
+            {
+                highNoGlassCamera.GetComponent<AudioListener>().enabled = false;
+            }
+        }
     }
 
     // Private method to initialize the game
@@ -400,9 +421,17 @@ public class GameManager : MonoBehaviour
         }
 
         // Switch to no Glass Camera for a better view of the final state
-        if (noGlassCamera != null && activeCamera != noGlassCamera)
+        if (noGlassCamera != null && activeCamera != noGlassCamera && activeCamera != highNoGlassCamera)
         {
-            StartCoroutine(TransitionToCamera(noGlassCamera));
+            // If we're in a glass camera view, switch to the corresponding no-glass camera
+            if (activeCamera == mainCamera)
+            {
+                StartCoroutine(TransitionToCamera(noGlassCamera));
+            }
+            else if (activeCamera == highCamera)
+            {
+                StartCoroutine(TransitionToCamera(highNoGlassCamera));
+            }
         }
 
         // Display game over UI
@@ -495,14 +524,48 @@ public class GameManager : MonoBehaviour
 
     public void ToggleCameraView()
     {
-        // Toggle between main (with glass) and no-glass cameras
-        if (activeCamera == mainCamera && noGlassCamera != null)
+        // Cycle through the four camera views
+        if (activeCamera == mainCamera)
         {
-            StartCoroutine(TransitionToCamera(noGlassCamera));
+            // Switch to no glass camera
+            if (noGlassCamera != null)
+            {
+                StartCoroutine(TransitionToCamera(noGlassCamera));
+            }
         }
-        else if (activeCamera == noGlassCamera && mainCamera != null)
+        else if (activeCamera == noGlassCamera)
         {
-            StartCoroutine(TransitionToCamera(mainCamera));
+            // Switch to high camera with glass
+            if (highCamera != null)
+            {
+                StartCoroutine(TransitionToCamera(highCamera));
+            }
+            else if (mainCamera != null)
+            {
+                // If high camera isn't available, go back to main
+                StartCoroutine(TransitionToCamera(mainCamera));
+            }
+        }
+        else if (activeCamera == highCamera)
+        {
+            // Switch to high camera without glass
+            if (highNoGlassCamera != null)
+            {
+                StartCoroutine(TransitionToCamera(highNoGlassCamera));
+            }
+            else if (mainCamera != null)
+            {
+                // If high no-glass camera isn't available, go back to main
+                StartCoroutine(TransitionToCamera(mainCamera));
+            }
+        }
+        else if (activeCamera == highNoGlassCamera)
+        {
+            // Switch back to main camera
+            if (mainCamera != null)
+            {
+                StartCoroutine(TransitionToCamera(mainCamera));
+            }
         }
     }
 
