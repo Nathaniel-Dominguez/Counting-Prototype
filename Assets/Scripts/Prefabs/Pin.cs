@@ -8,9 +8,13 @@ public class Pin : MonoBehaviour
     [Header("Pin Properties")]
     [SerializeField] private bool isMetal = true; // Material type affects sound
     [SerializeField] private float minImpactForce = 0.2f; // Minimum force required to make a sound
+    [SerializeField] private float volumeModifier = 1.0f; // Allow per-pin volume adjustment
 
     // Private fields
     SFXManager sfxManager;
+    // Cooldown to prevent sound spam for multiple hits
+    private float lastSoundTime = 0f;
+    private float soundCooldown = 0.1f;
 
     private void Start()
     {
@@ -36,6 +40,12 @@ public class Pin : MonoBehaviour
         // Skip very small impacts
         if (impactForce < minImpactForce)
             return;
+            
+        // Prevent sound spam with cooldown
+        if (Time.time - lastSoundTime < soundCooldown)
+            return;
+            
+        lastSoundTime = Time.time;
 
         // Play pin hit sound through the SFXManager
         if (sfxManager != null)
@@ -44,8 +54,8 @@ public class Pin : MonoBehaviour
             float normalizedForce = impactForce / 5f;
             int materialType = isMetal ? 0 : 1;
 
-            // Call the enhanced pin hit sound method
-            sfxManager.PlayPinHitSound(transform.position, normalizedForce, materialType);
+            // Call the enhanced pin hit sound method with volume adjustment
+            sfxManager.PlayPinHitSound(transform.position, normalizedForce * volumeModifier, materialType);
         }
     }
 }
