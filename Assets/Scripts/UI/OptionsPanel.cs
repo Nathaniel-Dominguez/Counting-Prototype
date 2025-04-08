@@ -245,7 +245,16 @@ public class OptionsPanel : MonoBehaviour
     {
         if (text != null)
         {
-            text.text = $"{(int)(value * 100)}%";
+            string volumeType = "";
+            
+            if (text == masterVolumeText)
+                volumeType = "Master Volume: ";
+            else if (text == musicVolumeText)
+                volumeType = "Music Volume: ";
+            else if (text == sfxVolumeText)
+                volumeType = "SFX Volume: ";
+                
+            text.text = $"{volumeType}{(int)(value * 100)}%";
         }
     }
 
