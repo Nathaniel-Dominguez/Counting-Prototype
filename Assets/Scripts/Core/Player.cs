@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField] private KeyCode launchKey = KeyCode.Space;
     [SerializeField] private KeyCode cameraToggleKey = KeyCode.V;
     [SerializeField] private KeyCode nextSongKey = KeyCode.N;
-    [SerializeField] private KeyCode pauseKey = KeyCode.Escape;
+    [SerializeField] private KeyCode pauseKey = KeyCode.P;
     [SerializeField] private bool useKeyboardControls = true;
     [SerializeField] private bool useMouseControls = true;
     [SerializeField] private float inputDebounceTime = 0.1f; // Debounce time between input actions
