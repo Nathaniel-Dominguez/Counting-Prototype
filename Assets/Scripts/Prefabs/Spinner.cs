@@ -155,7 +155,7 @@ public class Spinner : MonoBehaviour
             float normalizedSpeed = Mathf.Abs(currentRotationSpeed) / maxRotationSpeed;
 
             // Use playSFX 
-            sfxManager.PlaySpinnerSound(transform.position, normalizedSpeed);
+            sfxManager.PlaySpinnerSound(normalizedSpeed);
         }
         else
         {
@@ -250,7 +250,7 @@ public class Spinner : MonoBehaviour
         // Ensure the spinner sound stops when disabled
         if (sfxManager != null)
         {
-            sfxManager.PlaySpinnerSound(transform.position, 0f);
+            sfxManager.PlaySpinnerSound(0f);
         }
     }
 }

@@ -123,4 +123,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 357c3715bc43c324dacd10eb5e288a54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMetal: 1
+  minImpactForce: 0.2
+  volumeModifier: 1

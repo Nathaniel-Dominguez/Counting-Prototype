@@ -60,7 +60,7 @@ public class Bumper : MonoBehaviour
         // Play bumper sound effect through the sfxManager = SFXManager.Instace
         if (sfxManager != null)
         {
-            sfxManager.PlayBumperHitSound(transform.position, collision.relativeVelocity.magnitude);
+            sfxManager.PlayBumperHitSound(collision.relativeVelocity.magnitude);
         }
 
         // Trigger visual feedback

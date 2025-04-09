@@ -325,40 +325,6 @@ public class SFXManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Plays a 3D sound effect at a specific position in the world
-    /// </summary>
-    /// <param name="sfxName">Name of the sound effect</param>
-    /// <param name="position">Position in 3D space</param>
-    /// <param name="volume">Volume level (0-1), -1 for default</param>
-    /// <param name="pitch">Pitch adjustment (default 1.0)</param>
-    /// <param name="minDistance">Minimum distance for 3D sound attenuation</param>
-    /// <param name="maxDistance">Maximum distance for 3D sound attenuation</param>
-    public void PlaySFX3D(string sfxName, Vector3 position, float volume = -1f, float pitch = 1f, float minDistance = 1f, float maxDistance = 50f)
-    {
-        if (sfxLookup.TryGetValue(sfxName, out AudioClip clip) && clip != null)
-        {
-            AudioSource source = GetSFXSourceFromPool();
-            source.clip = clip;
-            source.transform.position = position;
-            source.spatialBlend = 1f; // 3D sound
-            
-            // Set volume and pitch directly
-            float finalVolume = volume > 0 ? volume : defaultSFXVolume;
-            
-            source.pitch = pitch;
-            source.volume = finalVolume;
-            source.minDistance = minDistance;
-            source.maxDistance = maxDistance;
-            source.rolloffMode = AudioRolloffMode.Linear;
-            source.Play();
-        }
-        else
-        {
-        Debug.LogWarning($"Sound effect '{sfxName}' not found.");
-        }
-    }
-
-    /// <summary>
     /// Play a sound effect directly from an AudioClip
     /// </summary>
     /// <param name="clip">AudioClip to play</param>
@@ -395,7 +361,7 @@ public class SFXManager : MonoBehaviour
     /// </summary>
     /// <param name="points">Score points</param>
     /// <param name="position">Position in 3D space</param>
-    public void PlayScoreSound(int points, Vector3 position)
+    public void PlayScoreSound(int points)
     {
         string sfxName;
 
@@ -417,7 +383,7 @@ public class SFXManager : MonoBehaviour
         }
 
         Debug.Log("Playing score sound: " + sfxName);
-        PlaySFX3D(sfxName, position);
+        PlaySFX(sfxName);
     }
     
     /// <summary>
@@ -435,22 +401,25 @@ public class SFXManager : MonoBehaviour
     /// Play a pin hit sound with force-based variations
     /// </summary>
     /// <param name="position">Position in 3D space</param>
-    /// <param name="hitForce">Force of the hit (affects volume/pitch)</param>
-    public void PlayPinHitSound(Vector3 position, float hitForce = 1.0f, int material = 0)
+    /// <param name="hitForce">Force of the hit (affects pitch)</param>
+    public void PlayPinHitSound(float hitForce = 1.0f)
     {
-        // Lower base volume from 0.2f to 0.1f
-        float volume = 0.1f;
+        // Adjust pitch based on hit force with slight randomization
+        float pitch = Mathf.Lerp(0.8f, 1.2f, hitForce) + Random.Range(-0.1f, 0.3f);
         
-        // Adjust volume based on hit force (softer hits are even quieter)
-        volume *= Mathf.Lerp(0.6f, 1.0f, hitForce);
+        // Apply a significant volume reduction for pin sounds - 5% of normal volume
+        float pinVolume = defaultSFXVolume * 0.2f;
         
-        // Vary pitch based on hit force and add slight randomization
-        float pitch = Mathf.Lerp(0.8f, 1.2f, hitForce) + Random.Range(-0.1f, 0.1f);
-        
-        // Play different sounds based on material
-        string soundEffect = material == 0 ? "PinHit" : "WoodenBorderHit";
-        
-        PlaySFX3D(soundEffect, position, volume, pitch, 20f);
+        // Play the pin sound at reduced volume
+        if (sfxLookup.TryGetValue("PinHit", out AudioClip clip) && clip != null)
+        {
+            PlaySound(clip, null, pinVolume, pitch);
+        }
+        else
+        {
+            // Fallback to wooden impact sound at low volume if pin sound missing
+            PlaySFX("WoodenBorderHit", pinVolume, pitch);
+        }
     }
 
     /// <summary>
@@ -458,15 +427,12 @@ public class SFXManager : MonoBehaviour
     /// </summary>
     /// <param name="position">Position in 3D space</param>
     /// <param name="hitforce">Force of the hit (affects pitch)</param>
-    public void PlayBumperHitSound(Vector3 position, float hitforce = 1.0f)
-    {
-        Debug.Log($"Playing bumper hit sound at position {position}");
-        
+    public void PlayBumperHitSound(float hitforce = 1.0f)
+    {   
         // Add local randomization
         float pitch = Mathf.Lerp(0.9f, 1.1f, hitforce) + Random.Range(-0.05f, 0.05f);
-        float volume = Mathf.Lerp(0.6f, 1.0f, hitforce) * defaultSFXVolume;
         
-        PlaySFX3D("BumperHit", position, volume, pitch, 30f);
+        PlaySFX("BumperHit", -1f, pitch);
     }
 
     /// <summary>
@@ -474,9 +440,8 @@ public class SFXManager : MonoBehaviour
     /// </summary>
     /// <param name="position">Position in 3D space</param> 
     /// <param name="rotationSpeed">Speed of rotation (affects pitch)</param>
-    public void PlaySpinnerSound(Vector3 position, float rotationSpeed = 1.0f)
+    public void PlaySpinnerSound(float rotationSpeed = 1.0f)
     {
-        Debug.Log($"Playing spinner sound at position {position}");
         
         // Check if enough time has passed since the last spinner sound
         if (Time.time - lastSpinnerSoundTime < spinnerSoundCooldown)
@@ -487,9 +452,8 @@ public class SFXManager : MonoBehaviour
         
         // Add local randomization
         float pitch = Mathf.Lerp(0.9f, 1.1f, rotationSpeed) + Random.Range(-0.05f, 0.05f);
-        float volume = defaultSFXVolume + Random.Range(-0.05f, 0.05f);
         
-        PlaySFX3D("Spinner", position, volume, pitch, 25f);
+        PlaySFX("Spinner", -1f, pitch);
         lastSpinnerSoundTime = Time.time; // Update the last play time
     }
 
@@ -509,7 +473,7 @@ public class SFXManager : MonoBehaviour
     public void PlayDrainSound()
     {
         float pitch = 1.0f + Random.Range(-0.05f, 0.05f);
-        PlaySFX3D("Drain", Vector3.zero, -1f, pitch, 1f, 30f);
+        PlaySFX("Drain", -1f, pitch);
     }
 
     /// <summary>
@@ -569,9 +533,8 @@ public class SFXManager : MonoBehaviour
     {
         // Add local randomization
         float pitch = Mathf.Lerp(0.9f, 1.1f, hitForce) + Random.Range(-0.08f, 0.08f);
-        float volume = Mathf.Lerp(0.5f, 0.8f, hitForce);
         
-        PlaySFX3D("WoodenBorderHit", position, volume, pitch, 30f);
+        PlaySFX("WoodenBorderHit", -1, pitch);
     }
     #endregion
 
