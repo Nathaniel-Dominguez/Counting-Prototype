@@ -285,7 +285,7 @@ public class SFXManager : MonoBehaviour
                 leastImportantSource.gameObject.name = sfxName;
                 
                 // Set volume and pitch directly
-                float finalVolume = volume < 0 ? defaultSFXVolume : volume * defaultSFXVolume;
+                float finalVolume = volume > 0 ? volume : defaultSFXVolume;
                 
                 leastImportantSource.pitch = pitch;
                 leastImportantSource.volume = finalVolume;
@@ -311,7 +311,7 @@ public class SFXManager : MonoBehaviour
             source.spatialBlend = 0f; // 2D sound
             
             // Set volume and pitch directly
-            float finalVolume = volume < 0 ? defaultSFXVolume : volume * defaultSFXVolume;
+            float finalVolume = volume > 0 ? volume : defaultSFXVolume;
             
             source.pitch = pitch;
             source.volume = finalVolume;
@@ -343,7 +343,7 @@ public class SFXManager : MonoBehaviour
             source.spatialBlend = 1f; // 3D sound
             
             // Set volume and pitch directly
-            float finalVolume = volume < 0 ? defaultSFXVolume : volume * defaultSFXVolume;
+            float finalVolume = volume > 0 ? volume : defaultSFXVolume;
             
             source.pitch = pitch;
             source.volume = finalVolume;
@@ -383,7 +383,7 @@ public class SFXManager : MonoBehaviour
         }
 
         // Set volume and pitch directly
-        float finalVolume = volume < 0 ? defaultSFXVolume : volume * defaultSFXVolume;
+        float finalVolume = volume > 0 ? volume : defaultSFXVolume;
         
         source.pitch = pitch;
         source.volume = finalVolume;
@@ -439,7 +439,7 @@ public class SFXManager : MonoBehaviour
     public void PlayPinHitSound(Vector3 position, float hitForce = 1.0f, int material = 0)
     {
         // Lower base volume from 0.2f to 0.1f
-        float volume = 0.2f;
+        float volume = 0.1f;
         
         // Adjust volume based on hit force (softer hits are even quieter)
         volume *= Mathf.Lerp(0.6f, 1.0f, hitForce);
