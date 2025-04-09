@@ -168,7 +168,7 @@ public class OptionsPanel : MonoBehaviour
 
     private IEnumerator HideSaveConfirmation()
     {
-        yield return new WaitForSeconds(saveConfirmationDisplayTime);
+        yield return new WaitForSecondsRealtime(saveConfirmationDisplayTime);
         if (saveConfirmationText != null)
         {
             saveConfirmationText.gameObject.SetActive(false);
